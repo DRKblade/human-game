@@ -136,10 +136,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 4, 0 ), Vector2( 0, 0 ) ]
+"values": [ Vector2( 0, 0 ), Vector2( 4, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("body/hand1:position")
@@ -148,10 +148,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( -30, 30 ), Vector2( -20, 60 ), Vector2( -30, 30 ) ]
+"values": [ Vector2( -30, 30 ), Vector2( -20, 60 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("body/hand2:position")
@@ -160,10 +160,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 30, 30 ), Vector2( 27, 26 ), Vector2( 30, 30 ) ]
+"values": [ Vector2( 30, 30 ), Vector2( 27, 26 ) ]
 }
 tracks/3/type = "method"
 tracks/3/path = NodePath(".")
@@ -191,34 +191,34 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 4, 0 ), Vector2( 0, 0 ) ]
+"values": [ Vector2( 0, 0 ), Vector2( 4, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("body/hand2:position")
+tracks/1/path = NodePath("body/hand1:position")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 30, 30 ), Vector2( 20, 60 ), Vector2( 30, 30 ) ]
+"values": [ Vector2( -30, 30 ), Vector2( -27, 26 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("body/hand1:position")
-tracks/2/interp = 2
+tracks/2/path = NodePath("body/hand2:position")
+tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( -30, 30 ), Vector2( -27, 26 ), Vector2( -30, 30 ) ]
+"values": [ Vector2( 30, 30 ), Vector2( 20, 60 ) ]
 }
 tracks/3/type = "method"
 tracks/3/path = NodePath(".")
@@ -253,31 +253,33 @@ rotation = -1.5708
 scale = Vector2( 4, 4 )
 shape = SubResource( 1 )
 
-[node name="hand1" type="KinematicBody2D" parent="body"]
+[node name="hand1" type="Area2D" parent="body"]
 position = Vector2( -30, 30 )
-rotation = -1.5708
-collision_layer = 2
+collision_layer = 0
 collision_mask = 2
 
 [node name="spr" type="Sprite" parent="body/hand1"]
+rotation = -1.5708
 texture = ExtResource( 3 )
 
 [node name="col" type="CollisionShape2D" parent="body/hand1"]
 visible = false
+rotation = -1.5708
 scale = Vector2( 1.33, 1.33 )
 shape = SubResource( 2 )
 
-[node name="hand2" type="KinematicBody2D" parent="body"]
+[node name="hand2" type="Area2D" parent="body"]
 position = Vector2( 30, 30 )
-rotation = -1.5708
-collision_layer = 2
+collision_layer = 0
 collision_mask = 2
 
 [node name="spr" type="Sprite" parent="body/hand2"]
+rotation = -1.5708
 texture = ExtResource( 3 )
 
 [node name="col" type="CollisionShape2D" parent="body/hand2"]
 visible = false
+rotation = -1.5708
 scale = Vector2( 1.33, 1.33 )
 shape = SubResource( 2 )
 
@@ -295,3 +297,11 @@ anims/idle = SubResource( 4 )
 anims/move = SubResource( 5 )
 anims/punch1 = SubResource( 6 )
 anims/punch2 = SubResource( 7 )
+[connection signal="area_entered" from="body/hand1" to="." method="_on_hand_entered"]
+[connection signal="area_exited" from="body/hand1" to="." method="_on_hand_entered"]
+[connection signal="body_entered" from="body/hand1" to="." method="_on_hand_entered"]
+[connection signal="body_exited" from="body/hand1" to="." method="_on_hand_entered"]
+[connection signal="area_entered" from="body/hand2" to="." method="_on_hand_entered"]
+[connection signal="area_exited" from="body/hand2" to="." method="_on_hand_entered"]
+[connection signal="body_entered" from="body/hand2" to="." method="_on_hand_entered"]
+[connection signal="body_exited" from="body/hand2" to="." method="_on_hand_entered"]
