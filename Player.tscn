@@ -1,14 +1,14 @@
 [gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
-[ext_resource path="res://character-body.svg" type="Texture" id=2]
-[ext_resource path="res://character-hand.svg" type="Texture" id=3]
+[ext_resource path="res://character-hand.svg" type="Texture" id=2]
+[ext_resource path="res://character-body-boy.svg" type="Texture" id=3]
 [ext_resource path="res://whoosh.wav" type="AudioStream" id=4]
 [ext_resource path="res://inventory.gd" type="Script" id=5]
 
-[sub_resource type="CircleShape2D" id=1]
-
 [sub_resource type="CircleShape2D" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
 
 [sub_resource type="CircleShape2D" id=3]
 
@@ -237,23 +237,13 @@ tracks/3/keys = {
 }
 
 [node name="Player" type="KinematicBody2D"]
+z_index = 1
 script = ExtResource( 1 )
 
 [node name="body" type="Area2D" parent="."]
-editor/display_folded = true
 rotation = -1.5708
 collision_layer = 2
 collision_mask = 2
-
-[node name="spr" type="Sprite" parent="body"]
-rotation = -1.5708
-texture = ExtResource( 2 )
-
-[node name="hit-col" type="CollisionShape2D" parent="body"]
-visible = false
-rotation = -1.5708
-scale = Vector2( 4, 4 )
-shape = SubResource( 1 )
 
 [node name="hand1" type="Area2D" parent="body"]
 position = Vector2( -30, 30 )
@@ -262,9 +252,10 @@ collision_mask = 2
 
 [node name="spr" type="Sprite" parent="body/hand1"]
 rotation = -1.5708
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
 
 [node name="col" type="CollisionShape2D" parent="body/hand1"]
+visible = false
 rotation = -1.5708
 scale = Vector2( 2, 2 )
 shape = SubResource( 2 )
@@ -276,12 +267,21 @@ collision_mask = 2
 
 [node name="spr" type="Sprite" parent="body/hand2"]
 rotation = -1.5708
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
 
 [node name="col" type="CollisionShape2D" parent="body/hand2"]
+visible = false
 rotation = -1.5708
 scale = Vector2( 2, 2 )
 shape = SubResource( 2 )
+
+[node name="spr" type="Sprite" parent="body"]
+texture = ExtResource( 3 )
+
+[node name="hit-col" type="CollisionShape2D" parent="body"]
+rotation = -1.5708
+scale = Vector2( 4.2, 4.2 )
+shape = SubResource( 1 )
 
 [node name="audio" type="AudioStreamPlayer2D" parent="."]
 position = Vector2( -5.88882, 7.91311 )
@@ -290,7 +290,7 @@ volume_db = -7.257
 
 [node name="movement-col" type="CollisionShape2D" parent="."]
 visible = false
-scale = Vector2( 4, 4 )
+scale = Vector2( 4.2, 4.2 )
 shape = SubResource( 3 )
 
 [node name="anim" type="AnimationPlayer" parent="."]

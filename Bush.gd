@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 export var move_length = 15
 export var move_duration = 0.15
-export var stash_count = 4
+export var stash_count = 20
 
 var move_time = move_duration
 var move_target = Vector2.ZERO
@@ -27,7 +27,9 @@ func on_hit(source):
 		move_time = 0
 	
 	if source.is_in_group("player"):
-		source.fill_item("tomato", 1)
+		var item = item_database.items["tomato"]
+		if source.inventory.fill_item(item, 100) > 0:
+			item_database.drop_item(item, global_position, -move_target, 1)
 		stash_count-=1
 		if stash_count == 0:
 			get_parent().remove_child(self)

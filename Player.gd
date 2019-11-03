@@ -20,9 +20,19 @@ var direction = Vector2()
 var velocity = Vector2()
 
 func _ready():
+	if item_database.player == null:
+		item_database.player = self
+	else:
+		print("error: more than one player")
+	
 	$anim.play("idle")
+	
+	# inventory
 	inventory = $gui.find_node("inventory")
 	inventory.set_slot_count(max_item)
+
+func drop_item(item, qty):
+	item_database.drop_item(item, global_position, get_global_mouse_position() - global_position, qty)
 
 func _anim_process():
 	# movement
@@ -75,22 +85,4 @@ func _on_hand_exited(area):
 	hand_hit.remove(hand_hit.find(area))
 
 # inventory
-func fill_item(item, qty):
-	while qty > 0:
-		var item_data = item_database.items[item]
-		var index = -1
-		for i in items.size():
-			if items[i] == item and itemQty[i] < item_data.max_stack:
-				index = i
-		if index == -1:
-			index = items.size()
-			if index == max_item:
-				return qty
-			items.push_back(item)
-			itemQty.push_back(0)
-			inventory.texture_change(index, item_data.texture)
-		var transfer = min(qty, item_data.max_stack - itemQty[index])
-		itemQty[index] += transfer
-		inventory.qty_change(index, itemQty[index])
-		qty -= transfer
-	return 0
+	

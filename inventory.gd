@@ -6,10 +6,12 @@ var slot_count = 0
 func _ready():
 	pass
 
+
 func set_slot_count(new_slot_count):
 	while new_slot_count > slot_count:
+		var child = slot.instance()
+		add_child(child)
 		slot_count += 1
-		add_child(slot.instance())
 	while new_slot_count < slot_count:
 		slot_count -= 1
 		var child = get_child(get_child_count()-1)
@@ -20,9 +22,31 @@ func set_slot_count(new_slot_count):
 	margin_left = -size/2
 	margin_right = size/2
 
-func texture_change(slot_index, texture):
-	get_child(slot_index).set_tex(texture)
+func drop_slot(slot_index, global_position, direction):
+	var dropped = item_database.dropped_item.instance()
+	var slot = get_child(slot_index)
+	if !slot.is_empty():
+		dropped.setup(slot.get_item(), global_position, direction, slot.qty)
 
-func qty_change(slot_index, qty):
-	get_child(slot_index).set_qty(qty)
-	
+func fill_item(item, qty):
+	while qty > 0:
+		var filled_slot = null
+		for i in slot_count:
+			var slot = get_child(i)
+			if slot.item_name == item.name and slot.qty < item.max_stack:
+				filled_slot = slot
+				
+		if filled_slot == null:
+			for i in slot_count:
+				var slot = get_child(i)
+				if slot.is_empty():
+					slot.set_tex(item)
+					slot.qty = 0
+					filled_slot = slot
+		if filled_slot == null:
+			return qty
+		
+		var transfer = min(qty, item.max_stack - filled_slot.qty)
+		filled_slot.set_qty(filled_slot.qty + transfer)
+		qty -= transfer
+	return 0

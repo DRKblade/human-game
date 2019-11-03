@@ -26,6 +26,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
+my_math="*res://my_math.gd"
 item_database="*res://item_database.gd"
 
 [input]
@@ -68,6 +69,7 @@ game_click={
 
 2d_physics/layer_1="movement"
 2d_physics/layer_2="hit"
+2d_physics/layer_3="item"
 
 [rendering]
 
