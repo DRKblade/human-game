@@ -60,4 +60,6 @@ margin_top = -34.0
 margin_right = -6.0
 custom_fonts/font = ExtResource( 2 )
 align = 2
+[connection signal="mouse_entered" from="." to="." method="_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_mouse_exited"]
 [connection signal="pressed" from="." to="." method="pressed"]

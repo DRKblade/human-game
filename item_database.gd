@@ -5,6 +5,7 @@ var dropped_item = preload("res://dropped_item.tscn")
 var items = {"tomato": item.new("tomato", 20, load("res://tomato.svg"))}
 var player
 var game
+var gui_active = 0
 
 func drop_item(item, global_position, direction, qty):
 	var item_instance = dropped_item.instance()

@@ -1,13 +1,12 @@
 extends Button
 
-signal slot_pressed
-
-var item_name
+var player_connected
+var item
 var qty
 
 func set_tex(item):
 	$tex.texture = item.texture
-	item_name = item.name
+	self.item = item
 	
 func set_qty(qty):
 	self.qty = qty
@@ -15,19 +14,28 @@ func set_qty(qty):
 
 func pressed():
 	if Input.is_mouse_button_pressed(BUTTON_LEFT):
-		emit_signal("slot_pressed")
+		if player_connected:
+			var player = item_database.player
+			if player.pullout_slot != null and player.pullout_slot.item == item and not player.pullout_queued:
+				player.put_back()
+			else:
+				player.equip_item(self)
 	if Input.is_mouse_button_pressed(BUTTON_RIGHT):
-		if item_name != null:
-			item_database.player.drop_item(item_database.items[item_name], qty)
+		if item != null:
+			item_database.player.drop_item(item, qty)
 			clear()
 
 func is_empty():
-	return item_name == null
+	return item == null
 
 func clear():
-	item_name = null
+	item = null
 	$tex.texture = null
 	$qty.text = ""
 
-func get_item():
-	return item_database[item_name]
+
+func _mouse_entered():
+	item_database.gui_active += 1
+
+func _mouse_exited():
+	item_database.gui_active -= 1
