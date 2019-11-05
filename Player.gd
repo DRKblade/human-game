@@ -28,6 +28,8 @@ var inventory
 var equip_node
 var pullout_slot
 
+# drop item
+var dropped_slot
 
 func _ready():
 	if item_database.player == null:
@@ -50,15 +52,21 @@ func equip_item(slot):
 	action_queue.push_back("pullout")
 	pullout_slot = slot
 
-func drop_item(item, qty):
-	item_database.drop_item(item, global_position, get_global_mouse_position() - global_position, qty)
+func drop_item(slot):
+	action_queue.push_back("drop")
+	dropped_slot = slot
+
+func put_back():
+	if action_queue.find("put_back") == -1:
+		action_queue.push_back("put_back")
+
 
 func get_current_hand():
 	if randf() < change_hand:
 		current_hand = !current_hand
 	return current_hand if state != STATE_HALF_BUSY else false
 
-func anim_event(action_name, require_free, action_method, additional_condition = "condition_false"):
+func _anim_event(action_name, require_free, action_method, additional_condition = "condition_false"):
 	var action_id = action_queue.find(action_name)
 	if call(additional_condition, action_name) or action_id != -1:
 		if require_free:
@@ -72,20 +80,27 @@ func anim_event(action_name, require_free, action_method, additional_condition =
 		action_queue.remove(action_id)
 		return call(action_method)
 
+func condition_false(action_name):
+	return false
+
+func condition_continuous_non_gui(action_name):
+	return Input.is_action_pressed(action_name) and !item_database.gui_active>0
+
 func anim_pull_out():
 	state = STATE_BUSY
 	$body/hand1/equip.texture = pullout_slot.item.texture
 	print("pull")
 	return "pull_out"
 
-func condition_false(action_name):
-	return false
-
 func anim_use():
 	return "consume"
 
-func condition_continuous_non_gui(action_name):
-	return Input.is_action_pressed(action_name) and !item_database.gui_active>0
+func anim_drop():
+	if dropped_slot.is_empty():
+		return
+	item_database.drop_item(dropped_slot.item, global_position, get_global_mouse_position() - global_position, dropped_slot.qty)
+	dropped_slot.clear()
+	return "throw1" if get_current_hand() else "throw2"
 
 func anim_punch():
 	$audio.play()
@@ -113,6 +128,15 @@ func anim_put_back():
 	$body/hand1/equip.texture = null
 	return
 
+func to_half_busy(is_put_back = false):
+	state = STATE_FREE if is_put_back else STATE_HALF_BUSY
+	print("put")
+	return "put_back"
+
+func to_busy():
+	state = STATE_BUSY
+	return "pull_out"
+
 func _anim_process():
 	var next_clip = _anim_get_animation()
 	if next_clip == null:
@@ -123,28 +147,33 @@ func _anim_get_animation():
 	var result
 	
 	# use item
-	result = anim_event("game_use", false, "anim_use")
+	result = _anim_event("game_use", false, "anim_use")
+	if result != null:
+		return result
+	
+	# drop item
+	result = _anim_event("drop", true, "anim_drop")
 	if result != null:
 		return result
 	
 	# pull-out
-	result = anim_event("pullout", true, "anim_pull_out")
+	result = _anim_event("pullout", true, "anim_pull_out")
 	if result != null:
 		return result
 	
 	# put-back
-	result = anim_event("put_back", true, "anim_put_back")
+	result = _anim_event("put_back", true, "anim_put_back")
 	if result != null:
 		return result
 	
 	# punch
-	result = anim_event("game_click", true, "anim_punch", "condition_continuous_non_gui")
+	result = _anim_event("game_click", true, "anim_punch", "condition_continuous_non_gui")
 	if result != null:
 		return result
 	punch_active = false
 	
 	# pickup
-	result = anim_event("game_pickup", true, "anim_pickup", "condition_continuous_non_gui")
+	result = _anim_event("game_pickup", true, "anim_pickup", "condition_continuous_non_gui")
 	if result != null:
 		return result
 	
@@ -157,19 +186,6 @@ func _anim_get_animation():
 	if direction == Vector2.ZERO:
 		return "idle_holding" if state == STATE_BUSY else "idle"
 
-func put_back():
-	if action_queue.find("put_back") == -1:
-		action_queue.push_back("put_back")
-
-func to_half_busy(is_put_back = false):
-	state = STATE_FREE if is_put_back else STATE_HALF_BUSY
-	print("put")
-	return "put_back"
-
-func to_busy():
-	state = STATE_BUSY
-	return "pull_out"
-
 func _physics_process(delta):
 	# movement
 	direction.x = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
@@ -180,7 +196,8 @@ func _physics_process(delta):
 	if punch_active:
 		for area in hand_hit:
 			if area.is_in_group("punchable"):
-				hit(area)
+				area.on_hit(self)
+				punch_active = false
 
 func process_event(action_name, non_gui):
 	if Input.is_action_just_pressed(action_name) and action_queue.find(action_name) == -1 and (!item_database.gui_active>0 or !non_gui):
@@ -192,11 +209,6 @@ func _process(delta):
 	process_event("game_click", true)
 	process_event("game_pickup", true)
 	process_event("game_use", false)
-
-# punch
-func hit(collider):
-	collider.on_hit(self)
-	punch_active = false
 
 func _on_hand_entered(area):
 	hand_hit.push_back(area)

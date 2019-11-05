@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://character-hand.svg" type="Texture" id=2]
@@ -598,6 +598,68 @@ tracks/4/keys = {
 } ]
 }
 
+[sub_resource type="Animation" id=14]
+resource_name = "throw1"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("body/hand1:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -30, 30 ), Vector2( -30, 40 ), Vector2( -40, 60 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.4 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "_anim_process"
+} ]
+}
+
+[sub_resource type="Animation" id=15]
+resource_name = "throw2"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("body/hand2:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 30, 30 ), Vector2( 30, 40 ), Vector2( 40, 60 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.4 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "_anim_process"
+} ]
+}
+
 [node name="Player" type="KinematicBody2D"]
 z_index = 1
 script = ExtResource( 1 )
@@ -608,7 +670,7 @@ collision_layer = 2
 collision_mask = 6
 
 [node name="hand1" type="Area2D" parent="body"]
-position = Vector2( -20, 50 )
+position = Vector2( -29.7276, 34.0345 )
 collision_layer = 0
 collision_mask = 2
 
@@ -617,9 +679,10 @@ rotation = -1.5708
 texture = ExtResource( 2 )
 
 [node name="equip" type="Sprite" parent="body/hand1"]
-position = Vector2( 0, 15 )
+position = Vector2( 20, 0 )
 rotation = 3.14159
 scale = Vector2( 0.75, 0.75 )
+z_index = 2
 
 [node name="col" type="CollisionShape2D" parent="body/hand1"]
 visible = false
@@ -672,6 +735,8 @@ anims/pull_out = SubResource( 10 )
 anims/punch1 = SubResource( 11 )
 anims/punch2 = SubResource( 12 )
 anims/put_back = SubResource( 13 )
+anims/throw1 = SubResource( 14 )
+anims/throw2 = SubResource( 15 )
 
 [node name="gui" type="CanvasLayer" parent="."]
 

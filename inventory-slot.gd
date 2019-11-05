@@ -22,8 +22,7 @@ func pressed():
 				player.equip_item(self)
 	if Input.is_mouse_button_pressed(BUTTON_RIGHT):
 		if item != null:
-			item_database.player.drop_item(item, qty)
-			clear()
+			item_database.player.drop_item(self)
 
 func is_empty():
 	return item == null
