@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://character-hand.svg" type="Texture" id=2]
@@ -6,14 +6,56 @@
 [ext_resource path="res://whoosh.wav" type="AudioStream" id=4]
 [ext_resource path="res://inventory.gd" type="Script" id=5]
 
-[sub_resource type="CircleShape2D" id=2]
-
 [sub_resource type="CircleShape2D" id=1]
+
+[sub_resource type="CircleShape2D" id=2]
 
 [sub_resource type="CircleShape2D" id=3]
 
 [sub_resource type="Animation" id=4]
-resource_name = "idle"
+resource_name = "consume"
+length = 0.8
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("body/hand2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 20, 50 ), Vector2( 20, 45 ), Vector2( 20, 50 ), Vector2( 20, 45 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("body/hand1:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -20, 50 ), Vector2( -20, 45 ), Vector2( -20, 50 ), Vector2( -20, 45 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.8 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "_anim_process"
+} ]
+}
+
+[sub_resource type="Animation" id=5]
 length = 0.1
 loop = true
 step = 0.05
@@ -92,9 +134,9 @@ tracks/5/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=6]
 resource_name = "idle_holding"
-length = 0.2
+length = 0.1
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("body:position")
@@ -171,8 +213,7 @@ tracks/5/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "move"
+[sub_resource type="Animation" id=7]
 length = 0.8
 loop = true
 tracks/0/type = "value"
@@ -382,8 +423,7 @@ tracks/4/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "punch1"
+[sub_resource type="Animation" id=11]
 length = 0.4
 loop = true
 tracks/0/type = "value"
@@ -437,8 +477,7 @@ tracks/3/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=7]
-resource_name = "punch2"
+[sub_resource type="Animation" id=12]
 length = 0.4
 loop = true
 tracks/0/type = "value"
@@ -578,16 +617,15 @@ rotation = -1.5708
 texture = ExtResource( 2 )
 
 [node name="equip" type="Sprite" parent="body/hand1"]
-position = Vector2( 20, 0 )
+position = Vector2( 0, 15 )
 rotation = 3.14159
 scale = Vector2( 0.75, 0.75 )
-z_index = 2
 
 [node name="col" type="CollisionShape2D" parent="body/hand1"]
 visible = false
 rotation = -1.5708
 scale = Vector2( 2, 2 )
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 
 [node name="hand2" type="Area2D" parent="body"]
 position = Vector2( 20, 50 )
@@ -602,7 +640,7 @@ texture = ExtResource( 2 )
 visible = false
 rotation = -1.5708
 scale = Vector2( 2, 2 )
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 
 [node name="spr" type="Sprite" parent="body"]
 texture = ExtResource( 3 )
@@ -611,7 +649,7 @@ texture = ExtResource( 3 )
 visible = false
 rotation = -1.5708
 scale = Vector2( 4.2, 4.2 )
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="audio" type="AudioStreamPlayer2D" parent="."]
 position = Vector2( -5.88882, 7.91311 )
@@ -624,14 +662,15 @@ scale = Vector2( 4.2, 4.2 )
 shape = SubResource( 3 )
 
 [node name="anim" type="AnimationPlayer" parent="."]
-anims/idle = SubResource( 4 )
-anims/idle_holding = SubResource( 12 )
-anims/move = SubResource( 5 )
+anims/consume = SubResource( 4 )
+anims/idle = SubResource( 5 )
+anims/idle_holding = SubResource( 6 )
+anims/move = SubResource( 7 )
 anims/pickup1 = SubResource( 8 )
 anims/pickup2 = SubResource( 9 )
 anims/pull_out = SubResource( 10 )
-anims/punch1 = SubResource( 6 )
-anims/punch2 = SubResource( 7 )
+anims/punch1 = SubResource( 11 )
+anims/punch2 = SubResource( 12 )
 anims/put_back = SubResource( 13 )
 
 [node name="gui" type="CanvasLayer" parent="."]

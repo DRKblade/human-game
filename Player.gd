@@ -5,15 +5,15 @@ const STATE_FREE = 2
 const STATE_HALF_BUSY = 3
 
 var state = STATE_FREE
+var action_queue = Array()
 
 # movement
 export var speed = 200
 var direction = Vector2()
 
 # punch
-export var punch_change_hand = 0.8
-var punch_current_hand = true
-var punch_queued = false
+export var change_hand = 0.8
+var current_hand = true
 var punch_active = false
 var hand_hit = Array()
 
@@ -23,13 +23,9 @@ var body_hit = Array()
 var inventory
 
 # pickup
-export var pickup_change_hand = 0.8
-var pickup_queued = false
-var pickup_current_hand = true
 
 # pull-out
 var equip_node
-var pullout_queued = false
 var pullout_slot
 
 
@@ -39,8 +35,8 @@ func _ready():
 	else:
 		print("error: more than one player")
 	
-	$anim.play("idle")
-
+	$anim.play("move")
+	
 	# inventory
 	$gui/inventory.set_slot_count(max_item)
 	inventory = $gui/inventory
@@ -49,86 +45,130 @@ func _ready():
 	equip_node = $body/hand1/equip
 
 func equip_item(slot):
-	if slot.is_empty():
+	if slot.is_empty() or slot == pullout_slot:
 		return
-	pullout_queued = true
+	action_queue.push_back("pullout")
 	pullout_slot = slot
 
 func drop_item(item, qty):
 	item_database.drop_item(item, global_position, get_global_mouse_position() - global_position, qty)
 
+func get_current_hand():
+	if randf() < change_hand:
+		current_hand = !current_hand
+	return current_hand if state != STATE_HALF_BUSY else false
+
+func anim_event(action_name, require_free, action_method, additional_condition = "condition_false"):
+	var action_id = action_queue.find(action_name)
+	if call(additional_condition, action_name) or action_id != -1:
+		if require_free:
+			if state == STATE_BUSY:
+				return to_half_busy()
+		elif state == STATE_FREE:
+			action_queue.remove(action_id)
+			return
+		elif state == STATE_HALF_BUSY:
+			return to_busy()
+		action_queue.remove(action_id)
+		return call(action_method)
+
+func anim_pull_out():
+	state = STATE_BUSY
+	$body/hand1/equip.texture = pullout_slot.item.texture
+	print("pull")
+	return "pull_out"
+
+func condition_false(action_name):
+	return false
+
+func anim_use():
+	return "consume"
+
+func condition_continuous_non_gui(action_name):
+	return Input.is_action_pressed(action_name) and !item_database.gui_active>0
+
+func anim_punch():
+	$audio.play()
+	punch_active = true
+	return "punch1" if get_current_hand() else "punch2"
+
+func anim_pickup():
+	for area in body_hit:
+		if area.is_in_group("dropped"):
+			var qty = $gui/inventory.fill_item(area.item, area.qty)
+			if qty == 0:
+				area.queue_free()
+			elif qty == area.qty:
+				return
+			else:
+				area.set_qty(qty)
+			return "pickup1" if get_current_hand() else "pickup2"
+
+func anim_move():
+	return "move"
+
+func anim_put_back():
+	state = STATE_FREE
+	pullout_slot = null
+	$body/hand1/equip.texture = null
+	return
+
 func _anim_process():
+	var next_clip = _anim_get_animation()
+	if next_clip == null:
+		print("error: no animation clip to play")
+	$anim.play(next_clip)
+
+func _anim_get_animation():
+	var result
+	
+	# use item
+	result = anim_event("game_use", false, "anim_use")
+	if result != null:
+		return result
 	
 	# pull-out
-	if pullout_queued:
-		print("pull")
-		$body/hand1/equip.texture = pullout_slot.item.texture
-		$anim.play("pull_out")
-		pullout_queued = false
-		state = STATE_BUSY
-		return
+	result = anim_event("pullout", true, "anim_pull_out")
+	if result != null:
+		return result
 	
 	# put-back
-	if state == STATE_FREE and pullout_slot != null:
-		print("free")
-		pullout_slot = null
-		$body/hand1/equip.texture = null
-		pass
+	result = anim_event("put_back", true, "anim_put_back")
+	if result != null:
+		return result
 	
 	# punch
-	if (Input.is_action_pressed("game_click") and !item_database.gui_active>0) or punch_queued:
-		if state == STATE_BUSY:
-			to_half_busy()
-			return
-		$anim.play("punch1" if punch_current_hand and not state == STATE_HALF_BUSY else "punch2")
-		if randf() < punch_change_hand:
-			punch_current_hand = !punch_current_hand
-		$audio.play()
-		punch_queued = false
-		punch_active = true
-		return
+	result = anim_event("game_click", true, "anim_punch", "condition_continuous_non_gui")
+	if result != null:
+		return result
 	punch_active = false
 	
 	# pickup
-	if (Input.is_action_pressed("game_pickup") and !item_database.gui_active>0) or pickup_queued:
-		if state == STATE_BUSY:
-			to_half_busy()
-			return
-		pickup_queued = false
-		for area in body_hit:
-			if area.is_in_group("dropped"):
-				var qty = $gui/inventory.fill_item(area.item, area.qty)
-				if qty == 0:
-					area.queue_free()
-				elif qty == area.qty:
-					return
-				else:
-					area.set_qty(qty)
-				$anim.play("pickup1" if punch_current_hand and not state == STATE_HALF_BUSY else "pickup2")
-				if randf() < pickup_change_hand:
-					pickup_current_hand = !pickup_current_hand
-				return
+	result = anim_event("game_pickup", true, "anim_pickup", "condition_continuous_non_gui")
+	if result != null:
+		return result
 	
 	# movement
 	if direction != Vector2.ZERO:
 		if state == STATE_BUSY:
-			to_half_busy()
-			return
-		$anim.play("move")
-		return
+			return to_half_busy()
+		return "move"
 	
 	if direction == Vector2.ZERO:
-		$anim.play("idle_holding" if state == STATE_BUSY else "idle")
+		return "idle_holding" if state == STATE_BUSY else "idle"
 
 func put_back():
-	if state == STATE_BUSY:
-		to_half_busy(true)
-	else:
-		state = STATE_FREE
+	if action_queue.find("put_back") == -1:
+		action_queue.push_back("put_back")
 
 func to_half_busy(is_put_back = false):
 	state = STATE_FREE if is_put_back else STATE_HALF_BUSY
-	$anim.play("put_back")
+	print("put")
+	return "put_back"
+
+func to_busy():
+	state = STATE_BUSY
+	return "pull_out"
 
 func _physics_process(delta):
 	# movement
@@ -142,17 +182,16 @@ func _physics_process(delta):
 			if area.is_in_group("punchable"):
 				hit(area)
 
+func process_event(action_name, non_gui):
+	if Input.is_action_just_pressed(action_name) and action_queue.find(action_name) == -1 and (!item_database.gui_active>0 or !non_gui):
+		action_queue.push_back(action_name)
+
 func _process(delta):
 	look_at(get_global_mouse_position())
 	
-	# punch
-	if Input.is_action_just_pressed("game_click") and !item_database.gui_active>0:
-		punch_queued = true
-	
-	# pickup
-	if Input.is_action_just_pressed("game_pickup") and !item_database.gui_active>0:
-		pickup_queued = true
-		
+	process_event("game_click", true)
+	process_event("game_pickup", true)
+	process_event("game_use", false)
 
 # punch
 func hit(collider):

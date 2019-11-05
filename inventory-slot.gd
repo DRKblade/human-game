@@ -16,7 +16,7 @@ func pressed():
 	if Input.is_mouse_button_pressed(BUTTON_LEFT):
 		if player_connected:
 			var player = item_database.player
-			if player.pullout_slot != null and player.pullout_slot.item == item and not player.pullout_queued:
+			if player.state != player.STATE_FREE:
 				player.put_back()
 			else:
 				player.equip_item(self)
