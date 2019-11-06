@@ -2,7 +2,7 @@ extends Node
 
 var item = preload("res://Item.gd")
 var dropped_item = preload("res://dropped_item.tscn")
-var items = {"tomato": item.new("tomato", 20, load("res://tomato.svg"))}
+var items = {"tomato": item.new("tomato", 20, load("res://tomato.svg"), 0.2, 0.1)}
 var player
 var game
 var gui_active = 0

@@ -1,10 +1,11 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://character-hand.svg" type="Texture" id=2]
 [ext_resource path="res://character-body-boy.svg" type="Texture" id=3]
 [ext_resource path="res://whoosh.wav" type="AudioStream" id=4]
 [ext_resource path="res://inventory.gd" type="Script" id=5]
+[ext_resource path="res://status_bar.tscn" type="PackedScene" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -47,11 +48,14 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0.8 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0.8, 0.801 ),
+"transitions": PoolRealArray( 1, 1 ),
 "values": [ {
 "args": [  ],
 "method": "_anim_process"
+}, {
+"args": [  ],
+"method": "finish_consume"
 } ]
 }
 
@@ -469,9 +473,12 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0.4 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
 "values": [ {
+"args": [  ],
+"method": "finish_punch"
+}, {
 "args": [  ],
 "method": "_anim_process"
 } ]
@@ -523,9 +530,12 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0.4 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
 "values": [ {
+"args": [  ],
+"method": "finish_punch"
+}, {
 "args": [  ],
 "method": "_anim_process"
 } ]
@@ -665,12 +675,13 @@ z_index = 1
 script = ExtResource( 1 )
 
 [node name="body" type="Area2D" parent="."]
+position = Vector2( 4, 0 )
 rotation = -1.5708
 collision_layer = 2
 collision_mask = 6
 
 [node name="hand1" type="Area2D" parent="body"]
-position = Vector2( -29.7276, 34.0345 )
+position = Vector2( -20, 50 )
 collision_layer = 0
 collision_mask = 2
 
@@ -738,6 +749,9 @@ anims/put_back = SubResource( 13 )
 anims/throw1 = SubResource( 14 )
 anims/throw2 = SubResource( 15 )
 
+[node name="status_update" type="Timer" parent="."]
+autostart = true
+
 [node name="gui" type="CanvasLayer" parent="."]
 
 [node name="inventory" type="HBoxContainer" parent="gui"]
@@ -749,9 +763,54 @@ margin_top = -100.0
 margin_bottom = -20.0
 script = ExtResource( 5 )
 player_connected = true
+
+[node name="status" type="VBoxContainer" parent="gui"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 250.0
+margin_bottom = 80.0
+custom_constants/separation = 2
+
+[node name="life" parent="gui/status" instance=ExtResource( 6 )]
+self_modulate = Color( 0.243137, 0.854902, 0.266667, 1 )
+margin_right = 230.0
+margin_bottom = 29.0
+size_flags_stretch_ratio = 1.0
+text = "Life"
+
+[node name="other_stats" type="HBoxContainer" parent="gui/status"]
+margin_top = 31.0
+margin_right = 230.0
+margin_bottom = 60.0
+size_flags_vertical = 3
+custom_constants/separation = 2
+
+[node name="hunger" parent="gui/status/other_stats" instance=ExtResource( 6 )]
+self_modulate = Color( 0.854902, 0.243137, 0.243137, 1 )
+margin_right = 75.0
+margin_bottom = 29.0
+size_flags_stretch_ratio = 1.0
+text = "Hunger"
+
+[node name="temp" parent="gui/status/other_stats" instance=ExtResource( 6 )]
+self_modulate = Color( 0.243137, 0.752941, 0.854902, 1 )
+margin_left = 77.0
+margin_right = 152.0
+margin_bottom = 29.0
+size_flags_stretch_ratio = 1.0
+text = "Heat"
+
+[node name="energy" parent="gui/status/other_stats" instance=ExtResource( 6 )]
+self_modulate = Color( 0.905882, 0.654902, 0.105882, 1 )
+margin_left = 154.0
+margin_right = 230.0
+margin_bottom = 29.0
+size_flags_stretch_ratio = 1.0
+text = "Energy"
 [connection signal="area_entered" from="body" to="." method="_on_body_entered"]
 [connection signal="area_exited" from="body" to="." method="_on_body_exited"]
 [connection signal="body_entered" from="body/hand1" to="." method="_on_hand_entered"]
 [connection signal="body_exited" from="body/hand1" to="." method="_on_hand_exited"]
 [connection signal="body_entered" from="body/hand2" to="." method="_on_hand_entered"]
 [connection signal="body_exited" from="body/hand2" to="." method="_on_hand_exited"]
+[connection signal="timeout" from="status_update" to="." method="_status_update"]

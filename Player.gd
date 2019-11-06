@@ -7,6 +7,19 @@ const STATE_HALF_BUSY = 3
 var state = STATE_FREE
 var action_queue = Array()
 
+# status
+var life = 1
+var hunger = 1
+var temperature = 0
+var energy = 0
+var hunger_deplete = 0.02
+var temperature_deplete = 0.1
+var life_deplete = 0.05
+var life_regain = 0.1
+var heating = 0.5
+var energy_regain = 0
+var energy_accel = 0.02
+
 # movement
 export var speed = 200
 var direction = Vector2()
@@ -16,9 +29,10 @@ export var change_hand = 0.8
 var current_hand = true
 var punch_active = false
 var hand_hit = Array()
+var punch_energy = 0.04
 
 # inventory
-export var max_item = 5
+export var max_item = 10
 var body_hit = Array()
 var inventory
 
@@ -38,6 +52,7 @@ func _ready():
 		print("error: more than one player")
 	
 	$anim.play("move")
+	$gui/status/life.set_rising()
 	
 	# inventory
 	$gui/inventory.set_slot_count(max_item)
@@ -45,6 +60,8 @@ func _ready():
 	
 	# pull-out
 	equip_node = $body/hand1/equip
+	
+	set_status()
 
 func equip_item(slot):
 	if slot.is_empty() or slot == pullout_slot:
@@ -60,6 +77,9 @@ func put_back():
 	if action_queue.find("put_back") == -1:
 		action_queue.push_back("put_back")
 
+func lose_item():
+	$body/hand1/equip.texture = null
+	put_back()
 
 func get_current_hand():
 	if randf() < change_hand:
@@ -103,6 +123,9 @@ func anim_drop():
 	return "throw1" if get_current_hand() else "throw2"
 
 func anim_punch():
+	if energy < punch_energy:
+		return
+	change_energy(-punch_energy)
 	$audio.play()
 	punch_active = true
 	return "punch1" if get_current_hand() else "punch2"
@@ -151,6 +174,11 @@ func _anim_get_animation():
 	if result != null:
 		return result
 	
+	# put-back
+	result = _anim_event("put_back", true, "anim_put_back")
+	if result != null:
+		return result
+	
 	# drop item
 	result = _anim_event("drop", true, "anim_drop")
 	if result != null:
@@ -161,16 +189,10 @@ func _anim_get_animation():
 	if result != null:
 		return result
 	
-	# put-back
-	result = _anim_event("put_back", true, "anim_put_back")
-	if result != null:
-		return result
-	
 	# punch
 	result = _anim_event("game_click", true, "anim_punch", "condition_continuous_non_gui")
 	if result != null:
 		return result
-	punch_active = false
 	
 	# pickup
 	result = _anim_event("game_pickup", true, "anim_pickup", "condition_continuous_non_gui")
@@ -186,6 +208,13 @@ func _anim_get_animation():
 	if direction == Vector2.ZERO:
 		return "idle_holding" if state == STATE_BUSY else "idle"
 
+func finish_punch():
+	punch_active = false
+
+func finish_consume():
+	pullout_slot.item.on_consume(self)
+	pullout_slot.deplete_item()
+
 func _physics_process(delta):
 	# movement
 	direction.x = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
@@ -198,6 +227,7 @@ func _physics_process(delta):
 			if area.is_in_group("punchable"):
 				area.on_hit(self)
 				punch_active = false
+	
 
 func process_event(action_name, non_gui):
 	if Input.is_action_just_pressed(action_name) and action_queue.find(action_name) == -1 and (!item_database.gui_active>0 or !non_gui):
@@ -222,3 +252,35 @@ func _on_body_entered(area):
 
 func _on_body_exited(area):
 	body_hit.remove(body_hit.find(area))
+
+func _status_update():
+	if hunger == 0:
+		life = clamp(life - life_deplete, 0, 1)
+	hunger = clamp(hunger - hunger_deplete, 0, 1)
+	
+	if temperature == 0:
+		life = clamp(life - life_deplete, 0, 1)
+	temperature = clamp(temperature + heating*temperature_deplete, 0, 1)
+	
+	energy_regain += energy_accel
+	energy = clamp(energy + energy_regain, 0, 1)
+	
+	life = clamp(life + hunger*temperature*energy*life_regain, 0, 1)
+	
+	set_status()
+
+func change_energy(delta):
+	energy_regain = 0
+	energy += delta
+	$gui/status/other_stats/energy.target_value = energy
+
+func change_hunger(delta):
+	print(delta)
+	hunger += delta
+	$gui/status/other_stats/hunger.target_value = hunger
+
+func set_status():
+	$gui/status/life.target_value = life
+	$gui/status/other_stats/hunger.target_value = hunger
+	$gui/status/other_stats/temp.target_value = temperature
+	$gui/status/other_stats/energy.target_value = energy
