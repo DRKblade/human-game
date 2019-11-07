@@ -1,5 +1,7 @@
 extends Button
 
+class_name inventory_slot
+
 var player_connected
 var item
 var qty
@@ -18,6 +20,8 @@ func pressed():
 		if player_connected:
 			if player.state != player.STATE_FREE:
 				player.put_back()
+				if player.pullout_slot.item != item:
+					player.equip_item(self)
 			else:
 				player.equip_item(self)
 	if Input.is_mouse_button_pressed(BUTTON_RIGHT):

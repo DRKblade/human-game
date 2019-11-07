@@ -9,13 +9,25 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "item",
+"class": "consumable",
+"language": "GDScript",
+"path": "res://Consumable.gd"
+}, {
+"base": "Button",
+"class": "inventory_slot",
+"language": "GDScript",
+"path": "res://inventory-slot.gd"
+}, {
 "base": "Reference",
-"class": "Item",
+"class": "item",
 "language": "GDScript",
 "path": "res://Item.gd"
 } ]
 _global_script_class_icons={
-"Item": ""
+"consumable": "",
+"inventory_slot": "",
+"item": ""
 }
 
 [application]

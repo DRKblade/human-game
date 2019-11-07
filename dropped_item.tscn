@@ -2,7 +2,7 @@
 
 [ext_resource path="res://dropped_item.gd" type="Script" id=1]
 [ext_resource path="res://item-dropped-back.svg" type="Texture" id=2]
-[ext_resource path="res://tomato.svg" type="Texture" id=3]
+[ext_resource path="res://wood.svg.png" type="Texture" id=3]
 [ext_resource path="res://dropped_font.tres" type="DynamicFont" id=4]
 
 [sub_resource type="CircleShape2D" id=1]

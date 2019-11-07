@@ -11,11 +11,11 @@ var action_queue = Array()
 var life = 1
 var hunger = 1
 var temperature = 0
-var energy = 0
+var energy = 0.5
 var hunger_deplete = 0.02
 var temperature_deplete = 0.1
 var life_deplete = 0.05
-var life_regain = 0.1
+var life_regain = 0.05
 var heating = 0.5
 var energy_regain = 0
 var energy_accel = 0.02
@@ -64,7 +64,7 @@ func _ready():
 	set_status()
 
 func equip_item(slot):
-	if slot.is_empty() or slot == pullout_slot:
+	if slot.is_empty() or !(slot.item is consumable) or action_queue.find("pullout") != -1:
 		return
 	action_queue.push_back("pullout")
 	pullout_slot = slot
@@ -147,13 +147,11 @@ func anim_move():
 
 func anim_put_back():
 	state = STATE_FREE
-	pullout_slot = null
 	$body/hand1/equip.texture = null
 	return
 
 func to_half_busy(is_put_back = false):
 	state = STATE_FREE if is_put_back else STATE_HALF_BUSY
-	print("put")
 	return "put_back"
 
 func to_busy():
@@ -212,8 +210,9 @@ func finish_punch():
 	punch_active = false
 
 func finish_consume():
-	pullout_slot.item.on_consume(self)
-	pullout_slot.deplete_item()
+	if pullout_slot.item in consumable:
+		pullout_slot.item.on_consume(self)
+		pullout_slot.deplete_item()
 
 func _physics_process(delta):
 	# movement

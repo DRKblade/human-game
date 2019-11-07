@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/character-body.svg-380596ac0c01a068ac3e42109299badb.stex"
+path="res://.import/orange.svg-210b26c0396ab988ec8c6cce0dab5c4b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://character-body.svg"
-dest_files=[ "res://.import/character-body.svg-380596ac0c01a068ac3e42109299badb.stex" ]
+source_file="res://orange.svg"
+dest_files=[ "res://.import/orange.svg-210b26c0396ab988ec8c6cce0dab5c4b.stex" ]
 
 [params]
 
@@ -25,7 +25,7 @@ flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true
-process/premult_alpha=true
+process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
 stream=false
