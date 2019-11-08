@@ -1,5 +1,7 @@
 extends Area2D
 
+class_name dropped_item
+
 export var initial_speed = 100
 export var deceleration = 40
 export var direction_rand = 0.5
