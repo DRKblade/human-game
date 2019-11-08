@@ -1,28 +1,36 @@
 extends KinematicBody2D
 
+class_name player
+
 const STATE_BUSY = 1
 const STATE_FREE = 2
 const STATE_HALF_BUSY = 3
 
 var state = STATE_FREE
-var action_queue = Array()
+var action_queue = PoolStringArray()
 
 # status
 var life = 1
 var hunger = 1
-var temperature = 0
+var temperature = 1
 var energy = 0.5
-var hunger_deplete = 0.02
-var temperature_deplete = 0.1
+var hunger_deplete = 0.005
+var temperature_deplete = 0.05
 var life_deplete = 0.05
 var life_regain = 0.05
-var heating = 0.5
+var heating = -1
 var energy_regain = 0
-var energy_accel = 0.02
+var energy_accel = 0.01
+var energy_hunger_deplete = 0.1
+var energy_min_for_continuous = 0.1
 
 # movement
-export var speed = 200
+export var base_speed = 200
+var speed:stat = stat.new(base_speed)
 var direction = Vector2()
+var speedup_energy = 0.1
+var speedup_multiplier = 1.5
+var last_speedup = false
 
 # punch
 export var change_hand = 0.8
@@ -64,7 +72,7 @@ func _ready():
 	set_status()
 
 func equip_item(slot):
-	if slot.is_empty() or !(slot.item is consumable) or action_queue.find("pullout") != -1:
+	if slot.is_empty() or !(slot.item is consumable) or anim_find("pullout") != -1:
 		return
 	action_queue.push_back("pullout")
 	pullout_slot = slot
@@ -74,7 +82,7 @@ func drop_item(slot):
 	dropped_slot = slot
 
 func put_back():
-	if action_queue.find("put_back") == -1:
+	if anim_find("put_back") == -1:
 		action_queue.push_back("put_back")
 
 func lose_item():
@@ -86,8 +94,14 @@ func get_current_hand():
 		current_hand = !current_hand
 	return current_hand if state != STATE_HALF_BUSY else false
 
+func anim_find(action_name):
+	for i in action_queue.size():
+		if action_queue[i] == action_name:
+			return i
+	return -1
+
 func _anim_event(action_name, require_free, action_method, additional_condition = "condition_false"):
-	var action_id = action_queue.find(action_name)
+	var action_id = anim_find(action_name)
 	if call(additional_condition, action_name) or action_id != -1:
 		if require_free:
 			if state == STATE_BUSY:
@@ -109,7 +123,6 @@ func condition_continuous_non_gui(action_name):
 func anim_pull_out():
 	state = STATE_BUSY
 	$body/hand1/equip.texture = pullout_slot.item.texture
-	print("pull")
 	return "pull_out"
 
 func anim_use():
@@ -132,7 +145,7 @@ func anim_punch():
 
 func anim_pickup():
 	for area in body_hit:
-		if area.is_in_group("dropped"):
+		if area is dropped_item:
 			var qty = $gui/inventory.fill_item(area.item, area.qty)
 			if qty == 0:
 				area.queue_free()
@@ -210,7 +223,7 @@ func finish_punch():
 	punch_active = false
 
 func finish_consume():
-	if pullout_slot.item in consumable:
+	if pullout_slot.item is consumable:
 		pullout_slot.item.on_consume(self)
 		pullout_slot.deplete_item()
 
@@ -218,7 +231,15 @@ func _physics_process(delta):
 	# movement
 	direction.x = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
 	direction.y = int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
-	move_and_slide(direction * speed)
+	var current_speed = speed.actual_value
+	if Input.is_action_pressed("game_speedup") and direction != Vector2.ZERO and (energy > energy_min_for_continuous or last_speedup):
+		current_speed *= speedup_multiplier
+		change_energy(-speedup_energy*delta)
+		last_speedup = energy != 0
+		$speedup_trail.emitting = true
+	else:
+		$speedup_trail.emitting = false
+	move_and_slide(direction * current_speed)
 	
 	# punch
 	if punch_active:
@@ -226,10 +247,11 @@ func _physics_process(delta):
 			if area.is_in_group("punchable"):
 				area.on_hit(self)
 				punch_active = false
+				break
 	
 
 func process_event(action_name, non_gui):
-	if Input.is_action_just_pressed(action_name) and action_queue.find(action_name) == -1 and (!item_database.gui_active>0 or !non_gui):
+	if Input.is_action_just_pressed(action_name) and anim_find(action_name) == -1 and (!item_database.gui_active>0 or !non_gui):
 		action_queue.push_back(action_name)
 
 func _process(delta):
@@ -263,19 +285,19 @@ func _status_update():
 	
 	energy_regain += energy_accel
 	energy = clamp(energy + energy_regain, 0, 1)
-	
 	life = clamp(life + hunger*temperature*energy*life_regain, 0, 1)
 	
 	set_status()
 
 func change_energy(delta):
-	energy_regain = 0
-	energy += delta
+	if delta < 0:
+		energy_regain = 0
+		change_hunger(delta*energy_hunger_deplete)
+	energy = clamp(energy + delta, 0, 1)
 	$gui/status/other_stats/energy.target_value = energy
 
 func change_hunger(delta):
-	print(delta)
-	hunger += delta
+	hunger = clamp(hunger - delta, 0, 1)
 	$gui/status/other_stats/hunger.target_value = hunger
 
 func set_status():
