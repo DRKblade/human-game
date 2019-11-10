@@ -12,42 +12,47 @@ _global_script_classes=[ {
 "base": "item",
 "class": "consumable",
 "language": "GDScript",
-"path": "res://Consumable.gd"
+"path": "res://Item/Consumable.gd"
 }, {
 "base": "Area2D",
 "class": "dropped_item",
 "language": "GDScript",
-"path": "res://dropped_item.gd"
+"path": "res://Item/dropped_item.gd"
 }, {
 "base": "Reference",
 "class": "effect",
 "language": "GDScript",
-"path": "res://Effect.gd"
+"path": "res://Character/Effect.gd"
 }, {
 "base": "Button",
 "class": "inventory_slot",
 "language": "GDScript",
-"path": "res://inventory-slot.gd"
+"path": "res://Item/inventory-slot.gd"
 }, {
 "base": "Reference",
 "class": "item",
 "language": "GDScript",
-"path": "res://Item.gd"
+"path": "res://Item/Item.gd"
 }, {
-"base": "Node2D",
+"base": "structure",
 "class": "item_source",
 "language": "GDScript",
-"path": "res://Item_Source.gd"
+"path": "res://Item/ItemSource.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "player",
 "language": "GDScript",
-"path": "res://Player.gd"
+"path": "res://Character/Player.gd"
 }, {
 "base": "Reference",
 "class": "stat",
 "language": "GDScript",
-"path": "res://Stat.gd"
+"path": "res://Character/Stat.gd"
+}, {
+"base": "Node2D",
+"class": "structure",
+"language": "GDScript",
+"path": "res://Structure/Structure.gd"
 } ]
 _global_script_class_icons={
 "consumable": "",
@@ -57,7 +62,8 @@ _global_script_class_icons={
 "item": "",
 "item_source": "",
 "player": "",
-"stat": ""
+"stat": "",
+"structure": ""
 }
 
 [application]
@@ -69,7 +75,7 @@ config/icon="res://icon.png"
 [autoload]
 
 my_math="*res://my_math.gd"
-item_database="*res://item_database.gd"
+item_database="*res://Item/item_database.gd"
 
 [input]
 

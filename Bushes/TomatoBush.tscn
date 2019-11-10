@@ -1,0 +1,74 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Bushes/Bush.gd" type="Script" id=1]
+[ext_resource path="res://Bushes/tomato-bush.svg" type="Texture" id=2]
+
+[sub_resource type="Animation" id=1]
+resource_name = "wobble"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:anim_wobble_value")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0, 1.0, 0 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "check_direction"
+} ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "pushback"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:anim_pushback_value")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0, 0.0 ]
+}
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 50.0
+
+[node name="Structure" type="Area2D"]
+position = Vector2( -2, 0 )
+collision_layer = 3
+collision_mask = 0
+script = ExtResource( 1 )
+wobble_distance = 6
+
+[node name="wobble" type="AnimationPlayer" parent="."]
+anims/wobble = SubResource( 1 )
+
+[node name="spr" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+
+[node name="pushback" type="AnimationPlayer" parent="."]
+anims/pushback = SubResource( 2 )
+
+[node name="col" type="CollisionShape2D" parent="."]
+shape = SubResource( 3 )

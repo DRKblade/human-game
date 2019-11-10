@@ -1,0 +1,157 @@
+[gd_scene load_steps=20 format=2]
+
+[ext_resource path="res://Character/status_bar.gd" type="Script" id=1]
+[ext_resource path="res://Character/status_font.tres" type="DynamicFont" id=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 1, 1, 1, 1 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0, 0, 0, 0.376471 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Animation" id=3]
+tracks/0/type = "value"
+tracks/0/path = NodePath("name:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("name:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("name:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("name:self_modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="AnimationNodeAnimation" id=7]
+animation = "off"
+
+[sub_resource type="AnimationNodeAnimation" id=8]
+animation = "on"
+
+[sub_resource type="AnimationNodeAnimation" id=9]
+animation = "rising"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=10]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=11]
+xfade_time = 1.0
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=12]
+xfade_time = 1.0
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=13]
+xfade_time = 1.0
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=14]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=15]
+xfade_time = 1.0
+
+[sub_resource type="AnimationNodeStateMachine" id=16]
+states/off/node = SubResource( 7 )
+states/off/position = Vector2( 248, 77 )
+states/on/node = SubResource( 8 )
+states/on/position = Vector2( 485, 92 )
+states/rising/node = SubResource( 9 )
+states/rising/position = Vector2( 348, 164 )
+transitions = [ "off", "on", SubResource( 10 ), "on", "off", SubResource( 11 ), "off", "rising", SubResource( 12 ), "rising", "off", SubResource( 13 ), "rising", "on", SubResource( 14 ), "on", "rising", SubResource( 15 ) ]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=17]
+
+[node name="status_bar" type="ProgressBar"]
+margin_right = 250.0
+margin_bottom = 42.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.25
+custom_styles/fg = SubResource( 1 )
+custom_styles/bg = SubResource( 2 )
+max_value = 1.0
+step = 0.0
+value = 1.0
+percent_visible = false
+script = ExtResource( 1 )
+
+[node name="name" type="Label" parent="."]
+self_modulate = Color( 1, 1, 1, 0.537239 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -31.0
+margin_top = -13.0
+margin_right = 31.0
+margin_bottom = 13.0
+custom_fonts/font = ExtResource( 2 )
+text = "Hunger"
+align = 1
+
+[node name="clips" type="AnimationPlayer" parent="."]
+anims/fade_out = SubResource( 3 )
+anims/off = SubResource( 4 )
+anims/on = SubResource( 5 )
+anims/rising = SubResource( 6 )
+
+[node name="anim" type="AnimationTree" parent="."]
+tree_root = SubResource( 16 )
+anim_player = NodePath("../clips")
+active = true
+parameters/playback = SubResource( 17 )
+[connection signal="mouse_entered" from="." to="." method="_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_mouse_exited"]

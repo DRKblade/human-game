@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Stone/Rock.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Wood/trunk.svg" type="Texture" id=2]
+
+[node name="Structure" instance=ExtResource( 1 )]
+item_name = "wood"
+
+[node name="spr" parent="." index="1"]
+texture = ExtResource( 2 )
