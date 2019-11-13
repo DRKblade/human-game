@@ -57,7 +57,7 @@ texture = ExtResource( 10 )
 [node name="equipment" parent="hatchet" instance=ExtResource( 11 )]
 collision_mask = 3
 tool_class = PoolStringArray( "axe", "pickaxe" )
-hit_strength = 2
+hit_strength = 3
 
 [node name="pickaxe" type="Node" parent="."]
 script = ExtResource( 9 )
@@ -66,7 +66,7 @@ texture = ExtResource( 12 )
 
 [node name="equipment" parent="pickaxe" instance=ExtResource( 13 )]
 tool_class = PoolStringArray( "pickaxe" )
-hit_strength = 3
+hit_strength = 5
 
 [node name="craft-table" type="Node" parent="."]
 script = ExtResource( 9 )

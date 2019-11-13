@@ -79,6 +79,7 @@ func _ready():
 	inventory.fill_item(ItemDatabase.items["wood"], 100)
 	inventory.fill_item(ItemDatabase.items["stone"], 100)
 	$body/hand_weapon.player = self
+	$body/hand_weapon.animation_length = $anim.get_animation("punch1").length
 	set_status()
 
 func craft(recipe):
@@ -142,6 +143,7 @@ func anim_pull_out():
 		$body/hand1/equip.texture = equip_slot.item.texture
 	else:
 		equipment.player = self
+		equipment.animation_length = $anim.get_animation(equip_slot.item.use_action()).length
 		$body/hand1/equip.add_child(equipment)
 	
 	if equip_slot.item.require_free():

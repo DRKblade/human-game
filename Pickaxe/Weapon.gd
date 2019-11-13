@@ -21,7 +21,7 @@ func _hit_process():
 		for body in hit:
 			if body.has_method("on_hit") and inactive.find(body) == -1:
 				my_math.find(tool_class, "nothing")
-				body.on_hit(self, tool_class, hit_strength)
+				body.on_hit(self, tool_class, hit_strength*animation_length)
 				inactive.push_back(body)
 				break
 

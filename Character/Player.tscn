@@ -899,7 +899,6 @@ process_material = SubResource( 3 )
 texture = ExtResource( 2 )
 
 [node name="body" type="Area2D" parent="."]
-position = Vector2( 4, 0 )
 rotation = -1.5708
 collision_layer = 2
 collision_mask = 6
@@ -965,8 +964,8 @@ shape = SubResource( 11 )
 
 [node name="hand_weapon" type="Node2D" parent="body"]
 script = ExtResource( 6 )
-tool_class = PoolStringArray( "hand" )
-hit_strength = 1
+tool_class = PoolStringArray( "hand", "axe" )
+hit_strength = 2
 
 [node name="audio" type="AudioStreamPlayer2D" parent="."]
 position = Vector2( -5.88882, 7.91311 )
@@ -1066,7 +1065,7 @@ script = ExtResource( 11 )
 [connection signal="area_entered" from="body/hand1" to="body/hand_weapon" method="_on_entered"]
 [connection signal="area_exited" from="body/hand1" to="body/hand_weapon" method="_on_exited"]
 [connection signal="body_entered" from="body/hand1" to="body/hand_weapon" method="_on_entered"]
-[connection signal="body_exited" from="body/hand1" to="." method="_on_exited"]
+[connection signal="body_exited" from="body/hand1" to="body/hand_weapon" method="_on_exited"]
 [connection signal="area_entered" from="body/hand2" to="body/hand_weapon" method="_on_entered"]
 [connection signal="area_exited" from="body/hand2" to="body/hand_weapon" method="_on_exited"]
 [connection signal="body_entered" from="body/hand2" to="body/hand_weapon" method="_on_entered"]
