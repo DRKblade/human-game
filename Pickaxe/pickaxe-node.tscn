@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Pickaxe/Weapon.gd" type="Script" id=1]
+[ext_resource path="res://Pickaxe/pickaxe-tool.svg" type="Texture" id=2]
+
+[node name="pickaxe" type="Area2D"]
+show_behind_parent = true
+position = Vector2( 1.04929, 18.4027 )
+rotation = -1.15192
+collision_layer = 0
+collision_mask = 2
+script = ExtResource( 1 )
+
+[node name="spr" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+offset = Vector2( 0, -31.76 )
+
+[node name="col" type="CollisionPolygon2D" parent="."]
+position = Vector2( -34.5284, -64.9178 )
+polygon = PoolVector2Array( -1.56045, 0.827576, -3.47972, -9.66074, 19.642, -22.2932, 38.7411, -24.2667, 55.0369, -20.1637, 70.8876, -7.11719, 81.2982, 5.33844, 60.1167, -5.67133, 25.7884, -7.90533 )
+[connection signal="area_entered" from="." to="." method="_on_entered"]
+[connection signal="area_exited" from="." to="." method="_on_exited"]
+[connection signal="body_entered" from="." to="." method="_on_entered"]
+[connection signal="body_exited" from="." to="." method="_on_exited"]

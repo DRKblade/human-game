@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Item/inventory-slot.gd" type="Script" id=1]
 [ext_resource path="res://Character/inventory_font.tres" type="DynamicFont" id=2]
-
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 0.501961 )
@@ -24,11 +23,15 @@ corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
+shadow_color = Color( 0, 0, 0, 0 )
+
+[sub_resource type="StyleBoxEmpty" id=4]
 
 [node name="inventory-slot" type="Button"]
-margin_bottom = 100.0
+margin_right = 80.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 80, 80 )
 focus_mode = 0
-size_flags_horizontal = 3
 custom_styles/hover = SubResource( 1 )
 custom_styles/pressed = SubResource( 2 )
 custom_styles/normal = SubResource( 3 )
@@ -46,9 +49,6 @@ margin_left = -40.0
 margin_top = -40.0
 margin_right = 40.0
 margin_bottom = 40.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-expand = true
 stretch_mode = 1
 
 [node name="qty" type="Label" parent="."]
@@ -61,6 +61,17 @@ margin_top = -34.0
 margin_right = -6.0
 custom_fonts/font = ExtResource( 2 )
 align = 2
+
+[node name="crafting_process" type="ProgressBar" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/fg = SubResource( 3 )
+custom_styles/bg = SubResource( 4 )
+max_value = 1.0
+step = 0.0
+value = 0.18
+percent_visible = false
 [connection signal="mouse_entered" from="." to="." method="_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_mouse_exited"]
 [connection signal="pressed" from="." to="." method="pressed"]

@@ -13,9 +13,9 @@ var wobble_player
 var wobble_target = Vector2.ZERO
 var pushback_target = Vector2.ZERO
 
-func on_hit(source):
+func on_hit(source, tool_class, hit_strength):
 	if has_method("_on_hit"):
-		call("_on_hit", source)
+		call("_on_hit", source, tool_class, hit_strength)
 		$pushback.play("pushback")
 		pushback_target = (global_position - source.global_position).normalized() * pushback_distance
 
@@ -33,7 +33,6 @@ func on_exit(body):
 		wobbling = false
 
 func _process(delta):
-	prints(anim_pushback_value, anim_wobble_value)
 	$spr.position = anim_pushback_value * pushback_target + anim_wobble_value * wobble_target
 
 func check_direction():

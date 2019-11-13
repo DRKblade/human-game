@@ -35,10 +35,14 @@ var last_speedup = false
 
 # punch
 export var change_hand = 0.8
+export var hit_active = false
+export var hand_tool_class = PoolStringArray(["hand"])
+export var hand_hit_strength = 1.0
+var active_hitter
 var current_hand = true
-var punch_active = false
 var hand_hit = Array()
 var punch_energy = 0.04
+var punch_animation_length
 
 # inventory
 export var max_item = 10
@@ -49,34 +53,41 @@ var inventory
 
 # pull-out
 var equip_node
-var pullout_slot
+var equip_slot = null
+var pullout_slot = null
 
 # drop item
 var dropped_slot
 
 func _ready():
-	if item_database.player == null:
-		item_database.player = self
+	if ItemDatabase.player == null:
+		ItemDatabase.player = self
 	else:
 		print("error: more than one player")
 	
 	$anim.play("move")
-	$gui/status/life.set_rising()
+	$gui/margin/status/life.set_rising()
 	
 	# inventory
-	$gui/inventory.set_slot_count(max_item)
-	inventory = $gui/inventory
+	$gui/margin/inventory.set_slot_count(max_item)
+	inventory = $gui/margin/inventory
 	
 	# pull-out
 	equip_node = $body/hand1/equip
 	
+	$crafter.inventory = inventory
+	inventory.fill_item(ItemDatabase.items["wood"], 100)
+	inventory.fill_item(ItemDatabase.items["stone"], 100)
+	$body/hand_weapon.player = self
 	set_status()
 
+func craft(recipe):
+	$crafter.start_crafting(recipe)
+
 func equip_item(slot):
-	if slot.is_empty() or !(slot.item is consumable) or anim_find("pullout") != -1:
-		return
-	action_queue.push_back("pullout")
-	pullout_slot = slot
+	if !slot.is_empty() and slot.item.use_action() != null and anim_find("pullout") == -1:
+		action_queue.push_back("pullout")
+		pullout_slot = slot
 
 func drop_item(slot):
 	action_queue.push_back("drop")
@@ -119,21 +130,39 @@ func condition_false(action_name):
 	return false
 
 func condition_continuous_non_gui(action_name):
-	return Input.is_action_pressed(action_name) and !item_database.gui_active>0
+	return Input.is_action_pressed(action_name) and ItemDatabase.gui_active <= 0
+
+func condition_continuous(action_name):
+	return Input.is_action_pressed(action_name)
 
 func anim_pull_out():
-	state = STATE_BUSY
-	$body/hand1/equip.texture = pullout_slot.item.texture
-	return "pull_out"
+	equip_slot = pullout_slot
+	var equipment =  equip_slot.item.equipment()
+	if equipment == null:
+		$body/hand1/equip.texture = equip_slot.item.texture
+	else:
+		equipment.player = self
+		$body/hand1/equip.add_child(equipment)
+	
+	if equip_slot.item.require_free():
+		state = STATE_HALF_BUSY
+	else:
+		state = STATE_BUSY
+		return "pull_out"
 
 func anim_use():
-	speed.add_effect(item_database.effects["busy"])
-	return "consume"
+	var use_action = equip_slot.item.use_action()
+	if use_action != null:
+		equip_slot.item.on_busy(self)
+	active_hitter = $body/hand1/equip.get_child(0)
+	if active_hitter != null:
+		active_hitter._start_hit()
+	return use_action
 
 func anim_drop():
 	if dropped_slot.is_empty():
 		return
-	item_database.drop_item(dropped_slot.item, global_position, get_global_mouse_position() - global_position, dropped_slot.qty)
+	ItemDatabase.drop_item(dropped_slot.item, global_position, get_global_mouse_position() - global_position, dropped_slot.qty)
 	dropped_slot.clear()
 	return "throw1" if get_current_hand() else "throw2"
 
@@ -142,13 +171,14 @@ func anim_punch():
 		return
 	change_energy(-punch_energy)
 	$audio.play()
-	punch_active = true
+	active_hitter = $body/hand_weapon
+	active_hitter._start_hit()
 	return "punch1" if get_current_hand() else "punch2"
 
 func anim_pickup():
 	for area in body_hit:
 		if area is dropped_item:
-			var qty = $gui/inventory.fill_item(area.item, area.qty)
+			var qty = $gui/margin/inventory.fill_item(area.item, area.qty)
 			if qty == 0:
 				area.queue_free()
 			elif qty == area.qty:
@@ -162,7 +192,11 @@ func anim_move():
 
 func anim_put_back():
 	state = STATE_FREE
-	$body/hand1/equip.texture = null
+	equip_slot = null
+	if $body/hand1/equip.get_child_count() == 0:
+		$body/hand1/equip.texture = null
+	else:
+		$body/hand1/equip.remove_child($body/hand1/equip.get_child(0))
 	return
 
 func to_half_busy(is_put_back = false):
@@ -183,24 +217,27 @@ func _anim_get_animation():
 	var result
 	
 	# use item
-	result = _anim_event("game_use", false, "anim_use")
-	if result != null:
-		return result
+	if equip_slot != null:
+		result = _anim_event("game_use", equip_slot.item.require_free(), "anim_use", "condition_continuous")
+		if result != null:
+			return result
 	
 	# put-back
 	result = _anim_event("put_back", true, "anim_put_back")
 	if result != null:
 		return result
 	
+	# pull-out
+	if pullout_slot != null:
+		result = _anim_event("pullout", true, "anim_pull_out")
+		if result != null:
+			return result
+	
 	# drop item
 	result = _anim_event("drop", true, "anim_drop")
 	if result != null:
 		return result
 	
-	# pull-out
-	result = _anim_event("pullout", true, "anim_pull_out")
-	if result != null:
-		return result
 	
 	# punch
 	result = _anim_event("game_click", true, "anim_punch", "condition_continuous_non_gui")
@@ -221,14 +258,13 @@ func _anim_get_animation():
 	if direction == Vector2.ZERO:
 		return "idle_holding" if state == STATE_BUSY else "idle"
 
-func finish_punch():
-	punch_active = false
-
 func finish_consume():
 	speed.remove_effect("busy")
-	if pullout_slot.item is consumable:
-		pullout_slot.item.on_consume(self)
-		pullout_slot.deplete_item()
+	if equip_slot.item is consumable:
+		equip_slot.item.on_use(self)
+		equip_slot.deplete_item()
+		if equip_slot.is_empty():
+			equip_slot = null
 
 func _physics_process(delta):
 	# movement
@@ -245,16 +281,11 @@ func _physics_process(delta):
 	move_and_slide(direction * current_speed)
 	
 	# punch
-	if punch_active:
-		for area in hand_hit:
-			if area.has_method("on_hit"):
-				area.on_hit(self)
-				punch_active = false
-				break
-	
+	if hit_active:
+		active_hitter.call("_hit_process")
 
 func process_event(action_name, non_gui):
-	if Input.is_action_just_pressed(action_name) and anim_find(action_name) == -1 and (!item_database.gui_active>0 or !non_gui):
+	if Input.is_action_just_pressed(action_name) and anim_find(action_name) == -1 and (!ItemDatabase.gui_active>0 or !non_gui):
 		action_queue.push_back(action_name)
 
 func _process(delta):
@@ -263,12 +294,6 @@ func _process(delta):
 	process_event("game_click", true)
 	process_event("game_pickup", true)
 	process_event("game_use", false)
-
-func _on_hand_entered(area):
-	hand_hit.push_back(area)
-
-func _on_hand_exited(area):
-	hand_hit.remove(hand_hit.find(area))
 
 # pickup
 func _on_body_entered(area):
@@ -313,14 +338,22 @@ func change_energy(delta):
 		energy_regain = 0
 		change_hunger(delta*energy_hunger_deplete)
 	energy = clamp(energy + delta, 0, 1)
-	$gui/status/other_stats/energy.target_value = energy
+	$gui/margin/status/other_stats/energy.target_value = energy
 
 func change_hunger(delta):
 	hunger = clamp(hunger + delta, 0, 1)
-	$gui/status/other_stats/hunger.target_value = hunger
+	$gui/margin/status/other_stats/hunger.target_value = hunger
 
 func set_status():
-	$gui/status/life.target_value = life
-	$gui/status/other_stats/hunger.target_value = hunger
-	$gui/status/other_stats/temp.target_value = temperature
-	$gui/status/other_stats/energy.target_value = energy
+	$gui/margin/status/life.target_value = life
+	$gui/margin/status/other_stats/hunger.target_value = hunger
+	$gui/margin/status/other_stats/temp.target_value = temperature
+	$gui/margin/status/other_stats/energy.target_value = energy
+
+
+func _on_exited():
+	pass # Replace with function body.
+
+
+func _on_entered():
+	pass # Replace with function body.

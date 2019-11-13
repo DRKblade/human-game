@@ -1,14 +1,16 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Character/Player.gd" type="Script" id=1]
 [ext_resource path="res://Character/circle.svg" type="Texture" id=2]
 [ext_resource path="res://Character/character-body-boy-outline.svg" type="Texture" id=3]
 [ext_resource path="res://Character/character-hand.svg" type="Texture" id=4]
 [ext_resource path="res://Character/character-body-boy.svg" type="Texture" id=5]
-[ext_resource path="res://Character/whoosh.wav" type="AudioStream" id=6]
-[ext_resource path="res://Item/inventory.gd" type="Script" id=7]
-[ext_resource path="res://Character/status_bar.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Character/CraftMenu.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Pickaxe/Weapon.gd" type="Script" id=6]
+[ext_resource path="res://Character/whoosh.wav" type="AudioStream" id=7]
+[ext_resource path="res://Item/inventory.gd" type="Script" id=8]
+[ext_resource path="res://Character/status_bar.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Character/CraftMenu.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Crafter.gd" type="Script" id=11]
 
 [sub_resource type="Gradient" id=1]
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
@@ -545,6 +547,7 @@ tracks/4/keys = {
 [sub_resource type="Animation" id=20]
 length = 0.4
 loop = true
+step = 0.05
 tracks/0/type = "value"
 tracks/0/path = NodePath("body:position")
 tracks/0/interp = 2
@@ -588,20 +591,30 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0.2, 0.4 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0.4 ),
+"transitions": PoolRealArray( 1 ),
 "values": [ {
-"args": [  ],
-"method": "finish_punch"
-}, {
 "args": [  ],
 "method": "_anim_process"
 } ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath(".:hit_active")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.05, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
 }
 
 [sub_resource type="Animation" id=21]
 length = 0.4
 loop = true
+step = 0.05
 tracks/0/type = "value"
 tracks/0/path = NodePath("body:position")
 tracks/0/interp = 2
@@ -645,15 +658,24 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0.2, 0.4 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0.4 ),
+"transitions": PoolRealArray( 1 ),
 "values": [ {
-"args": [  ],
-"method": "finish_punch"
-}, {
 "args": [  ],
 "method": "_anim_process"
 } ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath(".:hit_active")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.05, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
 }
 
 [sub_resource type="Animation" id=22]
@@ -723,6 +745,85 @@ tracks/4/keys = {
 }
 
 [sub_resource type="Animation" id=23]
+resource_name = "strike"
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("body/hand1:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -30, 30 ), Vector2( 31.0451, 42.2434 ), Vector2( -51.2799, 46.2279 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("body/hand1:rotation_degrees")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, -50.0, 80.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("body:rotation_degrees")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ -90.0002, -100.0, -80.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("body/hand2:position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 30, 30 ), Vector2( 36.7011, 39.1093 ), Vector2( 60.0077, 23.4016 ), Vector2( 71.7166, 23.0452 ), Vector2( 40.6478, 51.1563 ), Vector2( -20.4204, 55.0235 ) ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "_anim_process"
+} ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath(".:hit_active")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.3, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=24]
 length = 0.4
 loop = true
 tracks/0/type = "value"
@@ -752,7 +853,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=25]
 length = 0.4
 loop = true
 tracks/0/type = "value"
@@ -783,6 +884,8 @@ tracks/1/keys = {
 }
 
 [node name="Player" type="KinematicBody2D"]
+position = Vector2( 429.246, 248.425 )
+rotation = -3.14159
 z_index = 1
 script = ExtResource( 1 )
 
@@ -796,6 +899,7 @@ process_material = SubResource( 3 )
 texture = ExtResource( 2 )
 
 [node name="body" type="Area2D" parent="."]
+position = Vector2( 4, 0 )
 rotation = -1.5708
 collision_layer = 2
 collision_mask = 6
@@ -835,6 +939,7 @@ scale = Vector2( 2, 2 )
 shape = SubResource( 10 )
 
 [node name="hand2" type="Area2D" parent="body"]
+editor/display_folded = true
 position = Vector2( 30, 30 )
 collision_layer = 0
 collision_mask = 2
@@ -858,9 +963,14 @@ rotation = -1.5708
 scale = Vector2( 4.2, 4.2 )
 shape = SubResource( 11 )
 
+[node name="hand_weapon" type="Node2D" parent="body"]
+script = ExtResource( 6 )
+tool_class = PoolStringArray( "hand" )
+hit_strength = 1
+
 [node name="audio" type="AudioStreamPlayer2D" parent="."]
 position = Vector2( -5.88882, 7.91311 )
-stream = ExtResource( 6 )
+stream = ExtResource( 7 )
 volume_db = -7.257
 
 [node name="movement-col" type="CollisionShape2D" parent="."]
@@ -879,54 +989,57 @@ anims/pull_out = SubResource( 19 )
 anims/punch1 = SubResource( 20 )
 anims/punch2 = SubResource( 21 )
 anims/put_back = SubResource( 22 )
-anims/throw1 = SubResource( 23 )
-anims/throw2 = SubResource( 24 )
+anims/strike = SubResource( 23 )
+anims/throw1 = SubResource( 24 )
+anims/throw2 = SubResource( 25 )
 
 [node name="status_update" type="Timer" parent="."]
 autostart = true
 
 [node name="gui" type="CanvasLayer" parent="."]
 
-[node name="inventory" type="HBoxContainer" parent="gui"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
+[node name="margin" type="Control" parent="gui"]
+anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -100.0
-margin_bottom = -20.0
-script = ExtResource( 7 )
+margin_left = 21.6935
+margin_top = 20.948
+margin_right = -18.3065
+margin_bottom = -19.0519
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="inventory" type="HBoxContainer" parent="gui/margin"]
+size_flags_horizontal = 4
+script = ExtResource( 8 )
 player_connected = true
 
-[node name="status" type="VBoxContainer" parent="gui"]
-margin_left = 20.0
-margin_top = 20.0
-margin_right = 250.0
-margin_bottom = 80.0
+[node name="status" type="VBoxContainer" parent="gui/margin"]
+margin_right = 230.0
+margin_bottom = 60.0
 custom_constants/separation = 2
 
-[node name="life" parent="gui/status" instance=ExtResource( 8 )]
+[node name="life" parent="gui/margin/status" instance=ExtResource( 9 )]
 self_modulate = Color( 0.243137, 0.854902, 0.266667, 1 )
 margin_right = 230.0
 margin_bottom = 29.0
 size_flags_stretch_ratio = 1.0
 text = "Life"
 
-[node name="other_stats" type="HBoxContainer" parent="gui/status"]
-editor/display_folded = true
+[node name="other_stats" type="HBoxContainer" parent="gui/margin/status"]
 margin_top = 31.0
 margin_right = 230.0
 margin_bottom = 60.0
 size_flags_vertical = 3
 custom_constants/separation = 2
 
-[node name="hunger" parent="gui/status/other_stats" instance=ExtResource( 8 )]
+[node name="hunger" parent="gui/margin/status/other_stats" instance=ExtResource( 9 )]
 self_modulate = Color( 0.854902, 0.243137, 0.243137, 1 )
 margin_right = 75.0
 margin_bottom = 29.0
 size_flags_stretch_ratio = 1.0
 text = "Hunger"
 
-[node name="temp" parent="gui/status/other_stats" instance=ExtResource( 8 )]
+[node name="temp" parent="gui/margin/status/other_stats" instance=ExtResource( 9 )]
 self_modulate = Color( 0.243137, 0.752941, 0.854902, 1 )
 margin_left = 77.0
 margin_right = 152.0
@@ -934,7 +1047,7 @@ margin_bottom = 29.0
 size_flags_stretch_ratio = 1.0
 text = "Heat"
 
-[node name="energy" parent="gui/status/other_stats" instance=ExtResource( 8 )]
+[node name="energy" parent="gui/margin/status/other_stats" instance=ExtResource( 9 )]
 self_modulate = Color( 0.905882, 0.654902, 0.105882, 1 )
 margin_left = 154.0
 margin_right = 230.0
@@ -942,17 +1055,20 @@ margin_bottom = 29.0
 size_flags_stretch_ratio = 1.0
 text = "Energy"
 
-[node name="CraftMenu" parent="gui" instance=ExtResource( 9 )]
+[node name="CraftMenu" parent="gui/margin" instance=ExtResource( 10 )]
+
+[node name="crafter" type="Node" parent="."]
+script = ExtResource( 11 )
 [connection signal="area_entered" from="body" to="." method="_on_body_entered"]
 [connection signal="area_exited" from="body" to="." method="_on_body_exited"]
 [connection signal="body_entered" from="body" to="." method="_on_body_entered"]
 [connection signal="body_exited" from="body" to="." method="_on_body_exited"]
-[connection signal="area_entered" from="body/hand1" to="." method="_on_hand_entered"]
-[connection signal="area_exited" from="body/hand1" to="." method="_on_hand_exited"]
-[connection signal="body_entered" from="body/hand1" to="." method="_on_hand_entered"]
-[connection signal="body_exited" from="body/hand1" to="." method="_on_hand_exited"]
-[connection signal="area_entered" from="body/hand2" to="." method="_on_hand_entered"]
-[connection signal="area_exited" from="body/hand2" to="." method="_on_hand_exited"]
-[connection signal="body_entered" from="body/hand2" to="." method="_on_hand_entered"]
-[connection signal="body_exited" from="body/hand2" to="." method="_on_hand_exited"]
+[connection signal="area_entered" from="body/hand1" to="body/hand_weapon" method="_on_entered"]
+[connection signal="area_exited" from="body/hand1" to="body/hand_weapon" method="_on_exited"]
+[connection signal="body_entered" from="body/hand1" to="body/hand_weapon" method="_on_entered"]
+[connection signal="body_exited" from="body/hand1" to="." method="_on_exited"]
+[connection signal="area_entered" from="body/hand2" to="body/hand_weapon" method="_on_entered"]
+[connection signal="area_exited" from="body/hand2" to="body/hand_weapon" method="_on_exited"]
+[connection signal="body_entered" from="body/hand2" to="body/hand_weapon" method="_on_entered"]
+[connection signal="body_exited" from="body/hand2" to="body/hand_weapon" method="_on_exited"]
 [connection signal="timeout" from="status_update" to="." method="_status_update"]

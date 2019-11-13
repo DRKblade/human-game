@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "TextureButton",
+"class": "MyTextureButton",
+"language": "GDScript",
+"path": "res://MyTextureButton.gd"
+}, {
 "base": "item",
 "class": "consumable",
 "language": "GDScript",
@@ -24,12 +29,17 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Character/Effect.gd"
 }, {
+"base": "item",
+"class": "equipment",
+"language": "GDScript",
+"path": "res://Equipment.gd"
+}, {
 "base": "Button",
 "class": "inventory_slot",
 "language": "GDScript",
 "path": "res://Item/inventory-slot.gd"
 }, {
-"base": "Reference",
+"base": "Node",
 "class": "item",
 "language": "GDScript",
 "path": "res://Item/Item.gd"
@@ -55,9 +65,11 @@ _global_script_classes=[ {
 "path": "res://Structure/Structure.gd"
 } ]
 _global_script_class_icons={
+"MyTextureButton": "",
 "consumable": "",
 "dropped_item": "",
 "effect": "",
+"equipment": "",
 "inventory_slot": "",
 "item": "",
 "item_source": "",
@@ -74,8 +86,8 @@ config/icon="res://icon.png"
 
 [autoload]
 
+ItemDatabase="*res://Item/ItemDatabase.tscn"
 my_math="*res://my_math.gd"
-item_database="*res://Item/item_database.gd"
 
 [input]
 

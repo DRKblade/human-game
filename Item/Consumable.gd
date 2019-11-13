@@ -2,14 +2,18 @@ extends item
 
 class_name consumable
 
-var hunger
-var energy
+export var hunger: float
+export var energy: float
 
-func _init(name, max_stack, texture = null, spawner = null, hunger = 0, energy = 0).(name, max_stack, texture, spawner):
-	self.hunger = hunger
-	self.energy = energy
-
-func on_consume(player):
-	print("consume")
+func on_use(player):
 	player.change_hunger(hunger)
 	player.change_energy(energy)
+
+func use_action():
+	return "consume"
+
+func on_busy(player):
+	player.speed.add_effect(ItemDatabase.effects["busy"])
+
+func require_free():
+	return false
