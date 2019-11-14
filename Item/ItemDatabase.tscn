@@ -27,6 +27,7 @@ script = ExtResource( 1 )
 script = ExtResource( 2 )
 max_stack = 256
 texture = ExtResource( 3 )
+spawn_rate = 0.001
 
 [node name="spawners" type="Node" parent="wood"]
 

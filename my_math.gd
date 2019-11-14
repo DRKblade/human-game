@@ -12,9 +12,20 @@ func rand_rounding(input:float):
 	return rounded if randf() > decimal else rounded + 1
 
 func find(array, item):
-	prints("find", item)
 	for i in array.size():
-		print(array[i])
 		if array[i] == item:
 			return i
 	return -1
+
+func poisson(avg):
+	var rnd = randf()
+	if rnd == 1:
+		return 0
+	var result = 0
+	var prob = exp(-avg)
+	rnd -= prob
+	while rnd > 0:
+		result += 1
+		prob *= avg/result
+		rnd -= prob
+	return result
