@@ -17,7 +17,7 @@ func find(array, item):
 			return i
 	return -1
 
-func poisson(avg):
+func poisson(avg: float):
 	var rnd = randf()
 	if rnd == 1:
 		return 0

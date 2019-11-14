@@ -15,7 +15,7 @@ func check_distance(global_position):
 	return true
 
 func spawn(spawn_rate):
-	var spawn_count = spawn_rate*spawn_rate_mul
+	var spawn_count = my_math.poisson(spawn_rate*spawn_rate_mul)
 	for i in spawn_count:
 		var position = yield()
 		if check_distance(position):

@@ -35,12 +35,10 @@ func _process(delta):
 		position += direction * speed*delta
 		speed -= deceleration*delta
 	modulate = Color(1,1,1, $delete.time_left/$delete.wait_time)
-	
-
 
 func _area_entered(area):
 	if area.is_in_group("dropped") and area.item == item and area.qty+qty <= item.max_stack and area.speed < speed:
-		get_parent().remove_child(self)
+		Items.game.remove_child(self)
 		queue_free()
 		area.set_qty(area.qty+qty)
 		area.restart_timer()

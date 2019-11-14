@@ -4,6 +4,7 @@ var player
 
 export var tool_class: PoolStringArray
 export var hit_strength: int
+export var hit_energy: float = 0.08
 var hit = Array()
 var inactive = Array()
 var animation_length

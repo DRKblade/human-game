@@ -159,6 +159,7 @@ func anim_use():
 	active_hitter = $body/hand1/equip.get_child(0)
 	if active_hitter != null:
 		active_hitter._start_hit()
+		change_energy(-active_hitter.hit_energy)
 	return use_action
 
 func anim_drop():

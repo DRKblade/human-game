@@ -28,7 +28,6 @@ max_stack = 256
 texture = ExtResource( 4 )
 
 [node name="pickaxe" type="Node" parent="."]
-editor/display_folded = true
 script = ExtResource( 5 )
 max_stack = 1
 texture = ExtResource( 6 )
