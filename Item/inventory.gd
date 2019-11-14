@@ -24,7 +24,7 @@ func set_slot_count(new_slot_count):
 	set_anchors_and_margins_preset(PRESET_CENTER_BOTTOM, PRESET_MODE_KEEP_SIZE)
 
 func drop_slot(slot_index, global_position, direction):
-	var dropped = ItemDatabase.dropped_item.instance()
+	var dropped = Items.dropped_item.instance()
 	var slot = get_child(slot_index)
 	if !slot.is_empty():
 		dropped.setup(slot.item, global_position, direction, slot.qty)
@@ -77,4 +77,4 @@ func fill_item(item, qty):
 	return 0
 
 func inventory_changed():
-	ItemDatabase._on_player_inventory_changed()
+	Items._on_player_inventory_changed()

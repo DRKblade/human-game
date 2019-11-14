@@ -4,7 +4,6 @@ class_name structure
 
 export var wobble_distance = 8
 export var pushback_distance = 15
-
 export var anim_wobble_value = 0.0
 export var anim_pushback_value = 0.0
 

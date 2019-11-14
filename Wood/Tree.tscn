@@ -5,6 +5,7 @@
 [ext_resource path="res://Wood/trunk.svg" type="Texture" id=3]
 
 [node name="Tree" instance=ExtResource( 1 )]
+item_name = null
 
 [node name="spr" parent="." index="1"]
 z_index = 3

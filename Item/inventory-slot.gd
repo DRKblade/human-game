@@ -31,7 +31,7 @@ func set_qty(qty):
 	$qty.text = "x"+str(qty) if qty > 1 else ""
 
 func pressed():
-	var player = ItemDatabase.player
+	var player = Items.player
 	if Input.is_mouse_button_pressed(BUTTON_LEFT):
 		if player_connected:
 			if player.state != player.STATE_FREE:
@@ -44,7 +44,7 @@ func pressed():
 		if item != null:
 			if player.pullout_slot == self:
 				player.put_back()
-			ItemDatabase.player.drop_item(self)
+			Items.player.drop_item(self)
 
 func is_empty():
 	return item == null
@@ -53,15 +53,15 @@ func clear():
 	item = null
 	$tex.texture = null
 	$qty.text = ""
-	if ItemDatabase.player.pullout_slot == self:
-		ItemDatabase.player.lose_item()
+	if Items.player.pullout_slot == self:
+		Items.player.lose_item()
 
 
 func _mouse_entered():
-	ItemDatabase.gui_active += 1
+	Items.gui_active += 1
 
 func _mouse_exited():
-	ItemDatabase.gui_active -= 1
+	Items.gui_active -= 1
 
 func deplete_item(amount = 1):
 	var new_qty = qty-amount

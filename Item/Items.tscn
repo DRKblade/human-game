@@ -1,0 +1,68 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Item/Items.gd" type="Script" id=1]
+[ext_resource path="res://Item/Item.gd" type="Script" id=2]
+[ext_resource path="res://Wood/wood.svg" type="Texture" id=3]
+[ext_resource path="res://Stone/stone.svg" type="Texture" id=4]
+[ext_resource path="res://Tool.gd" type="Script" id=5]
+[ext_resource path="res://Pickaxe/pickaxe-item.svg" type="Texture" id=6]
+[ext_resource path="res://Pickaxe/pickaxe-node.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Axe/hatchet-item.svg" type="Texture" id=8]
+[ext_resource path="res://Axe/hatchet-node.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Craft Table/craft-table-item.svg" type="Texture" id=10]
+[ext_resource path="res://Item/Consumable.gd" type="Script" id=11]
+[ext_resource path="res://Bushes/tomato.svg" type="Texture" id=12]
+[ext_resource path="res://Bushes/orange.svg" type="Texture" id=13]
+
+[node name="ItemDatabase" type="Node"]
+script = ExtResource( 1 )
+
+[node name="wood" type="Node" parent="."]
+script = ExtResource( 2 )
+max_stack = 256
+texture = ExtResource( 3 )
+
+[node name="stone" type="Node" parent="."]
+script = ExtResource( 2 )
+max_stack = 256
+texture = ExtResource( 4 )
+
+[node name="pickaxe" type="Node" parent="."]
+editor/display_folded = true
+script = ExtResource( 5 )
+max_stack = 1
+texture = ExtResource( 6 )
+
+[node name="equipment" parent="pickaxe" instance=ExtResource( 7 )]
+tool_class = PoolStringArray( "pickaxe" )
+hit_strength = 5
+
+[node name="hatchet" type="Node" parent="."]
+editor/display_folded = true
+script = ExtResource( 5 )
+max_stack = 1
+texture = ExtResource( 8 )
+
+[node name="equipment" parent="hatchet" instance=ExtResource( 9 )]
+collision_mask = 3
+tool_class = PoolStringArray( "axe", "pickaxe" )
+hit_strength = 3
+
+[node name="craft-table" type="Node" parent="."]
+script = ExtResource( 5 )
+max_stack = 1
+texture = ExtResource( 10 )
+
+[node name="tomato" type="Node" parent="."]
+script = ExtResource( 11 )
+max_stack = 20
+texture = ExtResource( 12 )
+hunger = 0.2
+energy = 0.1
+
+[node name="orange" type="Node" parent="."]
+script = ExtResource( 11 )
+max_stack = 20
+texture = ExtResource( 13 )
+hunger = 0.2
+energy = 0.1

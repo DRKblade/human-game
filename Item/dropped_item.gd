@@ -20,7 +20,7 @@ func setup(item, global_position, direction, qty = 1):
 	speed = initial_speed * my_math.interpolate(1, target.length(), speed_rand)
 	self.global_position = global_position
 	set_qty(qty)
-	ItemDatabase.game.add_child(self)
+	Items.game.add_child(self)
 
 func set_qty(qty):
 	self.qty = qty

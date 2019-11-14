@@ -86,8 +86,9 @@ config/icon="res://icon.png"
 
 [autoload]
 
-ItemDatabase="*res://Item/ItemDatabase.tscn"
 my_math="*res://my_math.gd"
+Items="*res://Item/Items.tscn"
+Environments="*res://Environments.tscn"
 
 [input]
 

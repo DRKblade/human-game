@@ -11,12 +11,12 @@ var result
 
 func _ready():
 	for name in item_names:
-		items.push_back(ItemDatabase.items[name])
-	result = ItemDatabase.items[result_name]
-	ItemDatabase.connect("player_inventory_changed", self, "update_availability")
+		items.push_back(Items.items[name])
+	result = Items.items[result_name]
+	Items.connect("player_inventory_changed", self, "update_availability")
 
 func _on_pressed():
-	ItemDatabase.player.craft(self)
+	Items.player.craft(self)
 
 func check_recipe(inventory):
 	for i in items.size():

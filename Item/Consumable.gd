@@ -13,7 +13,7 @@ func use_action():
 	return "consume"
 
 func on_busy(player):
-	player.speed.add_effect(ItemDatabase.effects["busy"])
+	player.speed.add_effect(Items.effects["busy"])
 
 func require_free():
 	return false

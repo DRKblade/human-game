@@ -60,8 +60,8 @@ var pullout_slot = null
 var dropped_slot
 
 func _ready():
-	if ItemDatabase.player == null:
-		ItemDatabase.player = self
+	if Items.player == null:
+		Items.player = self
 	else:
 		print("error: more than one player")
 	
@@ -76,8 +76,8 @@ func _ready():
 	equip_node = $body/hand1/equip
 	
 	$crafter.inventory = inventory
-	inventory.fill_item(ItemDatabase.items["wood"], 100)
-	inventory.fill_item(ItemDatabase.items["stone"], 100)
+	inventory.fill_item(Items.items["wood"], 100)
+	inventory.fill_item(Items.items["stone"], 100)
 	$body/hand_weapon.player = self
 	$body/hand_weapon.animation_length = $anim.get_animation("punch1").length
 	set_status()
@@ -131,7 +131,7 @@ func condition_false(action_name):
 	return false
 
 func condition_continuous_non_gui(action_name):
-	return Input.is_action_pressed(action_name) and ItemDatabase.gui_active <= 0
+	return Input.is_action_pressed(action_name) and Items.gui_active <= 0
 
 func condition_continuous(action_name):
 	return Input.is_action_pressed(action_name)
@@ -164,7 +164,7 @@ func anim_use():
 func anim_drop():
 	if dropped_slot.is_empty():
 		return
-	ItemDatabase.drop_item(dropped_slot.item, global_position, get_global_mouse_position() - global_position, dropped_slot.qty)
+	Items.drop_item(dropped_slot.item, global_position, get_global_mouse_position() - global_position, dropped_slot.qty)
 	dropped_slot.clear()
 	return "throw1" if get_current_hand() else "throw2"
 
@@ -287,7 +287,7 @@ func _physics_process(delta):
 		active_hitter.call("_hit_process")
 
 func process_event(action_name, non_gui):
-	if Input.is_action_just_pressed(action_name) and anim_find(action_name) == -1 and (!ItemDatabase.gui_active>0 or !non_gui):
+	if Input.is_action_just_pressed(action_name) and anim_find(action_name) == -1 and (!Items.gui_active>0 or !non_gui):
 		action_queue.push_back(action_name)
 
 func _process(delta):
