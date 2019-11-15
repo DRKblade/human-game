@@ -167,7 +167,9 @@ func anim_use():
 	active_hitter = $body/hand1/equip.get_child(0)
 	if active_hitter != null:
 		active_hitter._start_hit()
-		change_energy(-active_hitter.hit_energy)
+		if energy >= active_hitter.hit_energy:
+			change_energy(-active_hitter.hit_energy)
+		else: return
 	return use_action
 
 func anim_drop():
@@ -311,6 +313,8 @@ func _process(delta):
 	var mouse_pos = get_global_mouse_position()
 	look_at(mouse_pos)
 	if placing_structure != null:
+		if Input.is_action_just_pressed("game_rotate"):
+			placing_structure.rotation_degrees += 90
 		placing_structure.global_position = my_math.round_vector(mouse_pos, Vector2(80,80))
 		placing_structure.modulate = Color.white if my_math.my_length(placing_structure.global_position - global_position) < put_structure_distance else Color(0.5,0.5,0.5,0.5)
 	
