@@ -9,11 +9,14 @@ var crafting = false
 
 func start_crafting():
 	$crafting_process.visible = true
+	$crafting_process.value = 1
 	crafting = true
+	$tex.self_modulate = Color(0.5,0.5,0.5,0.5)
 
 func set_crafting_process(process):
 	if process >= 1:
 		$crafting_process.visible = false
+		$tex.self_modulate = Color(1,1,1,1)
 		crafting = false
 		return true
 	else:
@@ -29,6 +32,9 @@ func set_qty(qty):
 		clear()
 	self.qty = qty
 	$qty.text = "x"+str(qty) if qty > 1 else ""
+
+func add_qty(amount):
+	set_qty(qty+amount)
 
 func pressed():
 	var player = Items.player
@@ -53,6 +59,8 @@ func clear():
 	item = null
 	$tex.texture = null
 	$qty.text = ""
+	$crafting_process.visible = false
+	$tex.self_modulate = Color(1,1,1,1)
 	if Items.player.pullout_slot == self:
 		Items.player.lose_item()
 

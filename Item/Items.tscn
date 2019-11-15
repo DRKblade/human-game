@@ -33,7 +33,7 @@ texture = ExtResource( 4 )
 
 [node name="pickaxe" type="Node" parent="."]
 script = ExtResource( 5 )
-max_stack = 1
+max_stack = 5
 texture = ExtResource( 6 )
 
 [node name="equipment" parent="pickaxe" instance=ExtResource( 7 )]
@@ -43,7 +43,7 @@ hit_strength = 5
 [node name="hatchet" type="Node" parent="."]
 editor/display_folded = true
 script = ExtResource( 5 )
-max_stack = 1
+max_stack = 5
 texture = ExtResource( 8 )
 
 [node name="equipment" parent="hatchet" instance=ExtResource( 9 )]
@@ -53,14 +53,14 @@ hit_strength = 3
 
 [node name="craft-table" type="Node" parent="."]
 script = ExtResource( 10 )
-max_stack = 1
+max_stack = 5
 texture = ExtResource( 11 )
 
 [node name="structure" parent="craft-table" instance=ExtResource( 12 )]
 
 [node name="camp-fire" type="Node" parent="."]
 script = ExtResource( 10 )
-max_stack = 1
+max_stack = 5
 texture = ExtResource( 13 )
 
 [node name="structure" parent="camp-fire" instance=ExtResource( 14 )]

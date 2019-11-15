@@ -38,6 +38,7 @@ export var change_hand = 0.8
 export var hit_active = false
 export var hand_tool_class = PoolStringArray(["hand"])
 export var hand_hit_strength = 1.0
+export var put_structure_distance = 100
 var active_hitter
 var current_hand = true
 var hand_hit = Array()
@@ -51,7 +52,6 @@ var body_hit = Array()
 var inventory
 
 # pickup
-export var put_structure_distance = 100
 
 # pull-out
 var equip_node
@@ -179,8 +179,10 @@ func anim_drop():
 
 func anim_punch():
 	if placing_structure != null:
-		placing_structure = null
-		put_back()
+		if placing_structure.modulate == Color.white:
+			placing_structure = null
+			equip_slot.deplete_item()
+			put_back()
 	elif energy >= punch_energy:
 		change_energy(-punch_energy)
 		$audio.play()
@@ -206,6 +208,10 @@ func anim_move():
 func anim_put_back():
 	state = STATE_FREE
 	equip_slot = null
+	if placing_structure != null:
+		Items.game.remove_child(placing_structure)
+		placing_structure.queue_free()
+		placing_structure = null
 	if $body/hand1/equip.get_child_count() == 0:
 		$body/hand1/equip.texture = null
 	else:
@@ -230,7 +236,7 @@ func _anim_get_animation():
 	var result
 	
 	# use item
-	if equip_slot != null:
+	if equip_slot != null and !equip_slot.is_empty():
 		result = _anim_event("game_use", equip_slot.item.require_free(), "anim_use", "condition_continuous")
 		if result != null:
 			return result
@@ -305,7 +311,8 @@ func _process(delta):
 	var mouse_pos = get_global_mouse_position()
 	look_at(mouse_pos)
 	if placing_structure != null:
-		placing_structure.global_position = mouse_pos
+		placing_structure.global_position = my_math.round_vector(mouse_pos, Vector2(80,80))
+		placing_structure.modulate = Color.white if my_math.my_length(placing_structure.global_position - global_position) < put_structure_distance else Color(0.5,0.5,0.5,0.5)
 	
 	process_event("game_click", true)
 	process_event("game_pickup", true)

@@ -42,7 +42,7 @@ func take_item(item, qty):
 	for slot in get_children():
 		if slot.item == item:
 			var taken = min(qty, slot.qty)
-			slot.set_qty(slot.qty - taken)
+			slot.add_qty(-taken)
 			qty -= taken
 			if qty == 0:
 				inventory_changed()
@@ -71,7 +71,7 @@ func fill_item(item, qty):
 			return qty
 		
 		var transfer = min(qty, item.max_stack - filled_slot.qty)
-		filled_slot.set_qty(filled_slot.qty + transfer)
+		filled_slot.add_qty(transfer)
 		qty -= transfer
 	inventory_changed()
 	return 0

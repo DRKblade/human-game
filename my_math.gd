@@ -29,3 +29,11 @@ func poisson(avg: float):
 		prob *= avg/result
 		rnd -= prob
 	return result
+
+func round_vector(value: Vector2, grid_size: Vector2):
+	value.x = round(value.x / grid_size.x)*grid_size.x
+	value.y = round(value.y / grid_size.y)*grid_size.y
+	return value
+
+func my_length(value:Vector2):
+	return max(abs(value.x),abs(value.y))

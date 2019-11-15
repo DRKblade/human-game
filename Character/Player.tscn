@@ -872,6 +872,7 @@ position = Vector2( 429.246, 248.425 )
 rotation = -3.14159
 z_index = 1
 script = ExtResource( 1 )
+put_structure_distance = 300
 
 [node name="speedup_trail" type="Particles2D" parent="."]
 scale = Vector2( 0.995561, 1 )

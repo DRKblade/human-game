@@ -27,6 +27,9 @@ func set_qty(qty):
 	$qty.text = "x"+str(qty) if qty>1 else ""
 	$delete.start()
 
+func add_qty(amount):
+	set_qty(qty+amount)
+
 func restart_timer():
 	$delete.start()
 
@@ -40,7 +43,7 @@ func _area_entered(area):
 	if area.is_in_group("dropped") and area.item == item and area.qty+qty <= item.max_stack and area.speed < speed:
 		Items.game.remove_child(self)
 		queue_free()
-		area.set_qty(area.qty+qty)
+		area.add_qty(qty)
 		area.restart_timer()
 
 
