@@ -41,7 +41,7 @@ func _process(delta):
 
 func _area_entered(area):
 	if area.is_in_group("dropped") and area.item == item and area.qty+qty <= item.max_stack and area.speed < speed:
-		Items.game.remove_child(self)
+		Items.game.call_deferred("remove_child", self)
 		queue_free()
 		area.add_qty(qty)
 		area.restart_timer()

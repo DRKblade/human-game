@@ -4,10 +4,7 @@ export var spawn_range = Vector2(2000,2000)
 export var initial_spawn_count = 100
 
 func _ready():
-	if Items.game == null:
-		Items.game = self
-	else:
-		print("error: more than one game node")
+	Items.game = self
 	
 	for i in initial_spawn_count:
 		Environments.natural_spawn(1)

@@ -4,11 +4,25 @@ signal player_inventory_changed
 
 var dropped_item = preload("res://Item/dropped_item.tscn")
 var items = Dictionary()
-var player
-var game
-var gui_active = 0
+var player setget player_set
+var game setget game_set
+
+func game_set(value):
+	if game == null:
+		game = value
+	else:
+		print("error: more than one game node")
+
+func player_set(value):
+	if player == null:
+		player = value
+	else:
+		print("error: more than one player node")
 
 var effects = {"bush_drag": effect.new("bush_drag", 0.5), "busy": effect.new("busy", 0.5)}
+
+func effect(effect_name):
+	return effects[effect_name]
 
 func _ready():
 	for child in get_children():

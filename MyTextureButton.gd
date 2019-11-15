@@ -7,13 +7,11 @@ export var hover_color = Color.white
 export var pressed_color = Color.white
 
 func _on_Button_mouse_entered():
-	Items.gui_active += 1
 	if disabled:
 		return
 	self_modulate = hover_color
 
 func _on_Button_mouse_exited():
-	Items.gui_active -= 1
 	if disabled:
 		return
 	self_modulate = normal_color

@@ -14,7 +14,8 @@ func find_effect(name):
 			return i
 	return -1
 
-func add_effect(effect):
+func add_effect(effect_name):
+	var effect = Items.effect(effect_name)
 	if effect.stackable or find_effect(effect.name) == -1:
 		effects.push_back(effect)
 		calc_actual_value()

@@ -6,12 +6,11 @@ var inventory
 var result_slot = Array()
 
 func start_crafting(recipe):
-	
-	if recipe.check_recipe(inventory):
+	if recipe.check_recipe(Items.player.inventory):
 		var slot = inventory.get_fillable_slot(recipe.result)
 		if slot != null:
 			result_slot.push_back(slot)
-			recipe.take_recipe(inventory)
+			recipe.take_recipe(Items.player.inventory)
 			current_recipe.push_back(recipe)
 			slot.start_crafting()
 

@@ -36,6 +36,7 @@ required_tool_class = "axe"
 
 [node name="bush" type="Node" parent="natural_spawning"]
 script = ExtResource( 3 )
+spawn_rate_mul = 2.0
 
 [node name="OrangeBush" parent="natural_spawning/bush" instance=ExtResource( 6 )]
 required_tool_class = "hand"

@@ -16,7 +16,10 @@ func _ready():
 	Items.connect("player_inventory_changed", self, "update_availability")
 
 func _on_pressed():
-	Items.player.craft(self)
+	if get_parent().get_parent().get_parent().has_method("get_active_station"):
+		get_parent().get_parent().get_parent().get_active_station().craft(self)
+	else:
+		Items.player.craft(self)
 
 func check_recipe(inventory):
 	for i in items.size():

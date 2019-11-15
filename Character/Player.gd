@@ -8,10 +8,11 @@ const STATE_HALF_BUSY = 3
 
 var state = STATE_FREE
 var action_queue = PoolStringArray()
+var prev_action
 
 # status
 var life = 0.9
-var hunger = 0
+var hunger = 1
 var temperature = 1
 var energy = 0.5
 var hunger_deplete = 0.005
@@ -50,6 +51,8 @@ var placing_structure
 export var max_item = 10
 var body_hit = Array()
 var inventory
+onready var extern_inventory = $gui/extern_inventory/slots
+var extern_inventory_source
 
 # pickup
 
@@ -62,10 +65,7 @@ var pullout_slot = null
 var dropped_slot
 
 func _ready():
-	if Items.player == null:
-		Items.player = self
-	else:
-		print("error: more than one player")
+	Items.player = self
 	
 	$anim.play("move")
 	$gui/margin/status/life.set_rising()
@@ -84,8 +84,22 @@ func _ready():
 	$body/hand_weapon.animation_length = $anim.get_animation("punch1").length
 	set_status()
 
-func set_craft_station(station_name, availability):
-	$gui/margin/CraftMenu.find_node(station_name).visible = availability
+func exit_extern_inventory():
+	extern_inventory_source = null
+	for i in extern_inventory.get_child_count():
+		extern_inventory.remove_child(extern_inventory.get_child(i))
+	extern_inventory.get_parent().visible = false
+
+func show_extern_inventory(inventory, source):
+	extern_inventory_source = source
+	for i in extern_inventory.get_child_count():
+		extern_inventory.remove_child(extern_inventory.get_child(i))
+	for slot in inventory:
+		extern_inventory.add_child(slot)
+	extern_inventory.get_parent().visible = true
+
+func set_craft_station(station_name, station, availability):
+	$gui/margin/CraftMenu.find_node(station_name).set_station(station, availability)
 
 func craft(recipe):
 	$crafter.start_crafting(recipe)
@@ -120,6 +134,7 @@ func anim_find(action_name):
 
 func _anim_event(action_name, require_free, action_method, additional_condition = "condition_false"):
 	var action_id = anim_find(action_name)
+	prev_action = action_name
 	if call(additional_condition, action_name) or action_id != -1:
 		if require_free:
 			if state == STATE_BUSY:
@@ -135,11 +150,8 @@ func _anim_event(action_name, require_free, action_method, additional_condition 
 func condition_false(action_name):
 	return false
 
-func condition_continuous_non_gui(action_name):
-	return Input.is_action_pressed(action_name) and Items.gui_active <= 0
-
 func condition_continuous(action_name):
-	return Input.is_action_pressed(action_name)
+	return action_name == prev_action and Input.is_action_pressed(action_name)
 
 func anim_pull_out():
 	equip_slot = pullout_slot
@@ -180,6 +192,7 @@ func anim_drop():
 	return "throw1" if get_current_hand() else "throw2"
 
 func anim_punch():
+	print("punch")
 	if placing_structure != null:
 		if placing_structure.modulate == Color.white:
 			placing_structure = null
@@ -261,12 +274,12 @@ func _anim_get_animation():
 	
 	
 	# punch
-	result = _anim_event("game_click", true, "anim_punch", "condition_continuous_non_gui")
+	result = _anim_event("game_click", true, "anim_punch", "condition_continuous")
 	if result != null:
 		return result
 	
 	# pickup
-	result = _anim_event("game_pickup", true, "anim_pickup", "condition_continuous_non_gui")
+	result = _anim_event("game_pickup", true, "anim_pickup", "condition_continuous")
 	if result != null:
 		return result
 	
@@ -305,8 +318,8 @@ func _physics_process(delta):
 	if hit_active:
 		active_hitter.call("_hit_process")
 
-func process_event(action_name, non_gui):
-	if Input.is_action_just_pressed(action_name) and anim_find(action_name) == -1 and (!Items.gui_active>0 or !non_gui):
+func process_event(action_name):
+	if Input.is_action_just_pressed(action_name) and anim_find(action_name) == -1:
 		action_queue.push_back(action_name)
 
 func _process(delta):
@@ -318,9 +331,12 @@ func _process(delta):
 		placing_structure.global_position = my_math.round_vector(mouse_pos, Vector2(80,80))
 		placing_structure.modulate = Color.white if my_math.my_length(placing_structure.global_position - global_position) < put_structure_distance else Color(0.5,0.5,0.5,0.5)
 	
-	process_event("game_click", true)
-	process_event("game_pickup", true)
-	process_event("game_use", false)
+
+func _unhandled_input(event):
+#	if event is InputEventMouseButton:
+	process_event("game_click")
+	process_event("game_pickup")
+	process_event("game_use")
 
 # pickup
 func _on_body_entered(area):

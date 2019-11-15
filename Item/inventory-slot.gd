@@ -64,13 +64,6 @@ func clear():
 	if Items.player.pullout_slot == self:
 		Items.player.lose_item()
 
-
-func _mouse_entered():
-	Items.gui_active += 1
-
-func _mouse_exited():
-	Items.gui_active -= 1
-
 func deplete_item(amount = 1):
 	var new_qty = qty-amount
 	if new_qty<0:

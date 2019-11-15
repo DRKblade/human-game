@@ -1,37 +1,46 @@
 extends HBoxContainer
 
-signal inventory_changed
+class_name inventory
 
 export var player_connected = false
-var slot = preload("res://Character/inventory-slot.tscn")
+var slot_preload = preload("res://Character/inventory-slot.tscn")
 var slot_count = 0
 
 func _ready():
 	pass
 
+func get_slot(index):
+	return get_child(index)
+func get_slot_count():
+	return get_child_count()
+func get_slots():
+	return get_children()
+func add_slot(slot):
+	add_child(slot)
+
 func set_slot_count(new_slot_count):
 	while new_slot_count > slot_count:
-		var child = slot.instance()
-		child.player_connected = player_connected
-		add_child(child)
+		var slot = slot_preload.instance()
+		slot.player_connected = player_connected
+		add_slot(slot)
 		slot_count += 1
 	
 	while new_slot_count < slot_count:
 		slot_count -= 1
-		var child = get_child(get_child_count()-1)
-		child.queue_free()
+		var slot = get_slot(get_slot_count()-1)
+		slot.queue_free()
 		
 	set_anchors_and_margins_preset(PRESET_CENTER_BOTTOM, PRESET_MODE_KEEP_SIZE)
 
 func drop_slot(slot_index, global_position, direction):
 	var dropped = Items.dropped_item.instance()
-	var slot = get_child(slot_index)
+	var slot = get_slot(slot_index)
 	if !slot.is_empty():
 		dropped.setup(slot.item, global_position, direction, slot.qty)
 
 func has_item(item, qty):
 	var sum = 0
-	for slot in get_children():
+	for slot in get_slots():
 		if slot.item == item:
 			sum += slot.qty
 			if sum >= qty:
@@ -39,7 +48,7 @@ func has_item(item, qty):
 	return false
 
 func take_item(item, qty):
-	for slot in get_children():
+	for slot in get_slots():
 		if slot.item == item:
 			var taken = min(qty, slot.qty)
 			slot.add_qty(-taken)
@@ -50,12 +59,12 @@ func take_item(item, qty):
 
 func get_fillable_slot(item):
 		var filled_slot = null
-		for slot in get_children():
+		for slot in get_slots():
 			if !slot.crafting and slot.item == item and slot.qty < item.max_stack:
 				filled_slot = slot
 				
 		if filled_slot == null:
-			for slot in get_children():
+			for slot in get_slots():
 				if slot.is_empty():
 					slot.set_tex(item)
 					slot.qty = 0

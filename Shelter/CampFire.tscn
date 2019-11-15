@@ -6,12 +6,15 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 40.0
 
-[node name="CampFire" index="0" instance=ExtResource( 1 )]
+[node name="CampFire" instance=ExtResource( 1 )]
+wobble_distance = 8
+pushback_distance = 15
+anim_wobble_value = 0.0
+anim_pushback_value = 0.0
 station_name = "CampFire"
 
 [node name="spr" parent="." index="1"]
 texture = ExtResource( 2 )
 
 [node name="col" parent="." index="3"]
-visible = false
 shape = SubResource( 1 )

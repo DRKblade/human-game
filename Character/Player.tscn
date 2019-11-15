@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Character/Player.gd" type="Script" id=1]
 [ext_resource path="res://Character/circle.svg" type="Texture" id=2]
@@ -865,6 +865,18 @@ tracks/1/keys = {
 } ]
 }
 
+[sub_resource type="StyleBoxFlat" id=25]
+bg_color = Color( 0, 0, 0, 0.376471 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+expand_margin_left = 10.0
+expand_margin_right = 10.0
+expand_margin_top = 10.0
+expand_margin_bottom = 10.0
+shadow_color = Color( 0, 0, 0, 0 )
+
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 429.246, 248.425 )
 rotation = -3.14159
@@ -985,6 +997,7 @@ margin_left = 21.6935
 margin_top = 20.948
 margin_right = -18.3065
 margin_bottom = -19.0519
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -1036,6 +1049,23 @@ size_flags_stretch_ratio = 1.0
 text = "Energy"
 
 [node name="CraftMenu" parent="gui/margin" instance=ExtResource( 10 )]
+
+[node name="extern_inventory" type="PanelContainer" parent="gui"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -82.0
+margin_top = -82.0
+margin_right = 82.0
+margin_bottom = 82.0
+custom_styles/panel = SubResource( 25 )
+
+[node name="slots" type="GridContainer" parent="gui/extern_inventory"]
+margin_right = 164.0
+margin_bottom = 164.0
+columns = 2
 
 [node name="crafter" type="Node" parent="."]
 script = ExtResource( 11 )
