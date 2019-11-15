@@ -7,12 +7,11 @@ export var required_tool_class: String
 export var item_drop = 1.0
 export var item_name: String
 export var decay_rate = 0.2
-export var drop_prob = 0.01
+export var drop_prob = 0.05
 var item
 
 func _ready():
 	item = Items.items[item_name]
-	prints("set item",item.name)
 
 func _on_hit(source, tool_class, hit_strength):
 	if my_math.find(tool_class, required_tool_class) != -1:

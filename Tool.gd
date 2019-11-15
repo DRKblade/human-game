@@ -5,3 +5,6 @@ func use_action():
 
 func equipment():
 	return $equipment.duplicate()
+
+func usable():
+	return true

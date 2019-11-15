@@ -4,7 +4,7 @@
 [ext_resource path="res://Axe/hatchet-item.svg" type="Texture" id=2]
 [ext_resource path="res://CraftRecipe.gd" type="Script" id=3]
 
-[node name="ItemButton" index="0" instance=ExtResource( 1 )]
+[node name="ItemButton" instance=ExtResource( 1 )]
 margin_top = 80.0
 margin_right = 80.0
 margin_bottom = 160.0

@@ -11,7 +11,7 @@ var action_queue = PoolStringArray()
 
 # status
 var life = 0.9
-var hunger = 1
+var hunger = 0
 var temperature = 1
 var energy = 0.5
 var hunger_deplete = 0.005
@@ -43,6 +43,7 @@ var current_hand = true
 var hand_hit = Array()
 var punch_energy = 0.04
 var punch_animation_length
+var placing_structure
 
 # inventory
 export var max_item = 10
@@ -50,6 +51,7 @@ var body_hit = Array()
 var inventory
 
 # pickup
+export var put_structure_distance = 100
 
 # pull-out
 var equip_node
@@ -82,11 +84,14 @@ func _ready():
 	$body/hand_weapon.animation_length = $anim.get_animation("punch1").length
 	set_status()
 
+func set_craft_station(station_name, availability):
+	$gui/margin/CraftMenu.find_node(station_name).visible = availability
+
 func craft(recipe):
 	$crafter.start_crafting(recipe)
 
 func equip_item(slot):
-	if !slot.is_empty() and slot.item.use_action() != null and anim_find("pullout") == -1:
+	if !slot.is_empty() and slot.item.usable() and anim_find("pullout") == -1:
 		action_queue.push_back("pullout")
 		pullout_slot = slot
 
@@ -145,6 +150,9 @@ func anim_pull_out():
 		equipment.player = self
 		equipment.animation_length = $anim.get_animation(equip_slot.item.use_action()).length
 		$body/hand1/equip.add_child(equipment)
+	if equip_slot.item.has_method("structure"):
+		placing_structure = equip_slot.item.structure()
+		Items.game.add_child(placing_structure)
 	
 	if equip_slot.item.require_free():
 		state = STATE_HALF_BUSY
@@ -170,13 +178,15 @@ func anim_drop():
 	return "throw1" if get_current_hand() else "throw2"
 
 func anim_punch():
-	if energy < punch_energy:
-		return
-	change_energy(-punch_energy)
-	$audio.play()
-	active_hitter = $body/hand_weapon
-	active_hitter._start_hit()
-	return "punch1" if get_current_hand() else "punch2"
+	if placing_structure != null:
+		placing_structure = null
+		put_back()
+	elif energy >= punch_energy:
+		change_energy(-punch_energy)
+		$audio.play()
+		active_hitter = $body/hand_weapon
+		active_hitter._start_hit()
+		return "punch1" if get_current_hand() else "punch2"
 
 func anim_pickup():
 	for area in body_hit:
@@ -292,7 +302,10 @@ func process_event(action_name, non_gui):
 		action_queue.push_back(action_name)
 
 func _process(delta):
-	look_at(get_global_mouse_position())
+	var mouse_pos = get_global_mouse_position()
+	look_at(mouse_pos)
+	if placing_structure != null:
+		placing_structure.global_position = mouse_pos
 	
 	process_event("game_click", true)
 	process_event("game_pickup", true)
@@ -326,11 +339,11 @@ func _status_update():
 	life = clamp(life + hunger*temperature*energy*life_regain, 0, 1)
 	
 	if temperature == 0:
-		$body/glow/anim.play("pulsate-temperature")
+		$body/glow/anim.play("pulse-temperature")
 	elif hunger == 0 and energy < stat_low*2:
-		$body/glow/anim.play("pulsate-energy")
+		$body/glow/anim.play("pulse-energy")
 	elif hunger == 0:
-		$body/glow/anim.play("pulsate-hunger")
+		$body/glow/anim.play("pulse-hunger")
 	elif hunger*temperature*energy > 0.25 and life < 1 and $body/glow/anim.current_animation != "pulsate-life":
 		$body/glow/anim.play("pulsate-life")
 	

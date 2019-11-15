@@ -1,4 +1,10 @@
 extends "res://MyTextureButton.gd"
 
-func _on_toggled(button_pressed):
-	$pop.visible = button_pressed
+var toggle_reversed = false
+
+func _on_pressed():
+	print("open")
+	get_parent().child_pressed(self)
+
+func set_expanded(value):
+	$pop.visible = value

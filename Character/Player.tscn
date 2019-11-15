@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Character/Player.gd" type="Script" id=1]
 [ext_resource path="res://Character/circle.svg" type="Texture" id=2]
@@ -33,54 +33,6 @@ scale = 0.2
 scale_random = 0.5
 color_ramp = SubResource( 2 )
 
-[sub_resource type="Animation" id=4]
-resource_name = "pulsate-energy"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.3, 0.6 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 0.905882, 0.654902, 0.105882, 0 ), Color( 0.905882, 0.654902, 0.105882, 1 ), Color( 0.905882, 0.654902, 0.105882, 0 ) ]
-}
-
-[sub_resource type="Animation" id=5]
-resource_name = "pulsate-hunger"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.3, 0.6 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 0.905882, 0.654902, 0.105882, 0 ), Color( 0.905882, 0.654902, 0.105882, 0.376471 ), Color( 0.905882, 0.654902, 0.105882, 0 ) ]
-}
-
-[sub_resource type="Animation" id=6]
-resource_name = "pulsate-hurt"
-length = 0.4
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0.1, 0.4 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 0.854902, 0.243137, 0.243137, 1 ), Color( 0.854902, 0.243137, 0.243137, 0 ) ]
-}
-
 [sub_resource type="Animation" id=7]
 resource_name = "pulsate-life"
 length = 1.6
@@ -97,22 +49,6 @@ tracks/0/keys = {
 "values": [ Color( 0.243137, 0.854902, 0.266667, 0 ), Color( 0.243137, 0.854902, 0.266667, 1 ), Color( 0.243137, 0.854902, 0.266667, 0 ) ]
 }
 
-[sub_resource type="Animation" id=8]
-resource_name = "pulsate-temperature"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.3, 0.6 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 0.243137, 0.752941, 0.854902, 0 ), Color( 0.243137, 0.752941, 0.854902, 1 ), Color( 0.243137, 0.752941, 0.854902, 0 ) ]
-}
-
 [sub_resource type="Animation" id=9]
 resource_name = "pulse-energy"
 length = 0.6
@@ -123,10 +59,58 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.3, 0.6 ),
+"times": PoolRealArray( 0, 0.2, 0.4 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 0.905882, 0.654902, 0.105882, 0 ), Color( 0.905882, 0.654902, 0.105882, 1 ), Color( 0.905882, 0.654902, 0.105882, 0 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "pulse-hunger"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.905882, 0.654902, 0.105882, 0 ), Color( 0.905882, 0.654902, 0.105882, 0.376471 ), Color( 0.905882, 0.654902, 0.105882, 0 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "pulse-hurt"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.1, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.854902, 0.243137, 0.243137, 1 ), Color( 0.854902, 0.243137, 0.243137, 0 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "pulse-temperature"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.243137, 0.752941, 0.854902, 0 ), Color( 0.243137, 0.752941, 0.854902, 1 ), Color( 0.243137, 0.752941, 0.854902, 0 ) ]
 }
 
 [sub_resource type="CircleShape2D" id=10]
@@ -904,17 +888,15 @@ collision_layer = 2
 collision_mask = 6
 
 [node name="glow" type="Sprite" parent="body"]
-editor/display_folded = true
 modulate = Color( 0.854902, 0.243137, 0.243137, 0 )
 texture = ExtResource( 3 )
 
 [node name="anim" type="AnimationPlayer" parent="body/glow"]
-anims/pulsate-energy = SubResource( 4 )
-anims/pulsate-hunger = SubResource( 5 )
-anims/pulsate-hurt = SubResource( 6 )
 anims/pulsate-life = SubResource( 7 )
-anims/pulsate-temperature = SubResource( 8 )
 anims/pulse-energy = SubResource( 9 )
+anims/pulse-hunger = SubResource( 5 )
+anims/pulse-hurt = SubResource( 6 )
+anims/pulse-temperature = SubResource( 8 )
 
 [node name="hand1" type="Area2D" parent="body"]
 editor/display_folded = true
@@ -996,6 +978,7 @@ anims/throw2 = SubResource( 25 )
 autostart = true
 
 [node name="gui" type="CanvasLayer" parent="."]
+editor/display_folded = true
 
 [node name="margin" type="Control" parent="gui"]
 anchor_right = 1.0

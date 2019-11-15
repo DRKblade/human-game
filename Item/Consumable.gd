@@ -17,3 +17,6 @@ func on_busy(player):
 
 func require_free():
 	return false
+
+func usable():
+	return true
