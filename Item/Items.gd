@@ -37,6 +37,3 @@ func drop_item(item, global_position, direction, qty):
 
 func _on_player_inventory_changed():
 	emit_signal("player_inventory_changed", player.inventory)
-
-func usable():
-	return false

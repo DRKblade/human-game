@@ -6,9 +6,6 @@ export var player_connected = false
 var slot_preload = preload("res://Character/inventory-slot.tscn")
 var slot_count = 0
 
-func _ready():
-	pass
-
 func get_slot(index):
 	return get_child(index)
 func get_slot_count():
@@ -54,7 +51,6 @@ func take_item(item, qty):
 			slot.add_qty(-taken)
 			qty -= taken
 			if qty == 0:
-				inventory_changed()
 				return
 
 func get_fillable_slot(item):
@@ -65,7 +61,7 @@ func get_fillable_slot(item):
 				
 		if filled_slot == null:
 			for slot in get_slots():
-				if slot.is_empty():
+				if slot.accept(item):
 					slot.set_tex(item)
 					slot.qty = 0
 					filled_slot = slot
@@ -73,17 +69,15 @@ func get_fillable_slot(item):
 		return filled_slot
 
 func fill_item(item, qty):
+	if item == null:
+		print("warning: filling null item")
+		return
 	while qty > 0:
 		var filled_slot = get_fillable_slot(item)
 		if filled_slot == null:
-			inventory_changed()
 			return qty
 		
 		var transfer = min(qty, item.max_stack - filled_slot.qty)
 		filled_slot.add_qty(transfer)
 		qty -= transfer
-	inventory_changed()
 	return 0
-
-func inventory_changed():
-	Items._on_player_inventory_changed()

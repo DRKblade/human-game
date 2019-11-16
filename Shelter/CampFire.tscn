@@ -1,20 +1,155 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://Craft Table/CraftTable.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Shelter/campfire.svg" type="Texture" id=2]
+[ext_resource path="res://CraftTable/CraftTable.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Shelter/CampFire.gd" type="Script" id=2]
+[ext_resource path="res://Shelter/campfire.svg" type="Texture" id=3]
+[ext_resource path="res://Character/circle.svg" type="Texture" id=4]
+[ext_resource path="res://Shelter/fire.svg" type="Texture" id=5]
+[ext_resource path="res://Item/consumption_slot.gd" type="Script" id=6]
+[ext_resource path="res://Shelter/fire-item.svg" type="Texture" id=7]
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 68.0
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 40.0
 
-[node name="CampFire" instance=ExtResource( 1 )]
-wobble_distance = 8
-pushback_distance = 15
-anim_wobble_value = 0.0
-anim_pushback_value = 0.0
-station_name = "CampFire"
+[sub_resource type="Animation" id=2]
+resource_name = "burning"
+length = 1.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("spr/fire/fire1:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.95, 0.95 ), Vector2( 0.9, 0.9 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("spr/fire/fire2:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.63, 0.63 ), Vector2( 0.7, 0.7 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("spr/fire/fire3:scale")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.837249, 0.837249 ), Vector2( 0.85, 0.85 ), Vector2( 0.77, 0.77 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("spr/fire/heat_aura/spr:scale")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1.7, 1.7 ), Vector2( 1.6, 1.6 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("spr/fire:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "normal"
+tracks/0/type = "value"
+tracks/0/path = NodePath("spr/fire:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
+[node name="structure" index="0" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+station_name = null
 
 [node name="spr" parent="." index="1"]
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
+
+[node name="fire" type="Node2D" parent="spr" index="0"]
+modulate = Color( 1, 1, 1, 0 )
+
+[node name="heat_aura" type="Area2D" parent="spr/fire" index="0"]
+
+[node name="spr" type="Sprite" parent="spr/fire/heat_aura" index="0"]
+self_modulate = Color( 1, 0.819608, 0.184314, 0.235294 )
+scale = Vector2( 1.7, 1.7 )
+texture = ExtResource( 4 )
+
+[node name="col" type="CollisionShape2D" parent="spr/fire/heat_aura" index="1"]
+visible = false
+shape = SubResource( 4 )
+
+[node name="fire1" type="Sprite" parent="spr/fire" index="1"]
+position = Vector2( -9.68286, -9.24273 )
+scale = Vector2( 0.95, 0.95 )
+texture = ExtResource( 5 )
+
+[node name="fire2" type="Sprite" parent="spr/fire" index="2"]
+position = Vector2( -2.64075, 16.7249 )
+scale = Vector2( 0.63, 0.63 )
+texture = ExtResource( 5 )
+
+[node name="fire3" type="Sprite" parent="spr/fire" index="3"]
+position = Vector2( 16.725, -2.64079 )
+scale = Vector2( 0.837249, 0.837249 )
+texture = ExtResource( 5 )
 
 [node name="col" parent="." index="3"]
 shape = SubResource( 1 )
+
+[node name="inventory" parent="." index="4"]
+editor/display_folded = false
+
+[node name="main_slot" parent="inventory" index="0"]
+script = ExtResource( 6 )
+accepted_item_name = "wood"
+
+[node name="fire" type="TextureRect" parent="inventory/main_slot" index="3"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 7 )
+
+[node name="burning" type="AnimationPlayer" parent="." index="6"]
+playback_default_blend_time = 0.5
+anims/burning = SubResource( 2 )
+anims/normal = SubResource( 5 )
+
+[node name="consumption" type="Timer" parent="." index="7"]
+[connection signal="timeout" from="consumption" to="inventory/main_slot" method="_on_consume"]

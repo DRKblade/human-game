@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/craft-table-item.svg-c63be7c30e5272576723bd337ab3247d.stex"
+path="res://.import/fire-item.svg-843eaf6226636d6e9f4b1bf0460cfc81.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Craft Table/craft-table-item.svg"
-dest_files=[ "res://.import/craft-table-item.svg-c63be7c30e5272576723bd337ab3247d.stex" ]
+source_file="res://Shelter/fire-item.svg"
+dest_files=[ "res://.import/fire-item.svg-843eaf6226636d6e9f4b1bf0460cfc81.stex" ]
 
 [params]
 

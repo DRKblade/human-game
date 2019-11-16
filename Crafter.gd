@@ -4,6 +4,11 @@ var current_recipe = Array()
 var crafted_time = 0
 var inventory
 var result_slot = Array()
+var paused = false setget set_paused
+
+func set_paused(value):
+	prints("paused", value)
+	paused = value
 
 func start_crafting(recipe):
 	if recipe.check_recipe(Items.player.inventory):
@@ -15,7 +20,7 @@ func start_crafting(recipe):
 			slot.start_crafting()
 
 func _process(delta):
-	if result_slot.size() > 0:
+	if result_slot.size() > 0 && !paused:
 		crafted_time += delta
 		if result_slot[0].set_crafting_process(crafted_time/current_recipe[0].duration):
 			result_slot.pop_front().add_qty(1)

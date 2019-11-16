@@ -3,10 +3,10 @@
 [ext_resource path="res://Character/CraftMenu.gd" type="Script" id=1]
 [ext_resource path="res://craft_station_recipe_list.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Shelter/campfire-button.svg" type="Texture" id=3]
-[ext_resource path="res://Craft Table/craft-table-button.svg" type="Texture" id=4]
+[ext_resource path="res://CraftTable/craft-table-button.svg" type="Texture" id=4]
 [ext_resource path="res://ItemButton.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Pickaxe/pickaxe-item.svg" type="Texture" id=6]
-[ext_resource path="res://Craft Table/craft-table-item.svg" type="Texture" id=7]
+[ext_resource path="res://CraftTable/craft-table-item.svg" type="Texture" id=7]
 [ext_resource path="res://craft_recipe_list.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Shelter/campfire-item.svg" type="Texture" id=9]
 
@@ -37,16 +37,7 @@ script = ExtResource( 1 )
 visible = false
 margin_left = 28.0
 margin_right = 88.0
-margin_bottom = 60.0
-rect_min_size = Vector2( 60, 60 )
-focus_mode = 0
-size_flags_horizontal = 0
-size_flags_vertical = 0
-enabled_focus_mode = 0
 texture_normal = ExtResource( 3 )
-expand = true
-hover_color = Color( 0.862745, 0.862745, 0.862745, 1 )
-pressed_color = Color( 1, 1, 1, 0.501961 )
 
 [node name="pop" type="PanelContainer" parent="CampFire"]
 visible = false
@@ -78,16 +69,7 @@ custom_styles/panel = SubResource( 2 )
 visible = false
 margin_left = 108.0
 margin_right = 168.0
-margin_bottom = 60.0
-rect_min_size = Vector2( 60, 60 )
-focus_mode = 0
-size_flags_horizontal = 0
-size_flags_vertical = 0
-enabled_focus_mode = 0
 texture_normal = ExtResource( 4 )
-expand = true
-hover_color = Color( 0.862745, 0.862745, 0.862745, 1 )
-pressed_color = Color( 1, 1, 1, 0.501961 )
 
 [node name="pop" type="PanelContainer" parent="CraftTable"]
 visible = false

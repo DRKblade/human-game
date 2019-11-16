@@ -86,15 +86,15 @@ func _ready():
 
 func exit_extern_inventory():
 	extern_inventory_source = null
-	for i in extern_inventory.get_child_count():
-		extern_inventory.remove_child(extern_inventory.get_child(i))
+	for child in extern_inventory.get_children():
+		extern_inventory.remove_child(child)
 	extern_inventory.get_parent().visible = false
 
-func show_extern_inventory(inventory, source):
-	extern_inventory_source = source
-	for i in extern_inventory.get_child_count():
-		extern_inventory.remove_child(extern_inventory.get_child(i))
-	for slot in inventory:
+func show_extern_inventory(inventory):
+	extern_inventory_source = inventory
+	for child in extern_inventory.get_children():
+		extern_inventory.remove_child(child)
+	for slot in inventory.get_slots():
 		extern_inventory.add_child(slot)
 	extern_inventory.get_parent().visible = true
 
@@ -104,8 +104,8 @@ func set_craft_station(station_name, station, availability):
 func craft(recipe):
 	$crafter.start_crafting(recipe)
 
-func equip_item(slot):
-	if !slot.is_empty() and slot.item.usable() and anim_find("pullout") == -1:
+func equip_item(slot: inventory_slot):
+	if !slot.is_empty() and slot.item and anim_find("pullout") == -1:
 		action_queue.push_back("pullout")
 		pullout_slot = slot
 
@@ -134,8 +134,8 @@ func anim_find(action_name):
 
 func _anim_event(action_name, require_free, action_method, additional_condition = "condition_false"):
 	var action_id = anim_find(action_name)
-	prev_action = action_name
 	if call(additional_condition, action_name) or action_id != -1:
+		prev_action = action_name
 		if require_free:
 			if state == STATE_BUSY:
 				return to_half_busy()
@@ -192,7 +192,6 @@ func anim_drop():
 	return "throw1" if get_current_hand() else "throw2"
 
 func anim_punch():
-	print("punch")
 	if placing_structure != null:
 		if placing_structure.modulate == Color.white:
 			placing_structure = null
@@ -283,6 +282,7 @@ func _anim_get_animation():
 	if result != null:
 		return result
 	
+	prev_action = null
 	# movement
 	if direction != Vector2.ZERO:
 		if state == STATE_BUSY:

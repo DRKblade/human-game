@@ -16,3 +16,6 @@ func on_busy(player):
 
 func equipment():
 	return null
+
+func usable():
+	return false
