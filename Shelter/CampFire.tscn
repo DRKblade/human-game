@@ -94,7 +94,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 
-[node name="structure" index="0" instance=ExtResource( 1 )]
+[node name="structure" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 station_name = null
 

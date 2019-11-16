@@ -80,6 +80,7 @@ func _ready():
 	$crafter.inventory = inventory
 	inventory.fill_item(Items.items["wood"], 100)
 	inventory.fill_item(Items.items["stone"], 100)
+	inventory.fill_item(Items.items["orange"], 20)
 	$body/hand_weapon.player = self
 	$body/hand_weapon.animation_length = $anim.get_animation("punch1").length
 	set_status()

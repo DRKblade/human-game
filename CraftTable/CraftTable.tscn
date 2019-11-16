@@ -13,7 +13,7 @@ extents = Vector2( 40, 40 )
 position = Vector2( 0, 0 )
 script = ExtResource( 2 )
 wobble_distance = 8
-station_name = "CraftTable"
+station_name = "CampFire"
 
 [node name="spr" parent="." index="1"]
 texture = ExtResource( 3 )

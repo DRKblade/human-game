@@ -3,6 +3,7 @@ extends MyTextureButton
 export var item_names: PoolStringArray
 export var qtys: PoolIntArray
 export var result_name: String
+export var result_qty = 1
 export var duration: float
 export var disabled_color = Color.white
 
@@ -14,6 +15,7 @@ func _ready():
 		items.push_back(Items.items[name])
 	result = Items.items[result_name]
 	Items.connect("player_inventory_changed", self, "update_availability")
+	texture_normal = result.texture
 
 func _on_pressed():
 	if get_parent().get_parent().get_parent().has_method("get_active_station"):

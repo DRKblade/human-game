@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Item/Items.gd" type="Script" id=1]
 [ext_resource path="res://Item/Item.gd" type="Script" id=2]
@@ -17,6 +17,8 @@
 [ext_resource path="res://Item/Consumable.gd" type="Script" id=15]
 [ext_resource path="res://Bushes/tomato.svg" type="Texture" id=16]
 [ext_resource path="res://Bushes/orange.svg" type="Texture" id=17]
+[ext_resource path="res://Bushes/dried-orange.svg" type="Texture" id=18]
+[ext_resource path="res://Bushes/dried-tomato.svg" type="Texture" id=19]
 
 [node name="ItemDatabase" type="Node"]
 script = ExtResource( 1 )
@@ -39,9 +41,9 @@ texture = ExtResource( 6 )
 [node name="equipment" parent="pickaxe" instance=ExtResource( 7 )]
 tool_class = PoolStringArray( "pickaxe" )
 hit_strength = 5
+hit_energy = 0.06
 
 [node name="hatchet" type="Node" parent="."]
-editor/display_folded = true
 script = ExtResource( 5 )
 max_stack = 5
 texture = ExtResource( 8 )
@@ -50,6 +52,7 @@ texture = ExtResource( 8 )
 collision_mask = 3
 tool_class = PoolStringArray( "axe", "pickaxe" )
 hit_strength = 3
+hit_energy = 0.06
 
 [node name="craft-table" type="Node" parent="."]
 script = ExtResource( 10 )
@@ -80,3 +83,17 @@ max_stack = 20
 texture = ExtResource( 17 )
 hunger = 0.2
 energy = 0.1
+
+[node name="dried-orange" type="Node" parent="."]
+script = ExtResource( 15 )
+max_stack = 40
+texture = ExtResource( 18 )
+hunger = 0.2
+energy = 0.0
+
+[node name="dried-tomato" type="Node" parent="."]
+script = ExtResource( 15 )
+max_stack = 40
+texture = ExtResource( 19 )
+hunger = 0.2
+energy = 0.0

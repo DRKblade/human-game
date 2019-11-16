@@ -910,7 +910,6 @@ anims/pulse-hurt = SubResource( 7 )
 anims/pulse-temperature = SubResource( 8 )
 
 [node name="hand1" type="Area2D" parent="body"]
-editor/display_folded = true
 position = Vector2( -30, 30 )
 collision_layer = 0
 collision_mask = 2
@@ -931,7 +930,6 @@ scale = Vector2( 2, 2 )
 shape = SubResource( 9 )
 
 [node name="hand2" type="Area2D" parent="body"]
-editor/display_folded = true
 position = Vector2( 30, 30 )
 collision_layer = 0
 collision_mask = 2
@@ -959,6 +957,7 @@ shape = SubResource( 10 )
 script = ExtResource( 6 )
 tool_class = PoolStringArray( "hand", "axe" )
 hit_strength = 2
+hit_energy = 0.04
 
 [node name="audio" type="AudioStreamPlayer2D" parent="."]
 position = Vector2( -5.88882, 7.91311 )
@@ -989,6 +988,7 @@ anims/throw2 = SubResource( 24 )
 autostart = true
 
 [node name="gui" type="CanvasLayer" parent="."]
+editor/display_folded = true
 
 [node name="margin" type="Control" parent="gui"]
 anchor_right = 1.0
