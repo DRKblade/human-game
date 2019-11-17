@@ -1,22 +1,107 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Game.gd" type="Script" id=1]
-[ext_resource path="res://Character/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Character/gui.gd" type="Script" id=2]
+[ext_resource path="res://Character/Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://square.svg" type="Texture" id=4]
 
-[node name="Game" type="Node"]
+[sub_resource type="Animation" id=1]
+resource_name = "day"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("gui:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("night_light:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "night"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("night_light:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.784314, 0.764706, 0.435294, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("gui:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.215686, 0.235294, 0.564706, 1 ) ]
+}
+
+[node name="Game" type="Node2D"]
 script = ExtResource( 1 )
 initial_spawn_count = 300
+night_tint = Color( 0.215686, 0.235294, 0.564706, 1 )
+
+[node name="gui" type="CanvasLayer" parent="."]
+script = ExtResource( 2 )
 
 [node name="natural_spawn" type="Timer" parent="."]
 autostart = true
 
 [node name="Player" parent="." groups=[
 "player",
-] instance=ExtResource( 2 )]
+] instance=ExtResource( 3 )]
 editor/display_folded = true
 position = Vector2( 511.502, 299.283 )
 
 [node name="camera" type="Camera2D" parent="Player"]
 current = true
 smoothing_enabled = true
+
+[node name="day-night" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="night_light" type="Light2D" parent="."]
+scale = Vector2( 1000, 1000 )
+texture = ExtResource( 4 )
+color = Color( 0, 0, 0, 1 )
+mode = 1
+
+[node name="Sprite" type="Sprite" parent="."]
+self_modulate = Color( 0.254902, 0.396078, 0.278431, 1 )
+scale = Vector2( 100, 100 )
+texture = ExtResource( 4 )
+
+[node name="daynight_anim" type="AnimationPlayer" parent="."]
+playback_default_blend_time = 1.0
+anims/day = SubResource( 1 )
+anims/night = SubResource( 2 )
 [connection signal="timeout" from="natural_spawn" to="." method="_natural_spawn"]
+[connection signal="timeout" from="day-night" to="." method="change_day_night"]

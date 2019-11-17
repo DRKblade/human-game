@@ -171,5 +171,5 @@ game_rotate={
 
 [rendering]
 
-environment/default_clear_color=Color( 0.239216, 0.34902, 0.258824, 1 )
+environment/default_clear_color=Color( 0.160784, 0.239216, 0.176471, 1 )
 environment/default_environment="res://default_env.tres"

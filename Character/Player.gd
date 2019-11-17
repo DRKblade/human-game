@@ -50,11 +50,17 @@ var placing_structure
 # inventory
 export var max_item = 10
 var body_hit = Array()
-var inventory
-onready var extern_inventory = $gui/extern_inventory/slots
 var extern_inventory_source
 
-# pickup
+# gui
+onready var gui = $gui
+onready var inventory = $gui/margin/inventory
+onready var extern_inventory = $gui/extern_inventory/slots
+onready var status_life = $gui/margin/status/life
+onready var status_hunger = $gui/margin/status/other_stats/energy
+onready var status_energy = $gui/margin/status/other_stats/energy
+onready var status_temp = $gui/margin/status/other_stats/temp
+onready var craft_menu = $gui/margin/CraftMenu
 
 # pull-out
 var equip_node
@@ -68,11 +74,9 @@ func _ready():
 	Items.player = self
 	
 	$anim.play("move")
-	$gui/margin/status/life.set_rising()
 	
 	# inventory
-	$gui/margin/inventory.set_slot_count(max_item)
-	inventory = $gui/margin/inventory
+	inventory.set_slot_count(max_item)
 	
 	# pull-out
 	equip_node = $body/hand1/equip
@@ -83,6 +87,7 @@ func _ready():
 	inventory.fill_item(Items.items["orange"], 20)
 	$body/hand_weapon.player = self
 	$body/hand_weapon.animation_length = $anim.get_animation("punch1").length
+	
 	set_status()
 
 func exit_extern_inventory():
@@ -100,7 +105,7 @@ func show_extern_inventory(inventory):
 	extern_inventory.get_parent().visible = true
 
 func set_craft_station(station_name, station, availability):
-	$gui/margin/CraftMenu.find_node(station_name).set_station(station, availability)
+	craft_menu.find_node(station_name).set_station(station, availability)
 
 func craft(recipe):
 	$crafter.start_crafting(recipe)
@@ -208,7 +213,7 @@ func anim_punch():
 func anim_pickup():
 	for area in body_hit:
 		if area is dropped_item:
-			var qty = $gui/margin/inventory.fill_item(area.item, area.qty)
+			var qty = inventory.fill_item(area.item, area.qty)
 			if qty == 0:
 				area.queue_free()
 			elif qty == area.qty:
@@ -382,22 +387,14 @@ func change_energy(delta):
 		energy_regain = 0
 		change_hunger(delta*energy_hunger_deplete)
 	energy = clamp(energy + delta, 0, 1)
-	$gui/margin/status/other_stats/energy.target_value = energy
+	status_energy.target_value = energy
 
 func change_hunger(delta):
 	hunger = clamp(hunger + delta, 0, 1)
-	$gui/margin/status/other_stats/hunger.target_value = hunger
+	status_hunger.target_value = hunger
 
 func set_status():
-	$gui/margin/status/life.target_value = life
-	$gui/margin/status/other_stats/hunger.target_value = hunger
-	$gui/margin/status/other_stats/temp.target_value = temperature
-	$gui/margin/status/other_stats/energy.target_value = energy
-
-
-func _on_exited():
-	pass # Replace with function body.
-
-
-func _on_entered():
-	pass # Replace with function body.
+	status_life.target_value = life
+	status_hunger.target_value = hunger
+	status_temp.target_value = temperature
+	status_energy.target_value = energy

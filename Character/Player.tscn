@@ -987,8 +987,7 @@ anims/throw2 = SubResource( 24 )
 [node name="status_update" type="Timer" parent="."]
 autostart = true
 
-[node name="gui" type="CanvasLayer" parent="."]
-editor/display_folded = true
+[node name="gui" type="Node" parent="."]
 
 [node name="margin" type="Control" parent="gui"]
 anchor_right = 1.0

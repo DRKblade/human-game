@@ -72,5 +72,3 @@ max_value = 1.0
 step = 0.0
 value = 0.18
 percent_visible = false
-[connection signal="mouse_entered" from="." to="." method="_mouse_entered"]
-[connection signal="mouse_exited" from="." to="." method="_mouse_exited"]

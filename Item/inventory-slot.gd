@@ -96,3 +96,6 @@ func deplete_item(amount = 1):
 	else:
 		clear()
 	return true
+
+func _mouse_entered():
+	pass # Replace with function body.
