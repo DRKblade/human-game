@@ -19,11 +19,6 @@ func player_set(value):
 	else:
 		print("error: more than one player node")
 
-var effects = {"bush_drag": effect.new("bush_drag", 0.5), "busy": effect.new("busy", 0.5)}
-
-func effect(effect_name):
-	return effects[effect_name]
-
 func _ready():
 	for child in get_children():
 		items[child.name] = child

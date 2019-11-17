@@ -4,4 +4,5 @@
 [ext_resource path="res://craft_station_recipe_list.gd" type="Script" id=2]
 
 [node name="craft_station_recipe_list" instance=ExtResource( 1 )]
+light_mask = 2
 script = ExtResource( 2 )

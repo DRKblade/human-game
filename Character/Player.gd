@@ -12,14 +12,14 @@ var prev_action
 
 # status
 var life = 0.9
-var hunger = 1
-var temperature = 1
+var hunger:float = 1
+var temperature:float = 1
 var energy = 0.5
 var hunger_deplete = 0.005
-var temperature_deplete = 0.05
+var temperature_deplete:float = 0.05
 var life_deplete = 0.05
 var life_regain = 0.05
-var heating = 0
+var heating = stat.new(0)
 var energy_deplete = 0.1
 var energy_regain = 0
 var energy_accel = 0.01
@@ -57,7 +57,7 @@ onready var gui = $gui
 onready var inventory = $gui/margin/inventory
 onready var extern_inventory = $gui/extern_inventory/slots
 onready var status_life = $gui/margin/status/life
-onready var status_hunger = $gui/margin/status/other_stats/energy
+onready var status_hunger = $gui/margin/status/other_stats/hunger
 onready var status_energy = $gui/margin/status/other_stats/energy
 onready var status_temp = $gui/margin/status/other_stats/temp
 onready var craft_menu = $gui/margin/CraftMenu
@@ -105,7 +105,7 @@ func show_extern_inventory(inventory):
 	extern_inventory.get_parent().visible = true
 
 func set_craft_station(station_name, station, availability):
-	craft_menu.find_node(station_name).set_station(station, availability)
+	craft_menu.get_node(station_name).set_station(station, availability)
 
 func craft(recipe):
 	$crafter.start_crafting(recipe)
@@ -299,7 +299,6 @@ func _anim_get_animation():
 		return "idle_holding" if state == STATE_BUSY else "idle"
 
 func finish_consume():
-	speed.remove_effect("busy")
 	if equip_slot.item is consumable:
 		equip_slot.item.on_use(self)
 		equip_slot.deplete_item()
@@ -365,7 +364,7 @@ func _status_update():
 	
 	if temperature == 0:
 		life = clamp(life - life_deplete, 0, 1)
-	temperature = clamp(temperature + heating*temperature_deplete, 0, 1)
+	temperature = clamp(temperature + heating.actual_value*temperature_deplete, 0, 1)
 	
 	energy_regain += energy_accel
 	energy = clamp(energy + energy_regain, 0, 1)

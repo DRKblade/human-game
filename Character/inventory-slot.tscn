@@ -28,6 +28,7 @@ shadow_color = Color( 0, 0, 0, 0 )
 [sub_resource type="StyleBoxEmpty" id=28]
 
 [node name="inventory-slot" type="Button"]
+light_mask = 2
 margin_right = 80.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 80, 80 )
@@ -41,6 +42,7 @@ enabled_focus_mode = 0
 script = ExtResource( 1 )
 
 [node name="tex" type="TextureRect" parent="."]
+light_mask = 2
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -52,6 +54,7 @@ margin_bottom = 40.0
 stretch_mode = 1
 
 [node name="qty" type="Label" parent="."]
+light_mask = 2
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -64,6 +67,7 @@ align = 2
 
 [node name="crafting_process" type="ProgressBar" parent="."]
 visible = false
+light_mask = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_styles/fg = SubResource( 25 )

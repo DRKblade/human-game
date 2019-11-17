@@ -29,7 +29,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Item/dropped_item.gd"
 }, {
-"base": "Reference",
+"base": "Node",
 "class": "effect",
 "language": "GDScript",
 "path": "res://Character/Effect.gd"
@@ -99,6 +99,7 @@ config/icon="res://icon.png"
 [autoload]
 
 my_math="*res://my_math.gd"
+Effects="*res://Effects.tscn"
 Items="*res://Item/Items.tscn"
 Environments="*res://Environments.tscn"
 

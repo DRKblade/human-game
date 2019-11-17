@@ -23,7 +23,6 @@ visible = false
 shape = SubResource( 1 )
 
 [node name="inventory" type="Node" parent="." index="4"]
-editor/display_folded = true
 
 [node name="main_slot" parent="inventory" index="0" instance=ExtResource( 4 )]
 

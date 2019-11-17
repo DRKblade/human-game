@@ -1,33 +1,32 @@
 class_name stat
 
 var value = 0
-var actual_value
-var effects = Array()
+var actual_value:float
+var effects = {"multiply":Array(), "pre_add":Array(), "post_add":Array()}
 
 func _init(value):
 	self.value = value
 	actual_value = value
 
-func find_effect(name):
-	for i in effects.size():
-		if effects[i].name == name:
-			return i
-	return -1
-
-func add_effect(effect_name):
-	var effect = Items.effect(effect_name)
-	if effect.stackable or find_effect(effect.name) == -1:
-		effects.push_back(effect)
+func add_effect(effect):
+	var effect_arr = effects[effect.type]
+	if effect.stackable or effect_arr.find(effect) == -1:
+		effect_arr.push_back(effect)
 		calc_actual_value()
 
-func remove_effect(name):
-	var effect_id = find_effect(name)
+func remove_effect(effect):
+	var effect_arr = effects[effect.type]
+	var effect_id = effect_arr.find(effect)
 	if effect_id != -1:
-		effects.remove(effect_id)
-	calc_actual_value()
+		effect_arr.remove(effect_id)
+		calc_actual_value()
 
 func calc_actual_value():
 	actual_value = value
-	for effect in effects:
+	for effect in effects["pre_add"]:
+		actual_value += effect.value
+	for effect in effects["multiply"]:
 		actual_value *= effect.value
+	for effect in effects["post_add"]:
+		actual_value += effect.value
 

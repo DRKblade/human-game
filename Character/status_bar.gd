@@ -4,7 +4,7 @@ export var text = "Name"
 export var smoothing = 0.1
 var rising = false
 var state_machine
-var target_value = 0
+var target_value:float = 0
 
 func _ready():
 	$name.text = text
