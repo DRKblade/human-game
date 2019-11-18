@@ -1,12 +1,10 @@
-extends Button
+extends "res://item_instance.gd"
 
 class_name inventory_slot
 
 signal inventory_changed
 
 var player_connected
-var item: item
-var qty: int
 var crafting = false
 
 func _ready():
@@ -17,7 +15,7 @@ func start_crafting():
 	$crafting_process.visible = true
 	$crafting_process.value = 1
 	crafting = true
-	$tex.self_modulate = Color(0.5,0.5,0.5,0.5)
+	$tex.self_modulate = Color(0.6,0.6,0.6,0.6)
 
 func set_crafting_process(process):
 	if process >= 1:
@@ -29,30 +27,17 @@ func set_crafting_process(process):
 		$crafting_process.value = 1-process
 		return false
 
-func set_tex(item):
-	print("set text", item.name)
-	$tex.texture = item.texture
-	self.item = item
-
-func set_qty(qty):
-	if qty == 0:
-		clear()
-	else:
-		self.qty = qty
-		$qty.text = "x"+str(qty) if qty > 1 else ""
-		on_inventory_changed()
-
-func add_qty(amount):
-	set_qty(qty+amount)
+func _set_qty(qty):
+	._set_qty(qty)
+	on_inventory_changed()
 
 func _pressed():
-	print("pressed")
 	if item != null:
 		var player = Items.player
 		if Input.is_mouse_button_pressed(BUTTON_LEFT):
 			if player_connected:
 				if player.extern_inventory_source != null:
-					set_qty(player.extern_inventory_source.fill_item(item, qty))
+					init_qty(player.extern_inventory_source.fill_item(qty, self), self)
 				elif player.state != player.STATE_FREE:
 					player.put_back()
 					if player.equip_slot.item != item:
@@ -60,7 +45,7 @@ func _pressed():
 				else:
 					player.equip_item(self)
 			else:
-				set_qty(player.inventory.fill_item(item, qty))
+				init_qty(player.inventory.fill_item(qty, self), self)
 		if Input.is_mouse_button_pressed(BUTTON_RIGHT):
 			if item != null:
 				if player.pullout_slot == self:
@@ -70,32 +55,27 @@ func _pressed():
 func on_inventory_changed():
 	emit_signal("inventory_changed")
 
-func is_empty():
-	return item == null
-
 func accept(item):
 	return is_empty()
 
-func clear():
+func on_emptied():
 	item = null
 	$tex.texture = null
 	$qty.text = ""
 	qty = 0
+	rot_state = 0
 	$crafting_process.visible = false
 	$tex.self_modulate = Color(1,1,1,1)
 	if Items.player.pullout_slot == self:
 		Items.player.lose_item()
-	on_inventory_changed()
+
+func clear():
+	on_emptied()
 
 func deplete_item(amount = 1):
-	var new_qty = qty-amount
-	if new_qty<0:
+	if qty<amount:
 		return false
-	elif new_qty > 0:
-		set_qty(new_qty)
 	else:
-		clear()
+		reduce_qty(amount)
 	return true
 
-func _mouse_entered():
-	pass # Replace with function body.

@@ -16,7 +16,8 @@ value = 0.5
 
 [node name="fire_heating" type="Node" parent="."]
 script = ExtResource( 2 )
-value = 2.0
+value = 1.0
+stackable = true
 type = "pre_add"
 
 [node name="day_heating" type="Node" parent="."]

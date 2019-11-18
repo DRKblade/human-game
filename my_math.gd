@@ -37,3 +37,7 @@ func round_vector(value: Vector2, grid_size: Vector2):
 
 func my_length(value:Vector2):
 	return max(abs(value.x),abs(value.y))
+
+func rand_direction():
+	var angle = randf()*PI*2
+	return Vector2(sin(angle), cos(angle))

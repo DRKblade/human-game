@@ -3,21 +3,7 @@
 [ext_resource path="res://Item/inventory-slot.gd" type="Script" id=1]
 [ext_resource path="res://Character/inventory_font.tres" type="DynamicFont" id=2]
 
-[sub_resource type="StyleBoxFlat" id=26]
-bg_color = Color( 0, 0, 0, 0.501961 )
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxFlat" id=27]
-bg_color = Color( 0, 0, 0, 0.25098 )
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxFlat" id=25]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 0.376471 )
 corner_radius_top_left = 10
 corner_radius_top_right = 10
@@ -25,7 +11,23 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 shadow_color = Color( 0, 0, 0, 0 )
 
-[sub_resource type="StyleBoxEmpty" id=28]
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0, 0, 0, 0.12549 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color( 0, 0, 0, 0 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0, 0, 0, 0.25098 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color( 0, 0, 0, 0 )
+
+[sub_resource type="StyleBoxEmpty" id=4]
 
 [node name="inventory-slot" type="Button"]
 light_mask = 2
@@ -33,9 +35,9 @@ margin_right = 80.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 80, 80 )
 focus_mode = 0
-custom_styles/hover = SubResource( 26 )
-custom_styles/pressed = SubResource( 27 )
-custom_styles/normal = SubResource( 25 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
 action_mode = 0
 button_mask = 3
 enabled_focus_mode = 0
@@ -70,8 +72,8 @@ visible = false
 light_mask = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/fg = SubResource( 25 )
-custom_styles/bg = SubResource( 28 )
+custom_styles/fg = SubResource( 3 )
+custom_styles/bg = SubResource( 4 )
 max_value = 1.0
 step = 0.0
 value = 0.18

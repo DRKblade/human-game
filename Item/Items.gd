@@ -25,10 +25,10 @@ func _ready():
 		remove_child(child)
 	randomize()
 
-func drop_item(item, global_position, direction, qty):
+func drop_item(item, slot, global_position, direction, qty):
 	if qty != 0:
 		var item_instance = dropped_item.instance()
-		item_instance.setup(item, global_position, direction, qty)
+		item_instance.setup(item, slot, global_position, direction, qty)
 
 func _on_player_inventory_changed():
 	emit_signal("player_inventory_changed", player.inventory)

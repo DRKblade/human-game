@@ -1,17 +1,18 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://Character/Player.gd" type="Script" id=1]
-[ext_resource path="res://Character/circle.svg" type="Texture" id=2]
-[ext_resource path="res://Character/character-body-boy-outline.svg" type="Texture" id=3]
-[ext_resource path="res://Character/character-hand.svg" type="Texture" id=4]
-[ext_resource path="res://Character/character-body-boy.svg" type="Texture" id=5]
-[ext_resource path="res://Pickaxe/Weapon.gd" type="Script" id=6]
-[ext_resource path="res://Character/whoosh.wav" type="AudioStream" id=7]
-[ext_resource path="res://Item/inventory.gd" type="Script" id=8]
-[ext_resource path="res://Character/status_bar.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Character/CraftMenu.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Crafter.gd" type="Script" id=11]
-[ext_resource path="res://player_vision.png" type="Texture" id=12]
+[ext_resource path="res://player_vision.png" type="Texture" id=2]
+[ext_resource path="res://interpolator.gd" type="Script" id=3]
+[ext_resource path="res://Character/circle.svg" type="Texture" id=4]
+[ext_resource path="res://Character/character-body-boy-outline.svg" type="Texture" id=5]
+[ext_resource path="res://Character/character-hand.svg" type="Texture" id=6]
+[ext_resource path="res://Character/character-body-boy.svg" type="Texture" id=7]
+[ext_resource path="res://Pickaxe/Weapon.gd" type="Script" id=8]
+[ext_resource path="res://Character/whoosh.wav" type="AudioStream" id=9]
+[ext_resource path="res://Item/inventory.gd" type="Script" id=10]
+[ext_resource path="res://Character/status_bar.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Character/CraftMenu.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Crafter.gd" type="Script" id=13]
 
 [sub_resource type="Gradient" id=1]
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
@@ -885,6 +886,17 @@ z_index = 1
 script = ExtResource( 1 )
 put_structure_distance = 300
 
+[node name="dark_vision" type="Light2D" parent="."]
+light_mask = 3
+scale = Vector2( 2.5, 2.5 )
+texture = ExtResource( 2 )
+color = Color( 0.0980392, 0.145098, 0.466667, 1 )
+range_layer_min = -512
+range_layer_max = 512
+script = ExtResource( 3 )
+interpolated_prop = "energy"
+smoothing = 0.05
+
 [node name="speedup_trail" type="Particles2D" parent="."]
 scale = Vector2( 0.995561, 1 )
 emitting = false
@@ -892,7 +904,7 @@ amount = 4
 lifetime = 0.8
 local_coords = false
 process_material = SubResource( 3 )
-texture = ExtResource( 2 )
+texture = ExtResource( 4 )
 
 [node name="body" type="Area2D" parent="."]
 editor/display_folded = true
@@ -902,7 +914,7 @@ collision_mask = 6
 
 [node name="glow" type="Sprite" parent="body"]
 modulate = Color( 0.854902, 0.243137, 0.243137, 0 )
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 
 [node name="anim" type="AnimationPlayer" parent="body/glow"]
 anims/pulsate-life = SubResource( 4 )
@@ -918,7 +930,7 @@ collision_mask = 2
 
 [node name="spr" type="Sprite" parent="body/hand1"]
 rotation = -1.5708
-texture = ExtResource( 4 )
+texture = ExtResource( 6 )
 
 [node name="equip" type="Sprite" parent="body/hand1"]
 position = Vector2( 0, 15 )
@@ -938,7 +950,7 @@ collision_mask = 2
 
 [node name="spr" type="Sprite" parent="body/hand2"]
 rotation = -1.5708
-texture = ExtResource( 4 )
+texture = ExtResource( 6 )
 
 [node name="col" type="CollisionShape2D" parent="body/hand2"]
 visible = false
@@ -947,7 +959,7 @@ scale = Vector2( 2, 2 )
 shape = SubResource( 9 )
 
 [node name="spr" type="Sprite" parent="body"]
-texture = ExtResource( 5 )
+texture = ExtResource( 7 )
 
 [node name="hit-col" type="CollisionShape2D" parent="body"]
 visible = false
@@ -956,14 +968,14 @@ scale = Vector2( 4.2, 4.2 )
 shape = SubResource( 10 )
 
 [node name="hand_weapon" type="Node2D" parent="body"]
-script = ExtResource( 6 )
+script = ExtResource( 8 )
 tool_class = PoolStringArray( "hand", "axe" )
 hit_strength = 2
 hit_energy = 0.04
 
 [node name="audio" type="AudioStreamPlayer2D" parent="."]
 position = Vector2( -5.88882, 7.91311 )
-stream = ExtResource( 7 )
+stream = ExtResource( 9 )
 volume_db = -7.257
 
 [node name="movement-col" type="CollisionShape2D" parent="."]
@@ -990,6 +1002,7 @@ anims/throw2 = SubResource( 24 )
 autostart = true
 
 [node name="gui" type="Node" parent="."]
+editor/display_folded = true
 
 [node name="margin" type="Control" parent="gui"]
 anchor_right = 1.0
@@ -1005,7 +1018,7 @@ size_flags_vertical = 3
 [node name="inventory" type="HBoxContainer" parent="gui/margin"]
 light_mask = 2
 size_flags_horizontal = 4
-script = ExtResource( 8 )
+script = ExtResource( 10 )
 player_connected = true
 
 [node name="status" type="VBoxContainer" parent="gui/margin"]
@@ -1014,7 +1027,7 @@ margin_right = 230.0
 margin_bottom = 60.0
 custom_constants/separation = 2
 
-[node name="life" parent="gui/margin/status" instance=ExtResource( 9 )]
+[node name="life" parent="gui/margin/status" instance=ExtResource( 11 )]
 self_modulate = Color( 0.243137, 0.854902, 0.266667, 1 )
 margin_right = 230.0
 margin_bottom = 29.0
@@ -1029,14 +1042,14 @@ margin_bottom = 60.0
 size_flags_vertical = 3
 custom_constants/separation = 2
 
-[node name="hunger" parent="gui/margin/status/other_stats" instance=ExtResource( 9 )]
+[node name="hunger" parent="gui/margin/status/other_stats" instance=ExtResource( 11 )]
 self_modulate = Color( 0.854902, 0.243137, 0.243137, 1 )
 margin_right = 75.0
 margin_bottom = 29.0
 size_flags_stretch_ratio = 1.0
 text = "Hunger"
 
-[node name="temp" parent="gui/margin/status/other_stats" instance=ExtResource( 9 )]
+[node name="temp" parent="gui/margin/status/other_stats" instance=ExtResource( 11 )]
 self_modulate = Color( 0.243137, 0.752941, 0.854902, 1 )
 margin_left = 77.0
 margin_right = 152.0
@@ -1044,7 +1057,7 @@ margin_bottom = 29.0
 size_flags_stretch_ratio = 1.0
 text = "Heat"
 
-[node name="energy" parent="gui/margin/status/other_stats" instance=ExtResource( 9 )]
+[node name="energy" parent="gui/margin/status/other_stats" instance=ExtResource( 11 )]
 self_modulate = Color( 0.905882, 0.654902, 0.105882, 1 )
 margin_left = 154.0
 margin_right = 230.0
@@ -1052,7 +1065,7 @@ margin_bottom = 29.0
 size_flags_stretch_ratio = 1.0
 text = "Energy"
 
-[node name="CraftMenu" parent="gui/margin" instance=ExtResource( 10 )]
+[node name="CraftMenu" parent="gui/margin" instance=ExtResource( 12 )]
 
 [node name="extern_inventory" type="PanelContainer" parent="gui"]
 visible = false
@@ -1074,12 +1087,7 @@ margin_bottom = 164.0
 columns = 2
 
 [node name="crafter" type="Node" parent="."]
-script = ExtResource( 11 )
-
-[node name="dark_vision" type="Light2D" parent="."]
-scale = Vector2( 2, 2 )
-texture = ExtResource( 12 )
-color = Color( 0.0941176, 0.145098, 0.47451, 1 )
+script = ExtResource( 13 )
 [connection signal="area_entered" from="body" to="." method="_on_body_entered"]
 [connection signal="area_exited" from="body" to="." method="_on_body_exited"]
 [connection signal="body_entered" from="body" to="." method="_on_body_entered"]

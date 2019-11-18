@@ -24,7 +24,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Item/Consumable.gd"
 }, {
-"base": "Area2D",
+"base": "Node",
 "class": "dropped_item",
 "language": "GDScript",
 "path": "res://Item/dropped_item.gd"
@@ -39,12 +39,17 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Equipment.gd"
 }, {
+"base": "structure",
+"class": "hittable",
+"language": "GDScript",
+"path": "res://Structure/Hittable.gd"
+}, {
 "base": "HBoxContainer",
 "class": "inventory",
 "language": "GDScript",
 "path": "res://Item/inventory.gd"
 }, {
-"base": "Button",
+"base": "Node",
 "class": "inventory_slot",
 "language": "GDScript",
 "path": "res://Item/inventory-slot.gd"
@@ -81,6 +86,7 @@ _global_script_class_icons={
 "dropped_item": "",
 "effect": "",
 "equipment": "",
+"hittable": "",
 "inventory": "",
 "inventory_slot": "",
 "item": "",

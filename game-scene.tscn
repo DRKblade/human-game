@@ -102,5 +102,9 @@ texture = ExtResource( 4 )
 playback_default_blend_time = 1.0
 anims/day = SubResource( 1 )
 anims/night = SubResource( 2 )
+
+[node name="item_process" type="Timer" parent="."]
+autostart = true
 [connection signal="timeout" from="natural_spawn" to="." method="_natural_spawn"]
 [connection signal="timeout" from="day-night" to="." method="change_day_night"]
+[connection signal="timeout" from="item_process" to="." method="_on_item_process"]

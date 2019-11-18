@@ -58,31 +58,36 @@ hit_energy = 0.06
 script = ExtResource( 10 )
 max_stack = 5
 texture = ExtResource( 11 )
+base_items = PoolStringArray( "wood", "stone" )
+base_qtys = PoolIntArray( 25, 7 )
 
 [node name="structure" parent="craft-table" instance=ExtResource( 12 )]
+wobble_distance = 8
 
 [node name="camp-fire" type="Node" parent="."]
 script = ExtResource( 10 )
 max_stack = 5
 texture = ExtResource( 13 )
+base_items = PoolStringArray( "stone" )
+base_qtys = PoolIntArray( 5 )
 
 [node name="structure" parent="camp-fire" instance=ExtResource( 14 )]
-collision_layer = 3
-collision_mask = 0
 
 [node name="tomato" type="Node" parent="."]
 script = ExtResource( 15 )
 max_stack = 20
 texture = ExtResource( 16 )
 hunger = 0.2
-energy = 0.1
+energy = 0.05
+rot_speed = 0.02
 
 [node name="orange" type="Node" parent="."]
 script = ExtResource( 15 )
 max_stack = 20
 texture = ExtResource( 17 )
-hunger = 0.2
+hunger = 0.05
 energy = 0.1
+rot_speed = 0.02
 
 [node name="dried-orange" type="Node" parent="."]
 script = ExtResource( 15 )

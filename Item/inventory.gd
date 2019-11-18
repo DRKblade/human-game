@@ -48,7 +48,7 @@ func take_item(item, qty):
 	for slot in get_slots():
 		if slot.item == item:
 			var taken = min(qty, slot.qty)
-			slot.add_qty(-taken)
+			slot.reduce_qty(taken)
 			qty -= taken
 			if qty == 0:
 				return
@@ -62,13 +62,16 @@ func get_fillable_slot(item):
 		if filled_slot == null:
 			for slot in get_slots():
 				if slot.accept(item):
-					slot.set_tex(item)
+					slot.set_item(item)
 					slot.qty = 0
 					filled_slot = slot
 					break
 		return filled_slot
-
-func fill_item(item, qty):
+func fill_item(qty, instance):
+	return _fill_item(instance.item, qty, instance)
+func fill_item_new(item, qty):
+	return _fill_item(item, qty, null)
+func _fill_item(item, qty, instance):
 	if item == null:
 		print("warning: filling null item")
 		return
@@ -78,6 +81,6 @@ func fill_item(item, qty):
 			return qty
 		
 		var transfer = min(qty, item.max_stack - filled_slot.qty)
-		filled_slot.add_qty(transfer)
+		filled_slot.add_qty(transfer, instance)
 		qty -= transfer
 	return 0

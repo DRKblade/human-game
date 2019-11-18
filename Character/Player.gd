@@ -24,6 +24,7 @@ var energy_deplete = 0.1
 var energy_regain = 0
 var energy_accel = 0.01
 var energy_hunger_deplete = 0.1
+var energy_replenish_regain = 0.2
 var stat_low = 0.1
 
 # movement
@@ -82,13 +83,17 @@ func _ready():
 	equip_node = $body/hand1/equip
 	
 	$crafter.inventory = inventory
-	inventory.fill_item(Items.items["wood"], 100)
-	inventory.fill_item(Items.items["stone"], 100)
-	inventory.fill_item(Items.items["orange"], 20)
+	inventory.fill_item_new(Items.items["wood"], 100)
+	inventory.fill_item_new(Items.items["stone"], 100)
+	inventory.fill_item_new(Items.items["orange"], 20)
 	$body/hand_weapon.player = self
 	$body/hand_weapon.animation_length = $anim.get_animation("punch1").length
-	
+	heating.connect("value_changed", self, "heating_changed")
 	set_status()
+
+func heating_changed(value):
+	$dark_vision.target_value = float(-value if value < 0 else 0)
+		
 
 func exit_extern_inventory():
 	extern_inventory_source = null
@@ -103,6 +108,12 @@ func show_extern_inventory(inventory):
 	for slot in inventory.get_slots():
 		extern_inventory.add_child(slot)
 	extern_inventory.get_parent().visible = true
+
+func toggle_extern_inventory(inventory):
+	if extern_inventory_source == null:
+		show_extern_inventory(inventory)
+	else:
+		exit_extern_inventory()
 
 func set_craft_station(station_name, station, availability):
 	craft_menu.get_node(station_name).set_station(station, availability)
@@ -193,7 +204,7 @@ func anim_use():
 func anim_drop():
 	if dropped_slot.is_empty():
 		return
-	Items.drop_item(dropped_slot.item, global_position, get_global_mouse_position() - global_position, dropped_slot.qty)
+	Items.drop_item(dropped_slot.item, dropped_slot, global_position, get_global_mouse_position() - global_position, dropped_slot.qty)
 	dropped_slot.clear()
 	return "throw1" if get_current_hand() else "throw2"
 
@@ -213,13 +224,13 @@ func anim_punch():
 func anim_pickup():
 	for area in body_hit:
 		if area is dropped_item:
-			var qty = inventory.fill_item(area.item, area.qty)
+			var qty = inventory.fill_item(area.qty, area)
 			if qty == 0:
 				area.queue_free()
 			elif qty == area.qty:
 				return
 			else:
-				area.set_qty(qty)
+				area.init_qty(qty, area)
 			return "pickup1" if get_current_hand() else "pickup2"
 
 func anim_move():
@@ -229,7 +240,6 @@ func anim_put_back():
 	state = STATE_FREE
 	equip_slot = null
 	if placing_structure != null:
-		Items.game.remove_child(placing_structure)
 		placing_structure.queue_free()
 		placing_structure = null
 	if $body/hand1/equip.get_child_count() == 0:
@@ -334,8 +344,8 @@ func _process(delta):
 		if Input.is_action_just_pressed("game_rotate"):
 			placing_structure.rotation_degrees += 90
 		placing_structure.global_position = my_math.round_vector(mouse_pos, Vector2(80,80))
+		prints(placing_structure.global_position, mouse_pos)
 		placing_structure.modulate = Color.white if my_math.my_length(placing_structure.global_position - global_position) < put_structure_distance else Color(0.5,0.5,0.5,0.5)
-	
 
 func _unhandled_input(event):
 #	if event is InputEventMouseButton:
@@ -385,6 +395,8 @@ func change_energy(delta):
 	if delta < 0:
 		energy_regain = 0
 		change_hunger(delta*energy_hunger_deplete)
+	else:
+		energy_regain += delta * energy_replenish_regain
 	energy = clamp(energy + delta, 0, 1)
 	status_energy.target_value = energy
 

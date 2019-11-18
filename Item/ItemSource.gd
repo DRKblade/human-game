@@ -16,8 +16,8 @@ func _ready():
 func _on_hit(source, tool_class, hit_strength):
 	if my_math.find(tool_class, required_tool_class) != -1:
 		var drop_count = min(my_math.rand_rounding(item_drop*hit_strength), stash_count)
-		if Items.player.inventory.fill_item(item, drop_count) > 0:
-			Items.drop_item(item, global_position, -pushback_target, drop_count)
+		if Items.player.inventory.fill_item_new(item, drop_count) > 0:
+			Items.drop_item(item, null, global_position, -pushback_target, drop_count)
 		lose_stash(drop_count)
 
 func lose_stash(drop_count):
@@ -32,7 +32,7 @@ func decay(count, delta):
 	if count > stash_count:
 		count = stash_count
 	if randf() < drop_prob/delta:
-		Items.drop_item(item, global_position, Vector2(my_math.rand_abs(1), my_math.rand_abs(1)), count)
+		Items.drop_item(item, null, global_position, my_math.rand_direction(), count)
 	lose_stash(count)
 
 func _decay_process(delta):

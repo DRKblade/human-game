@@ -1,11 +1,10 @@
-extends structure
+extends hittable
 
 export var station_name:String
 var inventory = array_inventory.new()
 onready var effect = Effects.effects["structure_drag"]
 
-func _ready():
-	prints(name, $inventory)
+func _enter_tree():
 	for child in $inventory.get_children():
 		inventory.add_slot(child)
 		$inventory.remove_child(child)
@@ -24,11 +23,9 @@ func _on_exit(player):
 
 func _on_hit(source, tool_class, hit_strength):
 	if wobbling:
-		open_inventory()
-
-func open_inventory():
-	Items.player.show_extern_inventory(inventory)
+		Items.player.toggle_extern_inventory(inventory)
+	._on_hit(source, tool_class, hit_strength)
 
 func craft(recipe):
 	$crafter.start_crafting(recipe)
-	open_inventory()
+	Items.player.show_extern_inventory(inventory)

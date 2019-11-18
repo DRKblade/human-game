@@ -4,7 +4,7 @@ class_name consumable
 
 export var hunger: float
 export var energy: float
-
+export var rot_speed: float
 onready var effect = Effects.effects["busy"]
 
 func on_use(player):
@@ -23,3 +23,10 @@ func require_free():
 
 func usable():
 	return true
+
+func item_process(delta, slot):
+	slot.rot_state += rot_speed *delta
+	return slot.rot_state >=1
+
+func combine(my_slot, other_slot, other_qty):
+	my_slot.rot_state = (my_slot.rot_state*my_slot.qty + (other_slot.rot_state if other_slot != null else 0)*other_qty)/(my_slot.qty + other_qty)

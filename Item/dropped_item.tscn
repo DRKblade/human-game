@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Item/dropped_item.gd" type="Script" id=1]
 [ext_resource path="res://Item/item-dropped-back.svg" type="Texture" id=2]
 [ext_resource path="res://Item/dropped_font.tres" type="DynamicFont" id=3]
-
-
+[ext_resource path="res://Item/slow_down.gd" type="Script" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -28,7 +27,7 @@ shape = SubResource( 1 )
 scale = Vector2( 0.75, 0.75 )
 texture = ExtResource( 2 )
 
-[node name="spr" type="Sprite" parent="."]
+[node name="tex" type="Sprite" parent="."]
 position = Vector2( -0.75, 0 )
 scale = Vector2( 0.75, 0.75 )
 texture = SubResource( 2 )
@@ -44,5 +43,8 @@ align = 2
 wait_time = 20.0
 one_shot = true
 autostart = true
+
+[node name="slow_down" type="Node" parent="."]
+script = ExtResource( 4 )
 [connection signal="area_entered" from="." to="." method="_area_entered"]
 [connection signal="timeout" from="delete" to="." method="_on_delete_timeout"]

@@ -1,5 +1,7 @@
 class_name stat
 
+signal value_changed
+
 var value = 0
 var actual_value:float
 var effects = {"multiply":Array(), "pre_add":Array(), "post_add":Array()}
@@ -29,4 +31,5 @@ func calc_actual_value():
 		actual_value *= effect.value
 	for effect in effects["post_add"]:
 		actual_value += effect.value
+	emit_signal("value_changed", actual_value)
 

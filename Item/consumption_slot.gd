@@ -10,9 +10,10 @@ export var accepted_item_name:String
 func accept(item):
 	return item.name == accepted_item_name
 func on_inventory_changed():
+	print("called")
 	if qty > 0 and consumption.is_stopped():
 		consumption.start()
-		add_qty(-1)
+		reduce_qty(1)
 		$fire.self_modulate = Color("ffb300")
 		emit_signal("start_consumption")
 	.on_inventory_changed()
@@ -23,4 +24,4 @@ func _on_consume():
 		$fire.self_modulate = Color("ffffff")
 		emit_signal("stop_consumption")
 	else:
-		add_qty(-1)
+		reduce_qty(1)

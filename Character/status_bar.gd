@@ -1,10 +1,8 @@
-extends ProgressBar
+extends "res://interpolator.gd"
 
 export var text = "Name"
-export var smoothing = 0.1
 var rising = false
 var state_machine
-var target_value:float = 0
 
 func _ready():
 	$name.text = text
@@ -22,6 +20,3 @@ func set_rising():
 
 func unset_rising():
 	rising = false
-
-func _physics_process(delta):
-	value += (target_value - value)*smoothing
