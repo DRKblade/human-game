@@ -7,6 +7,7 @@
 [node name="craft_recipe_list" instance=ExtResource( 1 )]
 margin_left = 188.0
 margin_right = 248.0
+rect_min_size = Vector2( 80, 80 )
 toggle_mode = true
 texture_normal = ExtResource( 2 )
 script = ExtResource( 3 )

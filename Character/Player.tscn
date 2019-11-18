@@ -907,7 +907,6 @@ process_material = SubResource( 3 )
 texture = ExtResource( 4 )
 
 [node name="body" type="Area2D" parent="."]
-editor/display_folded = true
 rotation = -1.5708
 collision_layer = 2
 collision_mask = 6
@@ -924,7 +923,7 @@ anims/pulse-hurt = SubResource( 7 )
 anims/pulse-temperature = SubResource( 8 )
 
 [node name="hand1" type="Area2D" parent="body"]
-position = Vector2( -30, 30 )
+position = Vector2( -20, 50 )
 collision_layer = 0
 collision_mask = 2
 
@@ -933,9 +932,10 @@ rotation = -1.5708
 texture = ExtResource( 6 )
 
 [node name="equip" type="Sprite" parent="body/hand1"]
-position = Vector2( 0, 15 )
+position = Vector2( 20, 0 )
 rotation = 3.14159
 scale = Vector2( 0.75, 0.75 )
+z_index = 2
 
 [node name="col" type="CollisionShape2D" parent="body/hand1"]
 visible = false
@@ -944,7 +944,7 @@ scale = Vector2( 2, 2 )
 shape = SubResource( 9 )
 
 [node name="hand2" type="Area2D" parent="body"]
-position = Vector2( 30, 30 )
+position = Vector2( 20, 50 )
 collision_layer = 0
 collision_mask = 2
 

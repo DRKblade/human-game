@@ -182,6 +182,9 @@ func anim_pull_out():
 	if equip_slot.item.has_method("structure"):
 		placing_structure = equip_slot.item.structure()
 		Items.game.add_child(placing_structure)
+		
+	if equip_slot.item.has_method("on_equip"):
+		equip_slot.item.on_equip(self)
 	
 	if equip_slot.item.require_free():
 		state = STATE_HALF_BUSY
@@ -213,7 +216,6 @@ func anim_punch():
 		if placing_structure.modulate == Color.white:
 			placing_structure = null
 			equip_slot.deplete_item()
-			put_back()
 	elif energy >= punch_energy:
 		change_energy(-punch_energy)
 		$audio.play()
@@ -238,6 +240,8 @@ func anim_move():
 
 func anim_put_back():
 	state = STATE_FREE
+	if equip_slot.item != null and equip_slot.item.has_method("on_unequip"):
+		equip_slot.item.on_unequip(self)
 	equip_slot = null
 	if placing_structure != null:
 		placing_structure.queue_free()
@@ -270,11 +274,10 @@ func _anim_get_animation():
 		result = _anim_event("game_use", equip_slot.item.require_free(), "anim_use", "condition_continuous")
 		if result != null:
 			return result
-	
-	# put-back
-	result = _anim_event("put_back", true, "anim_put_back")
-	if result != null:
-		return result
+		# put-back
+		result = _anim_event("put_back", true, "anim_put_back")
+		if result != null:
+			return result
 	
 	# pull-out
 	if pullout_slot != null:

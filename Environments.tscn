@@ -28,16 +28,20 @@ required_tool_class = "axe"
 item_name = "wood"
 
 [node name="trunk" type="Node" parent="natural_spawning"]
+editor/display_folded = true
 script = ExtResource( 3 )
 spawn_rate_mul = 3.0
+min_comfortable_distance_squared = 2000.0
 
 [node name="Trunk" parent="natural_spawning/trunk" instance=ExtResource( 5 )]
 stash_count = 50
 required_tool_class = "axe"
 
 [node name="bush" type="Node" parent="natural_spawning"]
+editor/display_folded = true
 script = ExtResource( 3 )
 spawn_rate_mul = 2.0
+min_comfortable_distance_squared = 2000.0
 
 [node name="OrangeBush" parent="natural_spawning/bush" instance=ExtResource( 6 )]
 required_tool_class = "hand"
@@ -49,6 +53,7 @@ item_name = "tomato"
 [node name="rock" type="Node" parent="natural_spawning"]
 script = ExtResource( 3 )
 spawn_rate_mul = 3.0
+min_comfortable_distance_squared = 2000.0
 
 [node name="Rock" parent="natural_spawning/rock" instance=ExtResource( 8 )]
 stash_count = 100

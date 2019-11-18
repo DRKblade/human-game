@@ -19,7 +19,7 @@ func player_set(value):
 	else:
 		print("error: more than one player node")
 
-func _ready():
+func _enter_tree():
 	for child in get_children():
 		items[child.name] = child
 		remove_child(child)

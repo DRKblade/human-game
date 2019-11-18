@@ -38,7 +38,7 @@ func _pressed():
 			if player_connected:
 				if player.extern_inventory_source != null:
 					init_qty(player.extern_inventory_source.fill_item(qty, self), self)
-				elif player.state != player.STATE_FREE:
+				elif player.equip_slot != null:
 					player.put_back()
 					if player.equip_slot.item != item:
 						player.equip_item(self)

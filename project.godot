@@ -34,11 +34,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Character/Effect.gd"
 }, {
-"base": "item",
-"class": "equipment",
-"language": "GDScript",
-"path": "res://Equipment.gd"
-}, {
 "base": "structure",
 "class": "hittable",
 "language": "GDScript",
@@ -85,7 +80,6 @@ _global_script_class_icons={
 "consumable": "",
 "dropped_item": "",
 "effect": "",
-"equipment": "",
 "hittable": "",
 "inventory": "",
 "inventory_slot": "",

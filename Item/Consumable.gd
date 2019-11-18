@@ -8,7 +8,7 @@ export var rot_speed: float
 onready var effect = Effects.effects["busy"]
 
 func on_use(player):
-	player.speed.remove_effect(effect)
+	player.speed.remove_effect(Effects.effects["busy"])
 	player.change_hunger(hunger)
 	player.change_energy(energy)
 
@@ -16,7 +16,7 @@ func use_action():
 	return "consume"
 
 func on_busy(player):
-	player.speed.add_effect(effect)
+	player.speed.add_effect(Effects.effects["busy"])
 
 func require_free():
 	return false

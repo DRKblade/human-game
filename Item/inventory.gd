@@ -51,7 +51,8 @@ func take_item(item, qty):
 			slot.reduce_qty(taken)
 			qty -= taken
 			if qty == 0:
-				return
+				return 0
+	return qty
 
 func get_fillable_slot(item):
 		var filled_slot = null
