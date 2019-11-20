@@ -26,7 +26,7 @@ func add_qty(amount, instance):
 		$tex.modulate = Color(1,1,1,1-rot_state)
 	_set_qty(qty+amount)
 
-func reduce_qty(amount):
+func reduce_qty(amount:int):
 	_set_qty(qty-amount)
 
 func on_emptied():

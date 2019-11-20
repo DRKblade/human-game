@@ -21,9 +21,9 @@ func start_crafting(recipe):
 func _process(delta):
 	if result_slot.size() > 0 and (!paused or crafted_time < 0.1):
 		crafted_time += delta
-		if result_slot[0].set_crafting_process(crafted_time/current_recipe[0].duration):
+		if result_slot[0].set_crafting_process(crafted_time/current_recipe[0].get_duration()):
 			result_slot.pop_front()
-			inventory.fill_item_new(current_recipe[0].result, current_recipe[0].result_qty)
+			inventory.fill_item_new(current_recipe[0].result, current_recipe[0].get_result_qty())
 			current_recipe.pop_front()
 			crafted_time = 0
 			if result_slot.size() > 0 and result_slot[0].qty == 0:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Item/Items.gd" type="Script" id=1]
 [ext_resource path="res://Item/Item.gd" type="Script" id=2]
@@ -9,18 +9,19 @@
 [ext_resource path="res://Pickaxe/pickaxe-node.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Axe/hatchet-item.svg" type="Texture" id=8]
 [ext_resource path="res://Axe/hatchet-node.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Item/Placable.gd" type="Script" id=10]
-[ext_resource path="res://CraftTable/craft-table-item.svg" type="Texture" id=11]
-[ext_resource path="res://CraftTable/CraftTable.tscn" type="PackedScene" id=12]
-[ext_resource path="res://Shelter/campfire-item.svg" type="Texture" id=13]
-[ext_resource path="res://Shelter/CampFire.tscn" type="PackedScene" id=14]
-[ext_resource path="res://Item/Consumable.gd" type="Script" id=15]
-[ext_resource path="res://Bushes/tomato.svg" type="Texture" id=16]
-[ext_resource path="res://Bushes/orange.svg" type="Texture" id=17]
-[ext_resource path="res://Bushes/dried-orange.svg" type="Texture" id=18]
-[ext_resource path="res://Bushes/dried-tomato.svg" type="Texture" id=19]
-[ext_resource path="res://Item/CraftingInstruction.gd" type="Script" id=20]
-[ext_resource path="res://Scroll.svg" type="Texture" id=21]
+[ext_resource path="res://scythe-tool.svg" type="Texture" id=10]
+[ext_resource path="res://Item/Placable.gd" type="Script" id=11]
+[ext_resource path="res://CraftTable/craft-table-item.svg" type="Texture" id=12]
+[ext_resource path="res://CraftTable/CraftTable.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Shelter/campfire-item.svg" type="Texture" id=14]
+[ext_resource path="res://Shelter/CampFire.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Item/Consumable.gd" type="Script" id=16]
+[ext_resource path="res://Bushes/tomato.svg" type="Texture" id=17]
+[ext_resource path="res://Bushes/orange.svg" type="Texture" id=18]
+[ext_resource path="res://Bushes/dried-orange.svg" type="Texture" id=19]
+[ext_resource path="res://Bushes/dried-tomato.svg" type="Texture" id=20]
+[ext_resource path="res://Item/CraftingInstruction.gd" type="Script" id=21]
+[ext_resource path="res://Scroll.svg" type="Texture" id=22]
 
 [node name="ItemDatabase" type="Node"]
 script = ExtResource( 1 )
@@ -39,6 +40,9 @@ texture = ExtResource( 4 )
 script = ExtResource( 5 )
 max_stack = 5
 texture = ExtResource( 6 )
+base_items = PoolStringArray( "wood", "stone" )
+base_qtys = PoolIntArray( 10, 20 )
+base_duration = 0.5
 
 [node name="equipment" parent="pickaxe" instance=ExtResource( 7 )]
 tool_class = PoolStringArray( "pickaxe" )
@@ -46,9 +50,13 @@ hit_strength = 5
 hit_energy = 0.06
 
 [node name="hatchet" type="Node" parent="."]
+editor/display_folded = true
 script = ExtResource( 5 )
 max_stack = 5
 texture = ExtResource( 8 )
+base_items = PoolStringArray( "wood", "stone" )
+base_qtys = PoolIntArray( 10, 2 )
+base_duration = 0.5
 
 [node name="equipment" parent="hatchet" instance=ExtResource( 9 )]
 collision_mask = 3
@@ -56,57 +64,77 @@ tool_class = PoolStringArray( "axe", "pickaxe" )
 hit_strength = 3
 hit_energy = 0.06
 
-[node name="craft-table" type="Node" parent="."]
-script = ExtResource( 10 )
+[node name="scythe" type="Node" parent="."]
+editor/display_folded = true
+script = ExtResource( 5 )
 max_stack = 5
-texture = ExtResource( 11 )
+texture = ExtResource( 10 )
+base_items = PoolStringArray( "wood", "iron" )
+base_qtys = PoolIntArray( 10, 5 )
+base_duration = 0.5
+
+[node name="equipment" parent="scythe" instance=ExtResource( 9 )]
+collision_mask = 3
+tool_class = PoolStringArray( "axe", "pickaxe" )
+hit_strength = 3
+hit_energy = 0.06
+
+[node name="craft-table" type="Node" parent="."]
+script = ExtResource( 11 )
+max_stack = 5
+texture = ExtResource( 12 )
 base_items = PoolStringArray( "wood", "stone" )
 base_qtys = PoolIntArray( 25, 7 )
+base_duration = 0.5
 
-[node name="structure" parent="craft-table" instance=ExtResource( 12 )]
+[node name="structure" parent="craft-table" instance=ExtResource( 13 )]
 wobble_distance = 8
 
 [node name="camp-fire" type="Node" parent="."]
-script = ExtResource( 10 )
+script = ExtResource( 11 )
 max_stack = 5
-texture = ExtResource( 13 )
+texture = ExtResource( 14 )
 base_items = PoolStringArray( "stone" )
 base_qtys = PoolIntArray( 5 )
+base_duration = 0.5
 
-[node name="structure" parent="camp-fire" instance=ExtResource( 14 )]
+[node name="structure" parent="camp-fire" instance=ExtResource( 15 )]
 
 [node name="tomato" type="Node" parent="."]
-script = ExtResource( 15 )
+script = ExtResource( 16 )
 max_stack = 20
-texture = ExtResource( 16 )
+texture = ExtResource( 17 )
 hunger = 0.2
 energy = 0.05
 rot_speed = 0.01
 
 [node name="orange" type="Node" parent="."]
-script = ExtResource( 15 )
+script = ExtResource( 16 )
 max_stack = 20
-texture = ExtResource( 17 )
+texture = ExtResource( 18 )
 hunger = 0.05
 energy = 0.1
 rot_speed = 0.01
 
 [node name="dried-orange" type="Node" parent="."]
-script = ExtResource( 15 )
+script = ExtResource( 16 )
 max_stack = 40
-texture = ExtResource( 18 )
+texture = ExtResource( 19 )
 hunger = 0.1
 energy = 0.0
 
 [node name="dried-tomato" type="Node" parent="."]
-script = ExtResource( 15 )
+script = ExtResource( 16 )
 max_stack = 40
-texture = ExtResource( 19 )
+texture = ExtResource( 20 )
 hunger = 0.2
 energy = 0.0
 
 [node name="paper" type="Node" parent="."]
-script = ExtResource( 20 )
+script = ExtResource( 21 )
 max_stack = 256
-texture = ExtResource( 21 )
+texture = ExtResource( 22 )
+base_items = PoolStringArray( "wood" )
+base_qtys = PoolIntArray( 1 )
+base_duration = 0.5
 menu_name = "Scroll"

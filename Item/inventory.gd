@@ -47,7 +47,7 @@ func has_item(item, qty):
 func take_item(item, qty):
 	for slot in get_slots():
 		if slot.item == item:
-			var taken = min(qty, slot.qty)
+			var taken = int(min(qty, slot.qty))
 			slot.reduce_qty(taken)
 			qty -= taken
 			if qty == 0:

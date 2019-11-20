@@ -1,19 +1,21 @@
 extends MyTextureButton
-
-export var item_names: PoolStringArray
-export var qtys: PoolIntArray
-export var result_name: String
-export var result_qty = 1
-export var duration: float
 export var disabled_color = Color.white
 
+func get_ingredient_count():pass
+func item_name(index):pass
+func qty(index):pass
+func get_result_qty():pass
+func get_duration():pass
+
+export var result_name:String
+
 var items = Array()
-var result
+var result: item
 
 func _ready():
-	for name in item_names:
-		items.push_back(Items.items[name])
 	result = Items.items[result_name]
+	for i in get_ingredient_count():
+		items.push_back(Items.items[item_name(i)])
 	Items.connect("player_inventory_changed", self, "update_availability")
 	texture_normal = result.texture
 
@@ -25,13 +27,13 @@ func _on_pressed():
 
 func check_recipe(inventory):
 	for i in items.size():
-		if !inventory.has_item(items[i], qtys[i]):
+		if !inventory.has_item(items[i], qty(i)):
 			return false
 	return true
 
 func take_recipe(inventory):
 	for i in items.size():
-		inventory.take_item(items[i], qtys[i])
+		inventory.take_item(items[i], qty(i))
 
 func update_availability(inventory):
 	disabled = !check_recipe(inventory)

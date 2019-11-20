@@ -18,6 +18,7 @@ script = ExtResource( 2 )
 spawn_block_area = 3e+08
 
 [node name="tree" type="Node" parent="natural_spawning"]
+editor/display_folded = true
 script = ExtResource( 3 )
 spawn_rate_mul = 7.0
 min_comfortable_distance_squared = 9000.0
@@ -51,6 +52,7 @@ required_tool_class = "hand"
 item_name = "tomato"
 
 [node name="rock" type="Node" parent="natural_spawning"]
+editor/display_folded = true
 script = ExtResource( 3 )
 spawn_rate_mul = 3.0
 min_comfortable_distance_squared = 2000.0
