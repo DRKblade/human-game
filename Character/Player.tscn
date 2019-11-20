@@ -969,7 +969,7 @@ shape = SubResource( 10 )
 
 [node name="hand_weapon" type="Node2D" parent="body"]
 script = ExtResource( 8 )
-tool_class = PoolStringArray( "hand", "axe" )
+tool_class = PoolStringArray( "hand", "axe", "scythe" )
 hit_strength = 2
 hit_energy = 0.04
 

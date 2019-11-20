@@ -86,6 +86,8 @@ func _ready():
 	inventory.fill_item_new(Items.items["wood"], 100)
 	inventory.fill_item_new(Items.items["stone"], 100)
 	inventory.fill_item_new(Items.items["orange"], 20)
+	inventory.fill_item_new(Items.items["iron"], 20)
+	inventory.fill_item_new(Items.items["paper"], 1)
 	$body/hand_weapon.player = self
 	$body/hand_weapon.animation_length = $anim.get_animation("punch1").length
 	heating.connect("value_changed", self, "heating_changed")

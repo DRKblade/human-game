@@ -1,8 +1,7 @@
-extends MyTextureButton
+extends "res://CraftRecipe.gd"
 
 export var item_names: PoolStringArray
 export var qtys: PoolIntArray
-export var result_name: String
 export var result_qty = 1
 export var duration: float
 

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Axe/hatchet-node.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scythe-tool.svg" type="Texture" id=2]
+
+[node name="equipment" instance=ExtResource( 1 )]
+tool_class = PoolStringArray( "scythe" )
+hit_strength = 2
+
+[node name="spr" parent="." index="0"]
+scale = Vector2( -1, 1 )
+texture = ExtResource( 2 )
+offset = Vector2( 0, -94.17 )
+
+[node name="col" parent="." index="1"]
+polygon = PoolVector2Array( 41.0855, -129.373, 73.3401, -131.588, 103.525, -125.53, 131.053, -101.03, 99.5292, -115.122, 75.2459, -118.693, 41.9535, -116.655 )

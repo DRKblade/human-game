@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Environments.gd" type="Script" id=1]
 [ext_resource path="res://SpawningEnvironment.gd" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Bushes/TomatoBush.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Stone/Rock.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Stone/Rock2.tscn" type="PackedScene" id=9]
+[ext_resource path="res://iron-ore-stone.tscn" type="PackedScene" id=10]
 
 [node name="Environments" type="Node"]
 script = ExtResource( 1 )
@@ -39,20 +40,18 @@ stash_count = 50
 required_tool_class = "axe"
 
 [node name="bush" type="Node" parent="natural_spawning"]
-editor/display_folded = true
 script = ExtResource( 3 )
 spawn_rate_mul = 2.0
 min_comfortable_distance_squared = 2000.0
 
 [node name="OrangeBush" parent="natural_spawning/bush" instance=ExtResource( 6 )]
-required_tool_class = "hand"
+required_tool_class = "scythe"
 
 [node name="TomatoBush" parent="natural_spawning/bush" instance=ExtResource( 7 )]
-required_tool_class = "hand"
+required_tool_class = "scythe"
 item_name = "tomato"
 
 [node name="rock" type="Node" parent="natural_spawning"]
-editor/display_folded = true
 script = ExtResource( 3 )
 spawn_rate_mul = 3.0
 min_comfortable_distance_squared = 2000.0
@@ -64,3 +63,11 @@ required_tool_class = "pickaxe"
 [node name="Rock2" parent="natural_spawning/rock" instance=ExtResource( 9 )]
 stash_count = 100
 required_tool_class = "pickaxe"
+
+[node name="iron-ore" type="Node" parent="natural_spawning"]
+script = ExtResource( 3 )
+spawn_rate_mul = 3.0
+min_comfortable_distance_squared = 2000.0
+
+[node name="ore" parent="natural_spawning/iron-ore" instance=ExtResource( 10 )]
+drop_multiplier = 0.1

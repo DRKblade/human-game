@@ -54,7 +54,7 @@ func take_item(item, qty):
 				return 0
 	return qty
 
-func get_fillable_slot(item):
+func get_fillable_slot(item:item):
 		var filled_slot = null
 		for slot in get_slots():
 			if !slot.crafting and slot.item == item and slot.qty < item.max_stack:

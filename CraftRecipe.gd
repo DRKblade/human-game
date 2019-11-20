@@ -7,13 +7,11 @@ func qty(index):pass
 func get_result_qty():pass
 func get_duration():pass
 
-export var result_name:String
-
 var items = Array()
 var result: item
 
 func _ready():
-	result = Items.items[result_name]
+	result = Items.items[name]
 	for i in get_ingredient_count():
 		items.push_back(Items.items[item_name(i)])
 	Items.connect("player_inventory_changed", self, "update_availability")
