@@ -1,14 +1,12 @@
+extends "res://Character/character_property.gd"
+
 class_name stat
 
 signal value_changed
 
-var value = 0
-var actual_value:float
+export var base_value = 0
+onready var value:float = base_value
 var effects = {"multiply":Array(), "pre_add":Array(), "post_add":Array()}
-
-func _init(value):
-	self.value = value
-	actual_value = value
 
 func add_effect(effect):
 	var effect_arr = effects[effect.type]
@@ -24,12 +22,12 @@ func remove_effect(effect):
 		calc_actual_value()
 
 func calc_actual_value():
-	actual_value = value
+	value = base_value
 	for effect in effects["pre_add"]:
-		actual_value += effect.value
+		value += effect.value
 	for effect in effects["multiply"]:
-		actual_value *= effect.value
+		value *= effect.value
 	for effect in effects["post_add"]:
-		actual_value += effect.value
-	emit_signal("value_changed", actual_value)
+		value += effect.value
+	emit_signal("value_changed", value)
 

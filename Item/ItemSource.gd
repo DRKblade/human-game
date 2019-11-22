@@ -25,6 +25,8 @@ func drop_to_player(drop_count, item):
 func _on_hit(source, tool_class, hit_strength):
 	if my_math.find(tool_class, required_tool_class) != -1:
 		_on_drop(min(my_math.rand_rounding(item_drop*hit_strength), stash_count))
+		return true
+	return false
 
 func lose_stash(drop_count):
 	stash_count-=drop_count

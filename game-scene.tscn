@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Game.gd" type="Script" id=1]
-[ext_resource path="res://Character/gui.gd" type="Script" id=2]
-[ext_resource path="res://Character/Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Character/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Character/gui.gd" type="Script" id=3]
 [ext_resource path="res://square.svg" type="Texture" id=4]
 
 [sub_resource type="Animation" id=1]
@@ -69,21 +69,20 @@ initial_spawn_count = 300
 night_tint = Color( 0.215686, 0.235294, 0.564706, 1 )
 is_day = false
 
-[node name="gui" type="CanvasLayer" parent="."]
-script = ExtResource( 2 )
-
-[node name="natural_spawn" type="Timer" parent="."]
-autostart = true
-
 [node name="player" parent="." groups=[
 "player",
-] instance=ExtResource( 3 )]
-editor/display_folded = true
+] instance=ExtResource( 2 )]
 position = Vector2( 511.502, 299.283 )
 
 [node name="camera" type="Camera2D" parent="player"]
 current = true
 smoothing_enabled = true
+
+[node name="gui" type="CanvasLayer" parent="."]
+script = ExtResource( 3 )
+
+[node name="natural_spawn" type="Timer" parent="."]
+autostart = true
 
 [node name="day-night" type="Timer" parent="."]
 wait_time = 300.0
@@ -96,6 +95,7 @@ mode = 3
 
 [node name="Sprite" type="Sprite" parent="."]
 self_modulate = Color( 0.254902, 0.396078, 0.278431, 1 )
+position = Vector2( -1.43201, 2.86389 )
 scale = Vector2( 100, 100 )
 texture = ExtResource( 4 )
 

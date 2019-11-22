@@ -60,6 +60,7 @@ collision_layer = 3
 collision_mask = 0
 script = ExtResource( 1 )
 wobble_distance = 6
+required_tool_class = "scythe"
 
 [node name="wobble" type="AnimationPlayer" parent="."]
 anims/wobble = SubResource( 1 )

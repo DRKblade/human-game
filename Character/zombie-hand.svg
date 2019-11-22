@@ -15,7 +15,7 @@
    version="1.1"
    id="svg846"
    inkscape:version="0.92.4 (f8dce91, 2019-08-02)"
-   sodipodi:docname="character-hand.svg">
+   sodipodi:docname="zombie-hand.svg">
   <defs
      id="defs840" />
   <sodipodi:namedview
@@ -45,7 +45,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -55,7 +55,7 @@
      id="layer1"
      transform="translate(0,-288.53332)">
     <circle
-       style="opacity:1;vector-effect:none;fill:#ecc078;fill-opacity:1;stroke:#000000;stroke-width:0.69969082;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="opacity:1;vector-effect:none;fill:#3f6c3f;fill-opacity:1;stroke:#000000;stroke-width:0.69969082;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="path1391"
        cx="4.2314625"
        cy="292.76852"

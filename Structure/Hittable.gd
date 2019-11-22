@@ -20,3 +20,4 @@ func _process(delta):
 
 func _on_hit(source, tool_class, hit_strength):
 	current_health -= hit_strength
+	return true

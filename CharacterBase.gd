@@ -1,7 +1,5 @@
 extends KinematicBody2D
 
-class_name player
-
 const STATE_BUSY = 1
 const STATE_FREE = 2
 const STATE_HALF_BUSY = 3
@@ -9,30 +7,30 @@ const STATE_HALF_BUSY = 3
 var state = STATE_FREE
 var action_queue = PoolStringArray()
 var prev_action
-var properties = {}
+
+# status
+var life = 0.9
+var temperature:float = 1
+var temperature_deplete:float = 0.05
+var life_deplete = 0.05
+var heating = stat.new(0)
+
+# movement
+export var base_speed = 200
+var speed:stat = stat.new(base_speed)
+var direction = Vector2()
 
 # punch
 export var change_hand = 0.8
 export var hit_active = false
 export var hand_hit_strength = 1.0
-export var put_structure_distance = 100
 var active_hitter
 var current_hand = true
 var hand_hit = Array()
-var punch_energy = 0.04
-var punch_animation_length
-var placing_structure
 
 # inventory
 export var max_item = 10
 var body_hit = Array()
-var extern_inventory_source
-
-# gui
-onready var gui = $gui
-onready var inventory = $gui/margin/inventory
-onready var extern_inventory = $gui/extern_inventory/slots
-onready var craft_menu = $gui/margin/CraftMenu
 
 # pull-out
 var equip_node
@@ -48,51 +46,16 @@ func _ready():
 	$anim.play("move")
 	
 	# inventory
-	inventory.set_slot_count(max_item)
+#	inventory.set_slot_count(max_item)
 	
 	# pull-out
 	equip_node = $body/hand1/equip
-	
-	$crafter.inventory = inventory
-	inventory.fill_item_new(Items.items["wood"], 100)
-	inventory.fill_item_new(Items.items["stone"], 100)
-	inventory.fill_item_new(Items.items["orange"], 20)
-	inventory.fill_item_new(Items.items["iron"], 20)
-	inventory.fill_item_new(Items.items["paper"], 1)
 	$body/hand_weapon.player = self
 	$body/hand_weapon.animation_length = $anim.get_animation("punch1").length
-	properties["heating"].connect("value_changed", self, "heating_changed")
-#	set_status()
+	heating.connect("value_changed", self, "heating_changed")
 
 func heating_changed(value):
 	$dark_vision.target_value = float(-value if value < 0 else 0)
-		
-
-func exit_extern_inventory():
-	extern_inventory_source = null
-	for child in extern_inventory.get_children():
-		extern_inventory.remove_child(child)
-	extern_inventory.get_parent().visible = false
-
-func show_extern_inventory(inventory):
-	extern_inventory_source = inventory
-	for child in extern_inventory.get_children():
-		extern_inventory.remove_child(child)
-	for slot in inventory.get_slots():
-		extern_inventory.add_child(slot)
-	extern_inventory.get_parent().visible = true
-
-func toggle_extern_inventory(inventory):
-	if extern_inventory_source == null:
-		show_extern_inventory(inventory)
-	else:
-		exit_extern_inventory()
-
-func set_craft_station(station_name, station, availability):
-	craft_menu.get_node(station_name).set_station(station, availability)
-
-func craft(recipe):
-	$crafter.start_crafting(recipe)
 
 func equip_item(slot: inventory_slot):
 	if !slot.is_empty() and slot.item and anim_find("pullout") == -1:
@@ -152,10 +115,7 @@ func anim_pull_out():
 		equipment.player = self
 		equipment.animation_length = $anim.get_animation(equip_slot.item.use_action()).length
 		$body/hand1/equip.add_child(equipment)
-	if equip_slot.item.has_method("structure"):
-		placing_structure = equip_slot.item.structure()
-		Items.game.add_child(placing_structure)
-		
+	
 	if equip_slot.item.has_method("on_equip"):
 		equip_slot.item.on_equip(self)
 	
@@ -171,10 +131,7 @@ func anim_use():
 		equip_slot.item.on_busy(self)
 	active_hitter = $body/hand1/equip.get_child(0)
 	if active_hitter != null:
-		if properties["energy"].value >= active_hitter.hit_energy:
-			properties["energy"].add(-active_hitter.hit_energy)
-			active_hitter._start_hit()
-		else: return
+		active_hitter._start_hit()
 	return use_action
 
 func anim_drop():
@@ -185,28 +142,22 @@ func anim_drop():
 	return "throw1" if get_current_hand() else "throw2"
 
 func anim_punch():
-	if placing_structure != null:
-		if placing_structure.modulate == Color.white:
-			placing_structure = null
-			equip_slot.deplete_item()
-	elif properties["energy"].value >= punch_energy:
-		properties["energy"].add(-punch_energy)
-		$audio.play()
-		active_hitter = $body/hand_weapon
-		active_hitter._start_hit()
-		return "punch1" if get_current_hand() else "punch2"
+	$audio.play()
+	active_hitter = $body/hand_weapon
+	active_hitter._start_hit()
+	return "punch1" if get_current_hand() else "punch2"
 
-func anim_pickup():
-	for area in body_hit:
-		if area is dropped_item:
-			var qty = inventory.fill_item(area.qty, area)
-			if qty == 0:
-				area.queue_free()
-			elif qty == area.qty:
-				return
-			else:
-				area.init_qty(qty, area)
-			return "pickup1" if get_current_hand() else "pickup2"
+#func anim_pickup():
+#	for area in body_hit:
+#		if area is dropped_item:
+#			var qty = inventory.fill_item(area.qty, area)
+#			if qty == 0:
+#				area.queue_free()
+#			elif qty == area.qty:
+#				return
+#			else:
+#				area.init_qty(qty, area)
+#			return "pickup1" if get_current_hand() else "pickup2"
 
 func anim_move():
 	return "move"
@@ -216,9 +167,6 @@ func anim_put_back():
 	if equip_slot.item != null and equip_slot.item.has_method("on_unequip"):
 		equip_slot.item.on_unequip(self)
 	equip_slot = null
-	if placing_structure != null:
-		placing_structure.queue_free()
-		placing_structure = null
 	if $body/hand1/equip.get_child_count() == 0:
 		$body/hand1/equip.texture = null
 	else:
@@ -276,11 +224,12 @@ func _anim_get_animation():
 	
 	prev_action = null
 	# movement
-	if $movement.direction != Vector2.ZERO:
+	if direction != Vector2.ZERO:
 		if state == STATE_BUSY:
 			return to_half_busy()
 		return "move"
-	else:
+	
+	if direction == Vector2.ZERO:
 		return "idle_holding" if state == STATE_BUSY else "idle"
 
 func finish_consume():
@@ -291,6 +240,11 @@ func finish_consume():
 			equip_slot = null
 
 func _physics_process(delta):
+	# movement
+	direction.x = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
+	direction.y = int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
+	var current_speed = speed.actual_value
+	move_and_slide(direction * current_speed)
 	
 	# punch
 	if hit_active:
@@ -303,12 +257,6 @@ func process_event(action_name):
 func _process(delta):
 	var mouse_pos = get_global_mouse_position()
 	look_at(mouse_pos)
-	if placing_structure != null:
-		if Input.is_action_just_pressed("game_rotate"):
-			placing_structure.rotation_degrees += 90
-		placing_structure.global_position = my_math.round_vector(mouse_pos, Vector2(80,80))
-		prints(placing_structure.global_position, mouse_pos)
-		placing_structure.modulate = Color.white if my_math.my_length(placing_structure.global_position - global_position) < put_structure_distance else Color(0.5,0.5,0.5,0.5)
 
 func _unhandled_input(event):
 #	if event is InputEventMouseButton:
@@ -326,3 +274,12 @@ func _on_body_exited(area):
 	body_hit.remove(body_hit.find(area))
 	if area.has_method("on_exit"):
 		area.on_exit(self)
+
+func _status_update():
+	
+	if temperature == 0:
+		life = clamp(life - life_deplete, 0, 1)
+	temperature = clamp(temperature + heating.actual_value*temperature_deplete, 0, 1)
+	
+	if temperature == 0:
+		$body/glow/anim.play("pulse-temperature")

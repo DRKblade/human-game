@@ -12,3 +12,5 @@ func get_slots():
 	return slots
 func add_slot(slot):
 	slots.push_back(slot)
+func remove_slot(slot):
+	slots.remove(slots.find(slot))

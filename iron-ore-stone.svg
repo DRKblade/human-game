@@ -90,7 +90,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -117,7 +117,7 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="zzzzz" />
     <path
-       style="opacity:0.73699999;vector-effect:none;fill:#f06500;fill-opacity:0.98878928;stroke:#000000;stroke-width:0.41322314;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter3034)"
+       style="opacity:0.73699999;vector-effect:none;fill:#f06500;fill-opacity:0.98878928;stroke:#000000;stroke-width:0.57851237;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter3034)"
        d="m 26.056733,281.66833 c -0.222951,1.03382 -1.810869,2.10803 -2.220611,1.77176 -0.948016,-0.77804 -2.22061,-0.79324 -2.22061,-1.77176 0,-0.97852 1.004962,-1.60967 2.22061,-1.77176 1.903096,-0.25376 2.458984,0.66643 2.220611,1.77176 z"
        id="path2968"
        inkscape:connector-curvature="0"
@@ -128,10 +128,10 @@
        inkscape:connector-curvature="0"
        id="path2979"
        d="m 18.96968,285.25912 c -0.222951,1.03382 -1.694776,1.70495 -2.220611,1.77176 -2.477103,0.31471 -2.722856,-0.25928 -2.22061,-1.77176 0.308376,-0.92866 1.004962,-1.60967 2.22061,-1.77176 1.903096,-0.25376 2.458984,0.66643 2.220611,1.77176 z"
-       style="opacity:0.73699999;vector-effect:none;fill:#f06500;fill-opacity:0.98878928;stroke:#000000;stroke-width:0.41322314;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter3058)"
-       transform="matrix(1.21,0,0,1.21,-3.972746,-58.869268)" />
+       style="opacity:0.73699999;vector-effect:none;fill:#f06500;fill-opacity:0.98878928;stroke:#000000;stroke-width:0.57851237;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter3058)"
+       transform="matrix(1.21,0,0,1.21,-4.0672401,-59.719714)" />
     <path
-       style="opacity:0.7;vector-effect:none;fill:#f06500;fill-opacity:0.98823529;stroke:#000000;stroke-width:0.41322314;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter3066)"
+       style="opacity:0.7;vector-effect:none;fill:#f06500;fill-opacity:0.98823529;stroke:#000000;stroke-width:0.57851237;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter3066)"
        d="m 21.392398,274.60805 c 0.484913,2.33027 -1.224063,2.24851 -2.001093,1.72979 -1.915715,-1.27885 -2.453685,-0.25314 -2.001088,-1.72979 0.277889,-0.90666 0.905614,-1.57155 2.001088,-1.72982 1.714966,-0.24774 1.776992,0.65288 2.001093,1.72982 z"
        id="path2981"
        inkscape:connector-curvature="0"
@@ -142,7 +142,7 @@
        inkscape:connector-curvature="0"
        id="path3004"
        d="m 10.903491,280.4674 c -1.6599181,-0.26744 -1.1619391,-2.04045 -0.74271,-2.63559 1.32916,-1.88689 1.33378,-2.14531 2.527885,-1.05251 0.733177,0.67095 1.081736,1.55366 0.742697,2.63559 -0.530741,1.69375 -1.388015,1.23618 -2.527872,1.05251 z"
-       style="opacity:0.7;vector-effect:none;fill:#f06500;fill-opacity:0.98823529;stroke:#000000;stroke-width:0.41322314;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter3062)"
+       style="opacity:0.7;vector-effect:none;fill:#f06500;fill-opacity:0.98823529;stroke:#000000;stroke-width:0.57851237;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter3062)"
        inkscape:transform-center-x="-1.4565977"
        inkscape:transform-center-y="0.072828735"
        transform="matrix(1.21,0,0,1.21,-2.4476964,-58.463792)" />

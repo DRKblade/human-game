@@ -14,8 +14,7 @@ var pushback_target = Vector2.ZERO
 
 func on_hit(source, tool_class, hit_strength):
 	if has_method("_on_hit"):
-		call("_on_hit", source, tool_class, hit_strength)
-		$pushback.play("pushback")
+		$pushback.play("pushback" if call("_on_hit", source, tool_class, hit_strength) else "half pushback")
 		pushback_target = (global_position - source.global_position).normalized() * pushback_distance
 
 func on_enter(body):
@@ -37,4 +36,4 @@ func _process(delta):
 func check_direction():
 	if wobbling:
 		$wobble.play("wobble")
-		wobble_target = wobble_player.direction * wobble_distance
+		wobble_target = wobble_player.properties["movement"].direction * wobble_distance

@@ -24,7 +24,7 @@ func _on_exit(player):
 func _on_hit(source, tool_class, hit_strength):
 	if wobbling:
 		Items.player.toggle_extern_inventory(inventory)
-	._on_hit(source, tool_class, hit_strength)
+	return ._on_hit(source, tool_class, hit_strength)
 
 func craft(recipe):
 	$crafter.start_crafting(recipe)

@@ -156,7 +156,6 @@ texture_normal = ExtResource( 7 )
 script = ExtResource( 6 )
 
 [node name="Scroll" parent="." instance=ExtResource( 2 )]
-visible = false
 margin_left = 160.0
 margin_right = 240.0
 margin_bottom = 80.0
@@ -164,13 +163,10 @@ texture_normal = ExtResource( 9 )
 script = ExtResource( 10 )
 
 [node name="pop" type="PanelContainer" parent="Scroll"]
-visible = false
 show_behind_parent = true
 light_mask = 2
-margin_left = -10.0
-margin_top = -10.0
-margin_right = 70.0
-margin_bottom = 70.0
+margin_right = 80.0
+margin_bottom = 80.0
 mouse_filter = 2
 size_flags_vertical = 0
 custom_styles/panel = SubResource( 1 )
@@ -178,7 +174,7 @@ custom_styles/panel = SubResource( 1 )
 [node name="items" type="VBoxContainer" parent="Scroll/pop"]
 light_mask = 2
 margin_right = 80.0
-margin_bottom = 320.0
+margin_bottom = 240.0
 mouse_filter = 2
 custom_constants/separation = 0
 
@@ -193,8 +189,6 @@ size_flags_vertical = 0
 custom_styles/panel = SubResource( 2 )
 
 [node name="pickaxe" parent="Scroll/pop/items" instance=ExtResource( 4 )]
-margin_top = 160.0
-margin_bottom = 240.0
 size_flags_horizontal = 3
 texture_normal = ExtResource( 8 )
 script = ExtResource( 6 )

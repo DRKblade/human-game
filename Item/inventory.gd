@@ -14,6 +14,8 @@ func get_slots():
 	return get_children()
 func add_slot(slot):
 	add_child(slot)
+func remove_slot(slot):
+	remove_child(slot)
 
 func set_slot_count(new_slot_count):
 	while new_slot_count > slot_count:

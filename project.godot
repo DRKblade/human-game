@@ -64,10 +64,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Character/Player.gd"
 }, {
-"base": "Reference",
+"base": "Node",
 "class": "stat",
 "language": "GDScript",
-"path": "res://Character/Stat.gd"
+"path": "res://Character/stat.gd"
 }, {
 "base": "Node2D",
 "class": "structure",
