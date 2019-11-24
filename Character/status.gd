@@ -19,7 +19,6 @@ func _ready():
 	if has_method("_status_process"):
 		Items.game.connect("status_process", self, "_status_process")
 	emit_signal("value_changed", value)
-	prints(name, value)
 
 func get_healthiness():
 	return value

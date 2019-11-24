@@ -1,13 +1,14 @@
-extends Node2D
-
-var player
+extends Node
 
 export var tool_class: PoolStringArray
 export var hit_strength: int
-export var hit_energy: float = 0.08
+export var use_energy: float = 0.08
+export var use_action = "strike"
 var hit = Array()
 var inactive = Array()
 var animation_length
+var active = false
+var action
 
 func _on_entered(area):
 	hit.push_back(area)
@@ -17,14 +18,20 @@ func _on_exited(area):
 	if index != -1:
 		hit.remove(index)
 
-func _hit_process():
-	if player.hit_active:
+func on_attached(main_animation):
+	animation_length = action.my_player.anim.get_animation(main_animation).length
+
+func _physics_process(delta):
+	if action.pullout_action.hit_active:
 		for body in hit:
 			if body.has_method("on_hit") and inactive.find(body) == -1:
 				my_math.find(tool_class, "nothing")
-				body.on_hit(self, tool_class, hit_strength*animation_length)
+				body.on_hit(action.my_player, tool_class, hit_strength*animation_length)
 				inactive.push_back(body)
 				break
 
-func _start_hit():
+func start_hit():
 	inactive.clear()
+
+func end_hit():
+	pass

@@ -156,6 +156,7 @@ texture_normal = ExtResource( 7 )
 script = ExtResource( 6 )
 
 [node name="Scroll" parent="." instance=ExtResource( 2 )]
+visible = false
 margin_left = 160.0
 margin_right = 240.0
 margin_bottom = 80.0

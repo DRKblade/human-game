@@ -8,5 +8,4 @@ func add(amount):
 		get_parent().add(amount*increment_to_parent)
 
 func _status_process(delta):
-	prints(name, "update")
 	add(-delta)

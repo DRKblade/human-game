@@ -7,7 +7,8 @@ func get_regen_rate():
 
 func _status_process(delta):
 	var regen = get_regen_rate()*delta
+	var multiplier = 1
 	for child in get_children():
 		if child.has_method("get_healthiness"):
-			regen *= child.get_healthiness()
-	add(regen if regen != 0 else -1)
+			multiplier *= child.get_healthiness()
+	add(regen*multiplier if multiplier != 0 else -1)

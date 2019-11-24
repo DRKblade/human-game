@@ -11,14 +11,11 @@ export var base_duration:float
 func use_action():
 	return null
 
-func require_free():
-	return true
+func posture():
+	return "free"
 
 func on_busy(player):
 	pass
 
-func equipment():
+func equipment(player):
 	return null
-
-func usable():
-	return false

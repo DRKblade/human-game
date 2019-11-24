@@ -11,7 +11,7 @@ onready var current_health = health
 
 func _process(delta):
 	current_health = min(current_health+regen*delta, health)
-	modulate = Color(1,1,1,current_health/health)
+	$spr.modulate = Color(1,1,1,current_health/health)
 	if current_health <= 0:
 		for i in dropped_items.size():
 			Items.drop_item(Items.items[dropped_items[i]], null, global_position, my_math.rand_direction(), dropped_qtys[i])

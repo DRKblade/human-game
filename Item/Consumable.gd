@@ -1,32 +1,32 @@
-extends item
+extends equipable
 
 class_name consumable
 
 export var hunger: float
 export var energy: float
 export var rot_speed: float
+export var use_action = "consume"
+
 onready var effect = Effects.effects["busy"]
 
-func on_use(player):
-	player.speed.remove_effect(Effects.effects["busy"])
-	player.change_hunger(hunger)
-	player.change_energy(energy)
+func on_finish_use(player):
+	player.properties["hunger"].add(hunger)
+	player.properties["energy"].add(energy)
 
 func use_action():
 	return "consume"
 
-func on_busy(player):
-	player.speed.add_effect(Effects.effects["busy"])
-
 func require_free():
 	return false
-
-func usable():
-	return true
 
 func item_process(delta, slot):
 	slot.rot_state += rot_speed *delta
 	return slot.rot_state >=1
+
+func get_action(pull_out):
+	var result = .get_action(pull_out)
+	result.item = self
+	return result
 
 func combine(my_slot, other_slot, other_qty):
 	my_slot.rot_state = (my_slot.rot_state*my_slot.qty + (other_slot.rot_state if other_slot != null else 0)*other_qty)/(my_slot.qty + other_qty)

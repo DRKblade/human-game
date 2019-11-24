@@ -10,10 +10,14 @@ var state = STATE_FREE
 var action_queue = PoolStringArray()
 var prev_action
 var properties = {}
+var postures = {}
+var actions = {}
+var action_list = []
+var active_action
+export var posture:String
 
 # punch
 export var change_hand = 0.8
-export var hit_active = false
 export var hand_hit_strength = 1.0
 export var put_structure_distance = 100
 var active_hitter
@@ -25,7 +29,6 @@ var placing_structure
 
 # inventory
 export var max_item = 10
-var body_hit = Array()
 var extern_inventory_source
 
 # gui
@@ -34,6 +37,8 @@ onready var inventory = $gui/margin/inventory
 onready var extern_inventory = $gui/extern_inventory/slots
 onready var craft_menu = $gui/margin/CraftMenu
 
+onready var anim
+
 # pull-out
 var equip_node
 var equip_slot = null
@@ -41,6 +46,9 @@ var pullout_slot = null
 
 # drop item
 var dropped_slot
+
+func _enter_tree():
+	anim = $anim
 
 func _ready():
 	Items.player = self
@@ -59,10 +67,17 @@ func _ready():
 	inventory.fill_item_new(Items.items["orange"], 20)
 	inventory.fill_item_new(Items.items["iron"], 20)
 	inventory.fill_item_new(Items.items["paper"], 1)
-	$body/hand_weapon.player = self
-	$body/hand_weapon.animation_length = $anim.get_animation("punch1").length
 	properties["heating"].connect("value_changed", self, "heating_changed")
-#	set_status()
+
+func add_action(action):
+	actions[action.name] = action
+	my_math.insert_sorted(action_list, action, self, "get_action_priority")
+
+func remove_action(action):
+	actions.erase(action.name)
+	action_list.remove(action_list.find(action))
+func get_action_priority(action):
+	return -action.priority
 
 func heating_changed(value):
 	$dark_vision.target_value = float(-value if value < 0 else 0)
@@ -171,8 +186,8 @@ func anim_use():
 		equip_slot.item.on_busy(self)
 	active_hitter = $body/hand1/equip.get_child(0)
 	if active_hitter != null:
-		if properties["energy"].value >= active_hitter.hit_energy:
-			properties["energy"].add(-active_hitter.hit_energy)
+		if properties["energy"].value >= active_hitter.use_energy:
+			properties["energy"].add(-active_hitter.use_energy)
 			active_hitter._start_hit()
 		else: return
 	return use_action
@@ -196,34 +211,8 @@ func anim_punch():
 		active_hitter._start_hit()
 		return "punch1" if get_current_hand() else "punch2"
 
-func anim_pickup():
-	for area in body_hit:
-		if area is dropped_item:
-			var qty = inventory.fill_item(area.qty, area)
-			if qty == 0:
-				area.queue_free()
-			elif qty == area.qty:
-				return
-			else:
-				area.init_qty(qty, area)
-			return "pickup1" if get_current_hand() else "pickup2"
-
 func anim_move():
 	return "move"
-
-func anim_put_back():
-	state = STATE_FREE
-	if equip_slot.item != null and equip_slot.item.has_method("on_unequip"):
-		equip_slot.item.on_unequip(self)
-	equip_slot = null
-	if placing_structure != null:
-		placing_structure.queue_free()
-		placing_structure = null
-	if $body/hand1/equip.get_child_count() == 0:
-		$body/hand1/equip.texture = null
-	else:
-		$body/hand1/equip.remove_child($body/hand1/equip.get_child(0))
-	return
 
 func to_half_busy(is_put_back = false):
 	state = STATE_FREE if is_put_back else STATE_HALF_BUSY
@@ -234,10 +223,22 @@ func to_busy():
 	return "pull_out"
 
 func _anim_process():
-	var next_clip = _anim_get_animation()
-	if next_clip == null:
-		print("error: no animation clip to play")
-	$anim.play(next_clip)
+	if active_action != null and active_action.is_valid():
+		active_action = active_action.resume()
+		if active_action != null:
+			return
+	for action in action_list:
+		active_action = action.anim_process()
+		if active_action != null:
+			break
+	if active_action == null:
+		anim.play(postures[posture].idle_anim)
+
+func _unhandled_input(event):
+	for action in action_list:
+		if action.has_method("unhandled_input") and action.unhandled_input(event):
+			get_tree().set_input_as_handled()
+			break
 
 func _anim_get_animation():
 	var result
@@ -283,19 +284,6 @@ func _anim_get_animation():
 	else:
 		return "idle_holding" if state == STATE_BUSY else "idle"
 
-func finish_consume():
-	if equip_slot.item is consumable:
-		equip_slot.item.on_use(self)
-		equip_slot.deplete_item()
-		if equip_slot.is_empty():
-			equip_slot = null
-
-func _physics_process(delta):
-	
-	# punch
-	if hit_active:
-		active_hitter.call("_hit_process")
-
 func process_event(action_name):
 	if Input.is_action_just_pressed(action_name) and anim_find(action_name) == -1:
 		action_queue.push_back(action_name)
@@ -303,26 +291,3 @@ func process_event(action_name):
 func _process(delta):
 	var mouse_pos = get_global_mouse_position()
 	look_at(mouse_pos)
-	if placing_structure != null:
-		if Input.is_action_just_pressed("game_rotate"):
-			placing_structure.rotation_degrees += 90
-		placing_structure.global_position = my_math.round_vector(mouse_pos, Vector2(80,80))
-		prints(placing_structure.global_position, mouse_pos)
-		placing_structure.modulate = Color.white if my_math.my_length(placing_structure.global_position - global_position) < put_structure_distance else Color(0.5,0.5,0.5,0.5)
-
-func _unhandled_input(event):
-#	if event is InputEventMouseButton:
-	process_event("game_click")
-	process_event("game_pickup")
-	process_event("game_use")
-
-# pickup
-func _on_body_entered(area):
-	body_hit.push_back(area)
-	if area.has_method("on_enter"):
-		area.on_enter(self)
-
-func _on_body_exited(area):
-	body_hit.remove(body_hit.find(area))
-	if area.has_method("on_exit"):
-		area.on_exit(self)

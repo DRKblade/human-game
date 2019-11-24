@@ -8,5 +8,4 @@ func _process(delta):
 	set(interpolated_prop, get(interpolated_prop) + (target_value - get(interpolated_prop))*smoothing)
 
 func set_target_value(value):
-	prints(name, value)
 	target_value = value

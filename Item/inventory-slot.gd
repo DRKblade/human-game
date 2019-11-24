@@ -38,19 +38,18 @@ func _pressed():
 			if player_connected:
 				if player.extern_inventory_source != null:
 					init_qty(player.extern_inventory_source.fill_item(qty, self), self)
-				elif player.equip_slot != null:
-					player.put_back()
-					if player.equip_slot.item != item:
-						player.equip_item(self)
 				else:
-					player.equip_item(self)
+					var pull_out = player.actions["pull_out"]
+					if pull_out.current_equip != null and pull_out.current_equip.item == item:
+						pull_out.put_back = true
+					else: pull_out.pullout_slot = self
 			else:
 				init_qty(player.inventory.fill_item(qty, self), self)
 		if Input.is_mouse_button_pressed(BUTTON_RIGHT):
 			if item != null:
-				if player.pullout_slot == self:
-					player.put_back()
-				Items.player.drop_item(self)
+				if player.actions["pull_out"].current_equip == self:
+					player.actions["pull_out"].put_back = true
+				player.actions["drop"].drop_slot = self
 
 func on_inventory_changed():
 	emit_signal("inventory_changed")

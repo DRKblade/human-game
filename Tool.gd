@@ -1,10 +1,8 @@
-extends item
+extends equipable
 
-func use_action():
-	return "strike"
 
-func equipment():
-	return $equipment.duplicate()
-
-func usable():
-	return true
+func create_action():
+	var result = .create_action()
+	result.equipment = $equipment.duplicate()
+	result.equipment.action = result
+	return result

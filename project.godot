@@ -19,7 +19,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Item/array_inventory.gd"
 }, {
-"base": "item",
+"base": "equipable",
 "class": "consumable",
 "language": "GDScript",
 "path": "res://Item/Consumable.gd"
@@ -33,6 +33,11 @@ _global_script_classes=[ {
 "class": "effect",
 "language": "GDScript",
 "path": "res://Character/Effect.gd"
+}, {
+"base": "item",
+"class": "equipable",
+"language": "GDScript",
+"path": "res://Item/equipable.gd"
 }, {
 "base": "structure",
 "class": "hittable",
@@ -65,6 +70,11 @@ _global_script_classes=[ {
 "path": "res://Character/Player.gd"
 }, {
 "base": "Node",
+"class": "posture",
+"language": "GDScript",
+"path": "res://Character/posture.gd"
+}, {
+"base": "Node",
 "class": "stat",
 "language": "GDScript",
 "path": "res://Character/stat.gd"
@@ -80,12 +90,14 @@ _global_script_class_icons={
 "consumable": "",
 "dropped_item": "",
 "effect": "",
+"equipable": "",
 "hittable": "",
 "inventory": "",
 "inventory_slot": "",
 "item": "",
 "item_source": "",
 "player": "",
+"posture": "",
 "stat": "",
 "structure": ""
 }

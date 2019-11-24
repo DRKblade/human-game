@@ -11,7 +11,6 @@ export var item_take_per_click:int = 5
 func accept(item):
 	return item.name == accepted_item_name
 func on_inventory_changed():
-	print("called")
 	if qty > 0 and consumption.is_stopped():
 		consumption.start()
 		reduce_qty(1)

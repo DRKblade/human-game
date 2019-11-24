@@ -8,7 +8,6 @@ func _ready():
 	var parent = get_parent()
 	while !(parent is player):
 		parent = parent.get_parent()
-	prints(name, "connect")
 	parent.properties[name].connect("value_changed", self, "set_target_value")
 	
 	$name.text = text

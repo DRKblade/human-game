@@ -42,5 +42,5 @@ func _area_entered(area):
 func on_emptied():
 	queue_free()
 
-func _on_delete_timeout():
+func _on_delete_imeout():
 	on_emptied()

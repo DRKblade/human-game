@@ -6,24 +6,30 @@ export var normal_color = Color.white
 export var hover_color = Color.white
 export var pressed_color = Color.white
 
+export var smoothing = 0.2
+var target_value:Color = normal_color
+
+func _process(delta):
+	self_modulate = self_modulate + (target_value - self_modulate)*smoothing
+
 func _on_Button_mouse_entered():
 	if disabled:
 		return
-	self_modulate = hover_color
+	target_value = hover_color
 
 func _on_Button_mouse_exited():
 	if disabled:
 		return
-	self_modulate = normal_color
+	target_value = normal_color
 
 
 func _on_Button_button_down():
 	if disabled:
 		return
-	self_modulate = pressed_color
+	target_value = pressed_color
 
 func _on_Button_button_up():
 	if disabled:
 		return
-	self_modulate = normal_color
+	target_value = normal_color
 

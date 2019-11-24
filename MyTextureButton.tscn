@@ -14,7 +14,7 @@ enabled_focus_mode = 0
 texture_normal = ExtResource( 1 )
 expand = true
 script = ExtResource( 2 )
-hover_color = Color( 0.862745, 0.862745, 0.862745, 1 )
+hover_color = Color( 0.772549, 0.772549, 0.772549, 1 )
 pressed_color = Color( 1, 1, 1, 0.501961 )
 [connection signal="button_down" from="." to="." method="_on_Button_button_down"]
 [connection signal="button_up" from="." to="." method="_on_Button_button_up"]

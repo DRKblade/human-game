@@ -17,6 +17,14 @@ func find(array, item):
 			return i
 	return -1
 
+func insert_sorted(array, item, compare_object, compare_func):
+	var compare_item = compare_object.call(compare_func, item) 
+	for i in array.size():
+		if compare_object.call(compare_func, array[i]) > compare_item:
+			array.insert(i, item)
+			return
+	array.push_back(item) 
+
 func poisson(avg: float):
 	var rnd = randf()
 	if rnd == 1:
