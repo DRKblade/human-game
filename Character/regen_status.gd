@@ -11,4 +11,4 @@ func _status_process(delta):
 	for child in get_children():
 		if child.has_method("get_healthiness"):
 			multiplier *= child.get_healthiness()
-	add(regen*multiplier if multiplier != 0 else -1)
+	add(regen*multiplier if multiplier > 0 else -1)

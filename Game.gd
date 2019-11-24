@@ -19,7 +19,7 @@ func _ready():
 	
 	for i in initial_spawn_count:
 		Environments.natural_spawn(1)
-	$gui.add_root_children($player.gui)
+	$gui.add_root_children($player/gui)
 	change_day_night()
 	_on_item_process()
 

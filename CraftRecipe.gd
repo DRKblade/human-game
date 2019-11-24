@@ -21,7 +21,7 @@ func _on_pressed():
 	if get_parent().get_parent().get_parent().has_method("get_active_station"):
 		get_parent().get_parent().get_parent().get_active_station().craft(self)
 	else:
-		Items.player.craft(self)
+		Items.main_player["crafter"].start_crafting(self)
 
 func check_recipe(inventory):
 	for i in items.size():
@@ -36,3 +36,4 @@ func take_recipe(inventory):
 func update_availability(inventory):
 	disabled = !check_recipe(inventory)
 	self_modulate = disabled_color if disabled else normal_color
+	$tick.visible = inventory.has_item(result, result.enough_qty)

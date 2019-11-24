@@ -6,7 +6,7 @@ var energy
 export var input_action: String
 
 func set_player(my_player):
-	energy = my_player.properties["energy"]
+	energy = my_player.properties.get("energy")
 
 func unhandled_input(event):
 	if Input.is_action_just_pressed(input_action):

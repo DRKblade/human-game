@@ -18,6 +18,6 @@ func add(amount):
 			get_parent().add(value/multiplier)
 	else: regen_rate += amount*increment_to_accel
 
-func _status_update(delta):
-	._status_update(delta)
+func _status_process(delta):
+	._status_process(delta)
 	regen_rate += base_regen_rate * delta

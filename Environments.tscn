@@ -25,7 +25,6 @@ spawn_rate_mul = 7.0
 min_comfortable_distance_squared = 9000.0
 
 [node name="Tree" parent="natural_spawning/tree" instance=ExtResource( 4 )]
-stash_count = 100
 required_tool_class = "axe"
 item_name = "wood"
 
@@ -36,7 +35,6 @@ spawn_rate_mul = 3.0
 min_comfortable_distance_squared = 2000.0
 
 [node name="Trunk" parent="natural_spawning/trunk" instance=ExtResource( 5 )]
-stash_count = 50
 required_tool_class = "axe"
 
 [node name="bush" type="Node" parent="natural_spawning"]
@@ -46,25 +44,22 @@ min_comfortable_distance_squared = 2000.0
 [node name="OrangeBush" parent="natural_spawning/bush" instance=ExtResource( 6 )]
 
 [node name="TomatoBush" parent="natural_spawning/bush" instance=ExtResource( 7 )]
-required_tool_class = "scythe"
 item_name = "tomato"
 
 [node name="rock" type="Node" parent="natural_spawning"]
 script = ExtResource( 3 )
-spawn_rate_mul = 3.0
+spawn_rate_mul = 2.5
 min_comfortable_distance_squared = 2000.0
 
 [node name="Rock" parent="natural_spawning/rock" instance=ExtResource( 8 )]
-stash_count = 100
 required_tool_class = "pickaxe"
 
 [node name="Rock2" parent="natural_spawning/rock" instance=ExtResource( 9 )]
-stash_count = 100
 required_tool_class = "pickaxe"
 
 [node name="iron-ore" type="Node" parent="natural_spawning"]
 script = ExtResource( 3 )
-spawn_rate_mul = 3.0
+spawn_rate_mul = 0.8
 min_comfortable_distance_squared = 2000.0
 
 [node name="ore" parent="natural_spawning/iron-ore" instance=ExtResource( 10 )]

@@ -10,12 +10,15 @@ func action():
 	if .action():
 		yield()
 	if structure.modulate == Color.white:
+		my_player.anim.play("placing")
+		yield()
 		pullout_action.hand_equip.texture = null
 		structure = null
+		pullout_action.deplete()
 		pullout_action.put_back = true
 
 func on_first_anim():
-	pullout_action.hand_equip.texture = item.texture
+	pullout_action.hand_equip.set_texture(item.texture)
 	structure = item.get_structure()
 	structure.modulate = Color.black
 	Items.game.add_child(structure)
@@ -23,7 +26,7 @@ func on_first_anim():
 		yield()
 
 func on_removed():
-	pullout_action.hand_equip.texture = null
+	pullout_action.hand_equip.clear()
 
 func _process(delta):
 	if structure != null:

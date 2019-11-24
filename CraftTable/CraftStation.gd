@@ -12,20 +12,20 @@ func _enter_tree():
 	$crafter.inventory = inventory
 
 func _on_enter(player):
-	player.speed.add_effect(effect)
-	player.set_craft_station(station_name, self, true)
+	player.properties["movement"].add_effect(effect)
+	Items.main_player["craft_menu"].get_node(station_name).set_station(self, true)
 
 func _on_exit(player):
-	player.speed.remove_effect(effect)
-	player.set_craft_station(station_name, self, false)
-	if player.extern_inventory_source == inventory:
-		player.exit_extern_inventory()
+	player.properties["movement"].remove_effect(effect)
+	Items.main_player["craft_menu"].get_node(station_name).set_station(self, false)
+	if Items.main_player["extern_inventory"].source == inventory:
+		Items.main_player["extern_inventory"].close()
 
 func _on_hit(source, tool_class, hit_strength):
-	if wobbling:
-		Items.player.toggle_extern_inventory(inventory)
-	return ._on_hit(source, tool_class, hit_strength)
+	if wobbling and source.is_main_player == true:
+		Items.main_player["extern_inventory"].toggle(inventory)
+	return .on_hit(source, tool_class, hit_strength)
 
 func craft(recipe):
 	$crafter.start_crafting(recipe)
-	Items.player.show_extern_inventory(inventory)
+	Items.main_player["extern_inventory"].open(inventory)

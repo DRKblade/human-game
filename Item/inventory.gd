@@ -2,7 +2,7 @@ extends HBoxContainer
 
 class_name inventory
 
-export var player_connected = false
+export var main_player_connected = false
 var slot_preload = preload("res://Character/inventory-slot.tscn")
 var slot_count = 0
 
@@ -17,10 +17,18 @@ func add_slot(slot):
 func remove_slot(slot):
 	remove_child(slot)
 
+func _ready():
+	var parent = get_parent()
+	while !(parent is player):
+		parent = parent.get_parent()
+	parent.other_stuff["inventory"] = self
+	if parent.is_main_player:
+		Items.add_main_player_stuff("inventory", self)
+
 func set_slot_count(new_slot_count):
 	while new_slot_count > slot_count:
 		var slot = slot_preload.instance()
-		slot.player_connected = player_connected
+		slot.main_player_connected = main_player_connected
 		add_slot(slot)
 		slot_count += 1
 	

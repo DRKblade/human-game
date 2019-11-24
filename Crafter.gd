@@ -10,11 +10,11 @@ func set_paused(value):
 	paused = value
 
 func start_crafting(recipe):
-	if recipe.check_recipe(Items.player.inventory):
+	if recipe.check_recipe(Items.main_player["inventory"]):
 		var slot = inventory.get_fillable_slot(recipe.result)
 		if slot != null:
 			result_slot.push_back(slot)
-			recipe.take_recipe(Items.player.inventory)
+			recipe.take_recipe(Items.main_player["inventory"])
 			current_recipe.push_back(recipe)
 			slot.start_crafting()
 

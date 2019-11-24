@@ -14,10 +14,10 @@ func action():
 		yield()
 
 func on_first_anim():
-	pullout_action.hand_equip.texture = item.texture
+	pullout_action.hand_equip.set_texture(item.texture)
 	if .action():
 		yield()
 
 func on_removed():
-	pullout_action.hand_equip.texture = null
+	pullout_action.hand_equip.clear()
 	

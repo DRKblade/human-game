@@ -7,6 +7,7 @@ export var texture: Texture
 export var base_items:PoolStringArray
 export var base_qtys:PoolIntArray
 export var base_duration:float
+export var enough_qty: int = 1000000
 
 func use_action():
 	return null

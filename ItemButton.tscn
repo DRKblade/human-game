@@ -1,9 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://MyTextureButton.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Axe/hatchet-item.svg" type="Texture" id=2]
 [ext_resource path="res://ManualCraftRecipe.gd" type="Script" id=3]
-
+[ext_resource path="res://tick_mark.svg" type="Texture" id=4]
 
 [node name="ItemButton" instance=ExtResource( 1 )]
 light_mask = 2
@@ -13,9 +13,14 @@ margin_bottom = 160.0
 rect_min_size = Vector2( 0, 80 )
 texture_normal = ExtResource( 2 )
 script = ExtResource( 3 )
+disabled_color = Color( 1, 1, 1, 0.501961 )
 item_names = PoolStringArray( "wood", "stone" )
 qtys = PoolIntArray( 10, 2 )
-result_name = "hatchet"
 duration = 2.0
-disabled_color = Color( 1, 1, 1, 0.501961 )
+
+[node name="tick" type="TextureRect" parent="." index="0"]
+light_mask = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 4 )
 [connection signal="pressed" from="." to="." method="_on_pressed"]

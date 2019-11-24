@@ -164,6 +164,7 @@ texture_normal = ExtResource( 9 )
 script = ExtResource( 10 )
 
 [node name="pop" type="PanelContainer" parent="Scroll"]
+visible = false
 show_behind_parent = true
 light_mask = 2
 margin_right = 80.0

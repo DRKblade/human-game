@@ -10,11 +10,11 @@ func action():
 		yield()
 
 func on_first_anim():
-	pullout_action.hand_equip.texture = item.texture
-	my_player.craft_menu.find_node(menu_name).visible = true
+	pullout_action.hand_equip.set_texture(item.texture)
+	Items.main_player["craft_menu"].find_node(menu_name).visible = true
 	if .action():
 		yield()
 
 func on_removed():
-	pullout_action.hand_equip.texture = null
-	my_player.craft_menu.find_node(menu_name).visible = false
+	pullout_action.hand_equip.clear()
+	Items.main_player["craft_menu"].find_node(menu_name).visible = false

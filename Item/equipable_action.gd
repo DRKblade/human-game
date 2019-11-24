@@ -5,6 +5,9 @@ var pullout_action
 var equipment
 var item
 
+func get_hit_active():
+	return pullout_action.hit_active
+
 func action():
 	if .action():
 		yield()
@@ -17,10 +20,10 @@ func action():
 			break
 
 func on_first_anim():
-	pullout_action.hand_equip.add_child(equipment)
+	pullout_action.hand_equip.set_child(equipment)
 	equipment.on_attached("strike")
 	if .action():
 		yield()
 
 func on_removed():
-	pullout_action.hand_equip.remove_child(equipment)
+	pullout_action.hand_equip.clear()

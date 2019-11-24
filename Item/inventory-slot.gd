@@ -4,11 +4,11 @@ class_name inventory_slot
 
 signal inventory_changed
 
-var player_connected
+var main_player_connected
 var crafting = false
 
 func _ready():
-	if player_connected:
+	if main_player_connected:
 		connect("inventory_changed", Items, "_on_player_inventory_changed")
 
 func start_crafting():
@@ -35,16 +35,16 @@ func _pressed():
 	if item != null:
 		var player = Items.player
 		if Input.is_mouse_button_pressed(BUTTON_LEFT):
-			if player_connected:
-				if player.extern_inventory_source != null:
-					init_qty(player.extern_inventory_source.fill_item(qty, self), self)
+			if main_player_connected:
+				if Items.main_player["extern_inventory"].source != null:
+					init_qty(Items.main_player["extern_inventory"].source.fill_item(qty, self), self)
 				else:
 					var pull_out = player.actions["pull_out"]
 					if pull_out.current_equip != null and pull_out.current_equip.item == item:
 						pull_out.put_back = true
 					else: pull_out.pullout_slot = self
 			else:
-				init_qty(player.inventory.fill_item(qty, self), self)
+				init_qty(Items.main_player["inventory"].fill_item(qty, self), self)
 		if Input.is_mouse_button_pressed(BUTTON_RIGHT):
 			if item != null:
 				if player.actions["pull_out"].current_equip == self:
@@ -65,8 +65,6 @@ func on_emptied():
 	rot_state = 0
 	$crafting_process.visible = false
 	$tex.self_modulate = Color(1,1,1,1)
-	if Items.player.pullout_slot == self:
-		Items.player.lose_item()
 
 func clear():
 	on_emptied()

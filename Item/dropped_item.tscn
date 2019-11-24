@@ -47,4 +47,4 @@ autostart = true
 [node name="slow_down" type="Node" parent="."]
 script = ExtResource( 4 )
 [connection signal="area_entered" from="." to="." method="_area_entered"]
-[connection signal="timeout" from="delete" to="." method="_on_delete_timeout"]
+[connection signal="timeout" from="delete" to="." method="_on_timeout"]

@@ -29,7 +29,7 @@ func _on_consume():
 func _pressed():
 	if item == null:
 		var item_obj = Items.items[accepted_item_name]
-		var item_count = item_take_per_click - Items.player.inventory.take_item(item_obj, item_take_per_click)
+		var item_count = item_take_per_click - Items.main_player["inventory"].take_item(item_obj, item_take_per_click)
 		if item_count != 0:
 			set_item(item_obj)
 			init_qty(item_count, null)

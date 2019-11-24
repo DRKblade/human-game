@@ -6,6 +6,7 @@ var dropped_item = preload("res://Item/dropped_item.tscn")
 var items = Dictionary()
 var player setget player_set
 var game setget game_set
+var main_player = {}
 
 func game_set(value):
 	if game == null:
@@ -19,6 +20,11 @@ func player_set(value):
 	else:
 		print("error: more than one player node")
 
+func add_main_player_stuff(key, value):
+	if main_player.get(key) == null:
+		main_player[key] = value
+	else: print("error: more than one "+key+" node")
+
 func _enter_tree():
 	for child in get_children():
 		items[child.name] = child
@@ -31,4 +37,4 @@ func drop_item(item, slot, global_position, direction, qty):
 		item_instance.setup(item, slot, global_position, direction, qty)
 
 func _on_player_inventory_changed():
-	emit_signal("player_inventory_changed", player.inventory)
+	emit_signal("player_inventory_changed", main_player["inventory"])
