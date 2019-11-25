@@ -750,8 +750,8 @@ script = ExtResource( 1 )
 posture = "free"
 
 [node name="life" type="Node" parent="."]
-editor/display_folded = true
 script = ExtResource( 2 )
+base_regen_rate = 0.0
 
 [node name="temp" type="Node" parent="life"]
 script = ExtResource( 3 )

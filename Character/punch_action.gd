@@ -14,9 +14,9 @@ func action():
 		yield()
 	while true:
 		if energy != null:
-			if energy.value >= $hand_weapon.use_energy:
+			if energy.value >= 0:
 				energy.add(-$hand_weapon.use_energy)
-			else: continue
+			else: break
 		$audio.play()
 		$hand_weapon.start_hit()
 		my_player.anim.play("punch1" if get_parent().get_current_hand() else "punch2")

@@ -14,9 +14,7 @@ var wobble_target = Vector2.ZERO
 var pushback_target = Vector2.ZERO
 
 func on_hit(source, tool_class, hit_strength):
-	print("hit")
 	if has_method("_on_hit"):
-		print("play pushback")
 		$pushback.play("pushback" if call("_on_hit", source, tool_class, hit_strength) else "half pushback")
 		pushback_target = (global_position - source.global_position).normalized() * pushback_distance
 

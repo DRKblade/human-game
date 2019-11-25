@@ -2,16 +2,16 @@ extends equipable
 
 class_name consumable
 
-export var hunger: float
-export var energy: float
+export var hunger_value: float
+export var energy_value: float
 export var rot_speed: float
 export var use_action = "consume"
 
 onready var effect = Effects.effects["busy"]
 
 func on_finish_use(player):
-	player.properties["hunger"].add(hunger)
-	player.properties["energy"].add(energy)
+	player.properties["hunger"].add(hunger_value)
+	player.properties["energy"].add(energy_value)
 
 func use_action():
 	return "consume"

@@ -12,6 +12,10 @@ func action():
 	if .action():
 		yield()
 	while true:
+		if energy != null:
+			if energy.value >= 0:
+				energy.add(-equipment.use_energy)
+			else: break
 		my_player.anim.play("strike")
 		equipment.start_hit()
 		yield()

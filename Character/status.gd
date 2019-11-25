@@ -6,7 +6,7 @@ export var value: float = 1 setget set_value, get_value
 export var multiplier = 0.05
 
 func set_value(val):
-	value = clamp(val,0,1)
+	value = clamp(val, 0, 1.0)
 	emit_signal("value_changed", value)
 
 func get_value():

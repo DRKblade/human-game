@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=2]
+[gd_scene load_steps=61 format=2]
 
 [ext_resource path="res://Character/Player.gd" type="Script" id=1]
 [ext_resource path="res://Character/life_status.gd" type="Script" id=2]
@@ -43,7 +43,6 @@ expand_margin_bottom = 10.0
 shadow_color = Color( 0, 0, 0, 0 )
 
 [sub_resource type="Animation" id=2]
-length = 1.6
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 2
@@ -51,13 +50,30 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.8, 1.6 ),
+"times": PoolRealArray( 0, 0.5, 1 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 0.243137, 0.854902, 0.266667, 0 ), Color( 0.243137, 0.854902, 0.266667, 1 ), Color( 0.243137, 0.854902, 0.266667, 0 ) ]
 }
 
 [sub_resource type="Animation" id=3]
+length = 0.4
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.25, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.905882, 0.654902, 0.105882, 0 ), Color( 0.905882, 0.654902, 0.105882, 1 ), Color( 0.905882, 0.654902, 0.105882, 1 ), Color( 0.905882, 0.654902, 0.105882, 0 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "pulse-energy-half"
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
@@ -69,10 +85,28 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2, 0.4 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 0.905882, 0.654902, 0.105882, 0 ), Color( 0.905882, 0.654902, 0.105882, 1 ), Color( 0.905882, 0.654902, 0.105882, 0 ) ]
+"values": [ Color( 0.905882, 0.654902, 0.105882, 0 ), Color( 0.905882, 0.654902, 0.105882, 0.376471 ), Color( 0.905882, 0.654902, 0.105882, 0 ) ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=30]
+resource_name = "pulse-hunger"
+length = 0.4
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.25, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 0.2, 0.2, 0 ), Color( 1, 0.2, 0.2, 1 ), Color( 1, 0.2, 0.2, 1 ), Color( 1, 0.2, 0.2, 0 ) ]
+}
+
+[sub_resource type="Animation" id=31]
+resource_name = "pulse-hunger-half"
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
@@ -84,7 +118,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2, 0.4 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 0.905882, 0.654902, 0.105882, 0 ), Color( 0.905882, 0.654902, 0.105882, 0.376471 ), Color( 0.905882, 0.654902, 0.105882, 0 ) ]
+"values": [ Color( 1, 0.2, 0.2, 0 ), Color( 1, 0.2, 0.2, 0.501961 ), Color( 1, 0.2, 0.2, 0 ) ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -104,6 +138,23 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=6]
 length = 0.4
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.25, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.243137, 0.752941, 0.854902, 0 ), Color( 0.243137, 0.752941, 0.854902, 1 ), Color( 0.243137, 0.752941, 0.854902, 1 ), Color( 0.243137, 0.752941, 0.854902, 0 ) ]
+}
+
+[sub_resource type="Animation" id=29]
+resource_name = "pulse-temperature-half"
+length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 2
@@ -114,7 +165,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2, 0.4 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 0.243137, 0.752941, 0.854902, 0 ), Color( 0.243137, 0.752941, 0.854902, 1 ), Color( 0.243137, 0.752941, 0.854902, 0 ) ]
+"values": [ Color( 0.243137, 0.752941, 0.854902, 0 ), Color( 0.243137, 0.752941, 0.854902, 0.501961 ), Color( 0.243137, 0.752941, 0.854902, 0 ) ]
 }
 
 [sub_resource type="CircleShape2D" id=7]
@@ -976,13 +1027,16 @@ is_main_player = true
 
 [node name="life" type="Node" parent="."]
 script = ExtResource( 2 )
-base_regen_rate = 0.25
+value = 0.9
+base_regen_rate = 0.4
 
 [node name="energy" type="Node" parent="life"]
 script = ExtResource( 3 )
-value = 0.6
 multiplier = 0.1
-base_regen_rate = 0.05
+base_regen_rate = 0.1
+deplete_rate = 0.8
+negative_to_parent = 2
+increment_to_accel = 0.1
 
 [node name="hunger" type="Node" parent="life/energy"]
 script = ExtResource( 4 )
@@ -1105,9 +1159,12 @@ texture = ExtResource( 14 )
 [node name="anim" type="AnimationPlayer" parent="body/glow"]
 anims/pulsate-life = SubResource( 2 )
 anims/pulse-energy = SubResource( 3 )
-anims/pulse-hunger = SubResource( 4 )
+anims/pulse-energy-half = SubResource( 4 )
+anims/pulse-hunger = SubResource( 30 )
+anims/pulse-hunger-half = SubResource( 31 )
 anims/pulse-hurt = SubResource( 5 )
 anims/pulse-temperature = SubResource( 6 )
+anims/pulse-temperature-half = SubResource( 29 )
 
 [node name="hand2" type="Area2D" parent="body"]
 editor/display_folded = true
@@ -1245,6 +1302,7 @@ priority = -1
 [node name="movement" type="Node" parent="free/movement"]
 script = ExtResource( 28 )
 base_value = 200
+speedup_energy = 1.0
 speedup_trail_path = NodePath("../../../speedup_trail")
 
 [node name="lookat_mouse" type="Node" parent="."]

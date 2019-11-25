@@ -2,7 +2,7 @@ extends stat
 
 var energy
 var direction: Vector2
-var speedup_energy = 0.1
+export var speedup_energy = 0.1
 var speedup_multiplier = 1.5
 var last_speedup = false
 var my_player
@@ -28,11 +28,8 @@ func _physics_process(delta):
 	get_direction()
 	var current_speed = value
 	if is_speedup() and direction != Vector2.ZERO:
-		if energy == null:
-			pass
-		elif energy.value >= 0 or last_speedup:
+		if energy != null:
 			energy.add(-speedup_energy*delta)
-		else: return
 		current_speed *= speedup_multiplier
 		last_speedup = energy.value != 0
 		if speedup_trail.get("emitting") != null:
