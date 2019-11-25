@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=2]
+[gd_scene load_steps=48 format=2]
 
 [ext_resource path="res://Character/Player.gd" type="Script" id=1]
 [ext_resource path="res://Character/life_status.gd" type="Script" id=2]
@@ -17,18 +17,20 @@
 [ext_resource path="res://Character/character-hand.svg" type="Texture" id=15]
 [ext_resource path="res://Character/equip.gd" type="Script" id=16]
 [ext_resource path="res://Character/character-body-boy.svg" type="Texture" id=17]
-[ext_resource path="res://Character/player_crafter.gd" type="Script" id=18]
-[ext_resource path="res://Character/circle.svg" type="Texture" id=19]
-[ext_resource path="res://Character/posture.gd" type="Script" id=20]
-[ext_resource path="res://Character/pull_out_action.gd" type="Script" id=21]
-[ext_resource path="res://Character/hand_switcher.gd" type="Script" id=22]
-[ext_resource path="res://Character/punch_action.gd" type="Script" id=23]
-[ext_resource path="res://Pickaxe/Weapon.gd" type="Script" id=24]
-[ext_resource path="res://Character/drop_action.gd" type="Script" id=25]
-[ext_resource path="res://Character/pickup_action.gd" type="Script" id=26]
-[ext_resource path="res://Character/movement_action.gd" type="Script" id=27]
-[ext_resource path="res://Character/movement.gd" type="Script" id=28]
-[ext_resource path="res://Character/lookat_mouse.gd" type="Script" id=29]
+[ext_resource path="res://Character/human_anim.tscn" type="PackedScene" id=18]
+[ext_resource path="res://Character/player_crafter.gd" type="Script" id=19]
+[ext_resource path="res://Character/circle.svg" type="Texture" id=20]
+[ext_resource path="res://Character/posture.gd" type="Script" id=21]
+[ext_resource path="res://Character/pull_out_action.gd" type="Script" id=22]
+[ext_resource path="res://Character/hand_switcher.gd" type="Script" id=23]
+[ext_resource path="res://Character/punch_action.gd" type="Script" id=24]
+[ext_resource path="res://Pickaxe/Weapon.gd" type="Script" id=25]
+[ext_resource path="res://Character/drop_action.gd" type="Script" id=26]
+[ext_resource path="res://Character/pickup_action.gd" type="Script" id=27]
+[ext_resource path="res://Character/movement_action.gd" type="Script" id=28]
+[ext_resource path="res://Character/movement.gd" type="Script" id=29]
+[ext_resource path="res://Character/lookat_mouse.gd" type="Script" id=30]
+
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 0.376471 )
@@ -208,794 +210,6 @@ tracks/0/keys = {
 
 [sub_resource type="CircleShape2D" id=11]
 
-[sub_resource type="Animation" id=12]
-length = 0.8
-loop = true
-step = 0.05
-tracks/0/type = "value"
-tracks/0/path = NodePath("body/hand2:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 20, 50 ), Vector2( 20, 45 ), Vector2( 20, 50 ), Vector2( 20, 45 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("body/hand1:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( -20, 50 ), Vector2( -20, 45 ), Vector2( -20, 50 ), Vector2( -20, 45 ) ]
-}
-tracks/2/type = "method"
-tracks/2/path = NodePath(".")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0.8 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "_anim_process"
-} ]
-}
-
-[sub_resource type="Animation" id=13]
-length = 0.1
-loop = true
-step = 0.05
-tracks/0/type = "value"
-tracks/0/path = NodePath("body:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 9.30205e-05 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("body/hand1:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 9.30205e-05 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -30, 30 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("body/hand2:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 9.30205e-05 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 30, 30 ) ]
-}
-tracks/3/type = "method"
-tracks/3/path = NodePath(".")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "_anim_process"
-} ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("body/hand1/equip:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0, 15 ) ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("body/hand1/equip:z_index")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 0 ]
-}
-
-[sub_resource type="Animation" id=14]
-length = 0.1
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("body:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("body/hand1:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -20, 50 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("body/hand2:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 20, 50 ) ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("body/hand1/equip:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 20, 0 ) ]
-}
-tracks/4/type = "method"
-tracks/4/path = NodePath(".")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "_anim_process"
-} ]
-}
-
-[sub_resource type="Animation" id=15]
-length = 0.8
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("body:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 9.30205e-05, 0.2, 0.4, 0.6, 0.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 4, -3 ), Vector2( 0, 0 ), Vector2( 4, -3 ), Vector2( 0, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("body/hand1:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 9.30205e-05, 0.2, 0.4, 0.6, 0.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( -30, 30 ), Vector2( -25, 35 ), Vector2( -30, 30 ), Vector2( -30, 25 ), Vector2( -30, 30 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("body/hand2:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 9.30205e-05, 0.2, 0.4, 0.6, 0.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 30, 30 ), Vector2( 30, 25 ), Vector2( 30, 30 ), Vector2( 25, 35 ), Vector2( 30, 30 ) ]
-}
-tracks/3/type = "method"
-tracks/3/path = NodePath(".")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.4 ),
-"transitions": PoolRealArray( 1, 1 ),
-"values": [ {
-"args": [  ],
-"method": "_anim_process"
-}, {
-"args": [  ],
-"method": "_anim_process"
-} ]
-}
-
-[sub_resource type="Animation" id=16]
-length = 0.4
-step = 0.05
-tracks/0/type = "value"
-tracks/0/path = NodePath("body/hand1:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( -30, 30 ), Vector2( -35, 45 ), Vector2( -20, 60 ), Vector2( -20, 45.938 ), Vector2( -30, 30 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("body:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 10, 0 ), Vector2( 0, 0 ) ]
-}
-tracks/2/type = "method"
-tracks/2/path = NodePath(".")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0.4 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "_anim_process"
-} ]
-}
-
-[sub_resource type="Animation" id=17]
-length = 0.4
-step = 0.05
-tracks/0/type = "value"
-tracks/0/path = NodePath("body/hand2:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 30, 30 ), Vector2( 35, 45 ), Vector2( 20, 60 ), Vector2( 20, 45.938 ), Vector2( 30, 30 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("body:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 10, 0 ), Vector2( 0, 0 ) ]
-}
-tracks/2/type = "method"
-tracks/2/path = NodePath(".")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0.4 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "_anim_process"
-} ]
-}
-
-[sub_resource type="Animation" id=18]
-resource_name = "placing"
-length = 0.1
-step = 0.05
-tracks/0/type = "value"
-tracks/0/path = NodePath("body/hand2:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 20, 50 ), Vector2( 20, 60 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("body/hand1:position")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( -20, 50 ), Vector2( -20, 60 ) ]
-}
-tracks/2/type = "method"
-tracks/2/path = NodePath(".")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0.1 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "_anim_process"
-} ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("body/hand1/equip:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.15 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
-}
-
-[sub_resource type="Animation" id=19]
-length = 0.4
-step = 0.05
-tracks/0/type = "value"
-tracks/0/path = NodePath("body/hand2:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 30, 30 ), Vector2( 0, 60 ), Vector2( 20, 50 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("body/hand1:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( -30, 30 ), Vector2( 0, 40 ), Vector2( -20, 50 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("body/hand1/equip:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 15 ), Vector2( 0, 15 ), Vector2( 20, 0 ) ]
-}
-tracks/3/type = "method"
-tracks/3/path = NodePath(".")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0.4 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "_anim_process"
-} ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath(".:posture")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0.4 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ "busy" ]
-}
-
-[sub_resource type="Animation" id=20]
-length = 0.4
-loop = true
-step = 0.05
-tracks/0/type = "value"
-tracks/0/path = NodePath("body:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 4, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("body/hand1:position")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( -30, 30 ), Vector2( -20, 60 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("body/hand2:position")
-tracks/2/interp = 2
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 30, 30 ), Vector2( 27, 26 ) ]
-}
-tracks/3/type = "method"
-tracks/3/path = NodePath(".")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0.4 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "_anim_process"
-} ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("free/pull_out:hit_active")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0.05, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-
-[sub_resource type="Animation" id=21]
-length = 0.4
-loop = true
-step = 0.05
-tracks/0/type = "value"
-tracks/0/path = NodePath("body:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 4, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("body/hand1:position")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( -30, 30 ), Vector2( -27, 26 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("body/hand2:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 30, 30 ), Vector2( 20, 60 ) ]
-}
-tracks/3/type = "method"
-tracks/3/path = NodePath(".")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0.4 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "_anim_process"
-} ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("free/pull_out:hit_active")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0.05, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-
-[sub_resource type="Animation" id=22]
-length = 0.15
-step = 0.05
-tracks/0/type = "value"
-tracks/0/path = NodePath("body/hand2:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.15 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 20, 50 ), Vector2( 30, 30 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("body/hand1:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.15 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( -20, 50 ), Vector2( -30, 30 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("body/hand1/equip:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.15 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 20, 0 ), Vector2( 0, 15 ) ]
-}
-tracks/3/type = "method"
-tracks/3/path = NodePath(".")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0.15 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "_anim_process"
-} ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath(".:posture")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0.15 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ "free" ]
-}
-
-[sub_resource type="Animation" id=23]
-loop = true
-step = 0.05
-tracks/0/type = "value"
-tracks/0/path = NodePath("body/hand1:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.3, 0.6 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( -30, 30 ), Vector2( 31.0451, 42.2434 ), Vector2( -51.2799, 46.2279 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("body/hand1:rotation_degrees")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.3, 0.6 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ 0.0, -50.0, 80.0 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("body:rotation_degrees")
-tracks/2/interp = 2
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.3, 0.6 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ -90.0002, -100.0, -80.0 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("body/hand2:position")
-tracks/3/interp = 2
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 30, 30 ), Vector2( 36.7011, 39.1093 ), Vector2( 60.0077, 23.4016 ), Vector2( 71.7166, 23.0452 ), Vector2( 40.6478, 51.1563 ), Vector2( -20.4204, 55.0235 ) ]
-}
-tracks/4/type = "method"
-tracks/4/path = NodePath(".")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 1 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "_anim_process"
-} ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("free/pull_out:hit_active")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0.3, 0.6 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-
-[sub_resource type="Animation" id=24]
-length = 0.4
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("body/hand1:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( -30, 30 ), Vector2( -30, 40 ), Vector2( -40, 60 ) ]
-}
-tracks/1/type = "method"
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0.4 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "_anim_process"
-} ]
-}
-
-[sub_resource type="Animation" id=25]
-length = 0.4
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("body/hand2:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 30, 30 ), Vector2( 30, 40 ), Vector2( 40, 60 ) ]
-}
-tracks/1/type = "method"
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0.4 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "_anim_process"
-} ]
-}
-
 [sub_resource type="Gradient" id=26]
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 
@@ -1147,7 +361,8 @@ script = ExtResource( 12 )
 interpolated_prop = "energy"
 
 [node name="body" type="Area2D" parent="."]
-rotation = -1.5708
+position = Vector2( 0.8125, 0 )
+rotation = -1.39626
 collision_layer = 2
 collision_mask = 6
 script = ExtResource( 13 )
@@ -1170,7 +385,7 @@ anims/pulse-temperature-half = SubResource( 29 )
 
 [node name="hand2" type="Area2D" parent="body"]
 editor/display_folded = true
-position = Vector2( 30, 30 )
+position = Vector2( 27.5, 37.5 )
 collision_layer = 0
 collision_mask = 2
 
@@ -1185,8 +400,8 @@ scale = Vector2( 2, 2 )
 shape = SubResource( 7 )
 
 [node name="hand1" type="Area2D" parent="body"]
-editor/display_folded = true
-position = Vector2( -30, 30 )
+position = Vector2( -29.3906, 29.1875 )
+rotation = 1.39626
 collision_layer = 0
 collision_mask = 2
 
@@ -1195,7 +410,6 @@ rotation = -1.5708
 texture = ExtResource( 15 )
 
 [node name="equip" type="Sprite" parent="body/hand1"]
-modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 0, 15 )
 rotation = 3.14159
 scale = Vector2( 0.75, 0.75 )
@@ -1226,24 +440,10 @@ visible = false
 scale = Vector2( 4.2, 4.2 )
 shape = SubResource( 11 )
 
-[node name="anim" type="AnimationPlayer" parent="."]
-anims/consume = SubResource( 12 )
-anims/idle = SubResource( 13 )
-anims/idle_holding = SubResource( 14 )
-anims/move = SubResource( 15 )
-anims/pickup1 = SubResource( 16 )
-anims/pickup2 = SubResource( 17 )
-anims/placing = SubResource( 18 )
-anims/pull_out = SubResource( 19 )
-anims/punch1 = SubResource( 20 )
-anims/punch2 = SubResource( 21 )
-anims/put_back = SubResource( 22 )
-anims/strike = SubResource( 23 )
-anims/throw1 = SubResource( 24 )
-anims/throw2 = SubResource( 25 )
+[node name="anim" parent="." instance=ExtResource( 18 )]
 
 [node name="crafter" type="Node" parent="."]
-script = ExtResource( 18 )
+script = ExtResource( 19 )
 inventory_path = NodePath("../gui/margin/inventory")
 
 [node name="speedup_trail" type="Particles2D" parent="."]
@@ -1254,30 +454,30 @@ amount = 4
 lifetime = 0.8
 local_coords = false
 process_material = SubResource( 28 )
-texture = ExtResource( 19 )
+texture = ExtResource( 20 )
 
 [node name="busy" type="Node" parent="."]
-script = ExtResource( 20 )
+script = ExtResource( 21 )
 transitions_from = PoolStringArray( "free" )
 transitions_animation = PoolStringArray( "pull_out" )
 idle_anim = "idle_holding"
 
 [node name="free" type="Node" parent="."]
-script = ExtResource( 20 )
+script = ExtResource( 21 )
 transitions_from = PoolStringArray( "busy" )
 transitions_animation = PoolStringArray( "put_back" )
 idle_anim = "idle"
 
 [node name="pull_out" type="Node" parent="free"]
-script = ExtResource( 21 )
+script = ExtResource( 22 )
 hand_equip_path = NodePath("../../body/hand1/equip")
-hit_active = false
+hit_active = true
 
 [node name="hand_switcher" type="Node" parent="free/pull_out"]
-script = ExtResource( 22 )
+script = ExtResource( 23 )
 
 [node name="punch" type="Node" parent="free/pull_out/hand_switcher"]
-script = ExtResource( 23 )
+script = ExtResource( 24 )
 input_action = "game_click"
 
 [node name="audio" type="AudioStreamPlayer2D" parent="free/pull_out/hand_switcher/punch"]
@@ -1285,30 +485,30 @@ rotation = -3.14159
 volume_db = -7.257
 
 [node name="hand_weapon" type="Node" parent="free/pull_out/hand_switcher/punch"]
-script = ExtResource( 24 )
+script = ExtResource( 25 )
 tool_class = PoolStringArray( "hand", "axe", "scythe" )
 hit_strength = 2
 
 [node name="drop" type="Node" parent="free/pull_out/hand_switcher"]
-script = ExtResource( 25 )
+script = ExtResource( 26 )
 
 [node name="pickup" type="Node" parent="free/pull_out/hand_switcher"]
-script = ExtResource( 26 )
+script = ExtResource( 27 )
 input_action = "game_pickup"
 inventory_path = NodePath("../../../../gui/margin/inventory")
 
 [node name="movement" type="Node" parent="free"]
-script = ExtResource( 27 )
+script = ExtResource( 28 )
 priority = -1
 
 [node name="movement" type="Node" parent="free/movement"]
-script = ExtResource( 28 )
+script = ExtResource( 29 )
 base_value = 200
 speedup_energy = 1.0
 speedup_trail_path = NodePath("../../../speedup_trail")
 
 [node name="lookat_mouse" type="Node" parent="."]
-script = ExtResource( 29 )
+script = ExtResource( 30 )
 [connection signal="value_changed" from="life/temp/heating" to="dark_vision" method="_on_heating_value_changed"]
 [connection signal="area_entered" from="body" to="free/pull_out/hand_switcher/pickup" method="_on_body_entered"]
 [connection signal="area_entered" from="body" to="." method="_on_enter"]

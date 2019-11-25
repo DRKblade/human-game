@@ -6,9 +6,6 @@ export var lookat_min_distance = 200
 export var hit_active = false
 var lookat_target = Vector2.ZERO
 var lookat = Vector2.ZERO
-
-func get_hit_active():
-	return hit_active
 	
 func on_enter(body):
 	if body != my_player:

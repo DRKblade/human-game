@@ -22,7 +22,7 @@ func on_attached(main_animation):
 	animation_length = action.my_player.anim.get_animation(main_animation).length
 
 func _physics_process(delta):
-	if action.get_hit_active():
+	if action.my_player.anim.hit_active:
 		for body in hit:
 			if body.has_method("on_hit") and inactive.find(body) == -1 and body.get("side") != action.my_player.side:
 				my_math.find(tool_class, "nothing")

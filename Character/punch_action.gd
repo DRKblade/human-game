@@ -2,10 +2,8 @@ extends "res://Character/basic_action.gd"
 
 onready var pullout_action = get_parent().get_parent()
 
-func get_hit_active():
-	return pullout_action.hit_active
-
 func _ready():
+	print("set action")
 	$hand_weapon.action = self
 	$hand_weapon.on_attached("punch1")
 

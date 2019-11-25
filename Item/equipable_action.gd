@@ -5,9 +5,6 @@ var pullout_action
 var equipment
 var item
 
-func get_hit_active():
-	return pullout_action.hit_active
-
 func action():
 	if .action():
 		yield()

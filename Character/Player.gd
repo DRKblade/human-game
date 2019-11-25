@@ -14,7 +14,6 @@ export var is_main_player = false
 var anim
 onready var side = $body.side
 onready var damage_taker = $body
-
 func _enter_tree():
 	anim = $anim
 
