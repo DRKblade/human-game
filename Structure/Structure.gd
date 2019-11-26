@@ -19,7 +19,6 @@ func on_hit(source, tool_class, hit_strength):
 		pushback_target = (global_position - source.global_position).normalized() * pushback_distance
 
 func on_enter(body):
-	print(body.name)
 	if body is player and has_method("_on_enter"):
 		call("_on_enter", body)
 		wobbling = true

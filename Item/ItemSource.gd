@@ -9,6 +9,7 @@ export var item_name: String
 export var decay_rate = 0.1
 export var drop_prob = 0.05
 export var min_size = 0.6
+export var wrong_tool_multiplier = 0.5
 var stash_count
 var item
 
@@ -30,7 +31,9 @@ func _on_hit(source, tool_class, hit_strength):
 	if my_math.find(tool_class, required_tool_class) != -1:
 		_on_drop(source, min(my_math.rand_rounding(item_drop*hit_strength), stash_count))
 		return true
-	return false
+	else:
+		lose_stash(my_math.rand_rounding(item_drop*hit_strength*wrong_tool_multiplier))
+		return false
 
 func lose_stash(drop_count):
 	stash_count-=drop_count

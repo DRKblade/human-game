@@ -17,6 +17,16 @@ func find(array, item):
 			return i
 	return -1
 
+func find_max(array, source, comparer):
+	var chosen
+	var chosen_value = -1000000000
+	for item in array:
+		var value = source.call(comparer, item)
+		if value > chosen_value:
+			chosen = item
+			chosen_value = value
+	return chosen
+
 func insert_sorted(array, item, compare_object, compare_func):
 	var compare_item = compare_object.call(compare_func, item) 
 	for i in array.size():

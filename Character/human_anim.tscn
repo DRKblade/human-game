@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Character/character_anim.gd" type="Script" id=1]
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=1]
 length = 0.8
 loop = true
 step = 0.05
@@ -45,7 +45,7 @@ tracks/2/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=2]
 length = 0.1
 loop = true
 step = 0.05
@@ -124,7 +124,7 @@ tracks/5/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=3]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -190,7 +190,7 @@ tracks/4/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=4]
 length = 0.8
 loop = true
 tracks/0/type = "value"
@@ -247,7 +247,7 @@ tracks/3/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=5]
 length = 0.4
 step = 0.05
 tracks/0/type = "value"
@@ -289,7 +289,7 @@ tracks/2/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=6]
 length = 0.4
 step = 0.05
 tracks/0/type = "value"
@@ -331,7 +331,7 @@ tracks/2/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=18]
+[sub_resource type="Animation" id=7]
 resource_name = "placing"
 length = 0.1
 step = 0.05
@@ -386,7 +386,7 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=8]
 length = 0.4
 step = 0.05
 tracks/0/type = "value"
@@ -452,7 +452,7 @@ tracks/4/keys = {
 "values": [ "busy" ]
 }
 
-[sub_resource type="Animation" id=20]
+[sub_resource type="Animation" id=9]
 length = 0.4
 loop = true
 step = 0.05
@@ -519,7 +519,7 @@ tracks/4/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=21]
+[sub_resource type="Animation" id=10]
 length = 0.4
 loop = true
 step = 0.05
@@ -586,7 +586,7 @@ tracks/4/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=22]
+[sub_resource type="Animation" id=11]
 length = 0.15
 step = 0.05
 tracks/0/type = "value"
@@ -652,7 +652,7 @@ tracks/4/keys = {
 "values": [ "free" ]
 }
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=12]
 loop = true
 step = 0.05
 tracks/0/type = "value"
@@ -730,7 +730,7 @@ tracks/5/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=13]
 length = 0.4
 loop = true
 tracks/0/type = "value"
@@ -760,7 +760,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=14]
 length = 0.4
 loop = true
 tracks/0/type = "value"
@@ -791,19 +791,19 @@ tracks/1/keys = {
 }
 
 [node name="anim" type="AnimationPlayer"]
-anims/consume = SubResource( 12 )
-anims/idle = SubResource( 13 )
-anims/idle_holding = SubResource( 14 )
-anims/move = SubResource( 15 )
-anims/pickup1 = SubResource( 16 )
-anims/pickup2 = SubResource( 17 )
-anims/placing = SubResource( 18 )
-anims/pull_out = SubResource( 19 )
-anims/punch1 = SubResource( 20 )
-anims/punch2 = SubResource( 21 )
-anims/put_back = SubResource( 22 )
-anims/strike = SubResource( 23 )
-anims/throw1 = SubResource( 24 )
-anims/throw2 = SubResource( 25 )
+anims/consume = SubResource( 1 )
+anims/idle = SubResource( 2 )
+anims/idle_holding = SubResource( 3 )
+anims/move = SubResource( 4 )
+anims/pickup1 = SubResource( 5 )
+anims/pickup2 = SubResource( 6 )
+anims/placing = SubResource( 7 )
+anims/pull_out = SubResource( 8 )
+anims/punch1 = SubResource( 9 )
+anims/punch2 = SubResource( 10 )
+anims/put_back = SubResource( 11 )
+anims/strike = SubResource( 12 )
+anims/throw1 = SubResource( 13 )
+anims/throw2 = SubResource( 14 )
 script = ExtResource( 1 )
 hit_active = true

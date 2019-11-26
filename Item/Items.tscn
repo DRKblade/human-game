@@ -135,8 +135,6 @@ base_qtys = PoolIntArray( 5 )
 base_duration = 0.5
 
 [node name="structure" parent="camp-fire" instance=ExtResource( 20 )]
-collision_layer = 3
-collision_mask = 0
 is_artificial = true
 
 [node name="action" type="Node" parent="camp-fire"]
@@ -159,13 +157,12 @@ script = ExtResource( 23 )
 input_action = "game_use"
 
 [node name="orange" type="Node" parent="."]
-editor/display_folded = true
 script = ExtResource( 21 )
 max_stack = 20
 texture = ExtResource( 24 )
 base_duration = 0.0
 hunger_value = 18.0
-energy_value = 1.2
+energy_value = 1.5
 rot_speed = 0.01
 
 [node name="action" type="Node" parent="orange"]

@@ -1,5 +1,7 @@
 extends stat
 
+signal on_move
+
 var energy
 var direction: Vector2
 export var speedup_energy = 0.1
@@ -37,4 +39,7 @@ func _physics_process(delta):
 	else:
 		if speedup_trail.get("emitting") != null:
 			speedup_trail.emitting = false
-	my_player.move_and_slide(direction * current_speed)
+	if direction != Vector2.ZERO:
+		var prev_position = my_player.global_position
+		my_player.move_and_slide(direction * current_speed).length()
+		emit_signal("on_move", (my_player.global_position - prev_position).length()/delta < base_value*0.6)

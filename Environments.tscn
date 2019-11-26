@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Environments.gd" type="Script" id=1]
 [ext_resource path="res://SpawningEnvironment.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Stone/Rock.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Stone/Rock2.tscn" type="PackedScene" id=9]
 [ext_resource path="res://iron-ore-stone.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Character/Zombie.tscn" type="PackedScene" id=11]
 
 [node name="Environments" type="Node"]
 script = ExtResource( 1 )
@@ -64,3 +65,9 @@ min_comfortable_distance_squared = 2000.0
 
 [node name="ore" parent="natural_spawning/iron-ore" instance=ExtResource( 10 )]
 drop_multiplier = 0.1
+
+[node name="zombie" type="Node" parent="natural_spawning"]
+script = ExtResource( 3 )
+spawn_rate_mul = 0.3
+
+[node name="Zombie" parent="natural_spawning/zombie" instance=ExtResource( 11 )]

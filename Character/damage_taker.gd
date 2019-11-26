@@ -9,6 +9,7 @@ func _ready():
 	Items.game.connect("status_process", self, "status_process")
 
 func on_hit(source, tool_class, hit_strength):
+	print("hit")
 	get_parent().properties["life"].add_hit(-hit_strength)
 	ensure_play("pulse-hurt")
 
@@ -19,14 +20,11 @@ func ensure_play(name):
 	else:
 		pulse_effects.push_back(name)
 
+func _get_priority(effect):
+	return pulse_effect_priorities.get(effect, -1)
+
 func status_process(delta):
-	var chosen_effect
-	var chosen_priority=-1
-	for effect in pulse_effects:
-		priority = pulse_effect_priorities.get(effect, -1)
-		if priority > chosen_priority:
-			chosen_effect = effect
-			chosen_priority = priority
+	var chosen_effect = my_math.find_max(pulse_effects, self, "_get_priority")
 	if chosen_effect != null and critical_effect.find($glow/anim.current_animation) == -1:
 		$glow/anim.play(chosen_effect)
 	pulse_effects.resize(0)
